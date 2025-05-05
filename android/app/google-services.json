@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "498075473311",
+    "project_id": "babymonitor-2cc90",
+    "storage_bucket": "babymonitor-2cc90.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498075473311:android:a25d2e056b42bb8365d9aa",
+        "android_client_info": {
+          "package_name": "com.cagnaz.babymonitor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrM3WVpNDTrOjmtKN87wjnyn1HT3ctNlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
