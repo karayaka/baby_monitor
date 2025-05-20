@@ -1,5 +1,6 @@
 import 'package:baby_monitor/data/controllers/device_controller.dart';
 import 'package:baby_monitor/models/device_models/device_list_model.dart';
+import 'package:baby_monitor/routing/route_const.dart';
 import 'package:baby_monitor/views/pages/device_pages/components/on_live_comonent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -15,53 +16,65 @@ class DevicePage extends GetView<DeviceController> {
         title: Text("Çihazlarım"),
         actions: [
           IconButton(
-              onPressed: () => controller.refreshDevice(),
-              icon: Icon(Icons.refresh_rounded))
+            onPressed: () => controller.refreshDevice(),
+            icon: Icon(Icons.refresh_rounded),
+          ),
         ],
         centerTitle: true,
         bottom: PreferredSize(
-            preferredSize: Size.fromHeight(4.0),
-            child: Obx(() => controller.deviceListLoaing.value
-                ? LinearProgressIndicator()
-                : Container())),
+          preferredSize: Size.fromHeight(4.0),
+          child: Obx(
+            () =>
+                controller.deviceListLoaing.value
+                    ? LinearProgressIndicator()
+                    : Container(),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => controller.sendNotifire(),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
           await controller.getDevices();
         },
-        child: Obx(() => ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: controller.deviceList.length,
-              itemBuilder: (context, index) {
-                var device = controller.deviceList[index];
-                if (controller.canDeleteDevice(device.userID ?? "")) {
-                  return Slidable(
-                    key: ValueKey(index),
-                    endActionPane:
-                        ActionPane(motion: const BehindMotion(), children: [
+        child: Obx(
+          () => ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            itemCount: controller.deviceList.length,
+            itemBuilder: (context, index) {
+              var device = controller.deviceList[index];
+              if (controller.canDeleteDevice(device.userID ?? "")) {
+                return Slidable(
+                  key: ValueKey(index),
+                  endActionPane: ActionPane(
+                    motion: const BehindMotion(),
+                    children: [
                       SlidableAction(
                         onPressed: (context) {
                           controller.showConfirmeDialog(
-                              title:
-                                  "Cihazı Silmek İstediğinizden Eminmisiniz?",
-                              message:
-                                  "Lütfen cihazdan çıkış yaptığınızdan emin olun",
-                              () {
-                            controller.deleteDevice(device.id ?? "");
-                          });
+                            title: "Cihazı Silmek İstediğinizden Eminmisiniz?",
+                            message:
+                                "Lütfen cihazdan çıkış yaptığınızdan emin olun",
+                            () {
+                              controller.deleteDevice(device.id ?? "");
+                            },
+                          );
                         },
                         backgroundColor: Color(0xFFFE4A49),
                         foregroundColor: Colors.white,
                         icon: Icons.delete,
                         label: 'Sil',
                       ),
-                    ]),
-                    child: _drawCard(device),
-                  );
-                }
-                return _drawCard(device);
-              },
-            )),
+                    ],
+                  ),
+                  child: _drawCard(device),
+                );
+              }
+              return _drawCard(device);
+            },
+          ),
+        ),
       ),
     );
   }
@@ -83,21 +96,29 @@ class DevicePage extends GetView<DeviceController> {
             if (controller.showWatchButon(item.id ?? "")) {
               //TODO izleme ekranına yönlendirilecek
             }
+            Get.toNamed(
+              RouteConst.viewerScrean,
+              arguments: {"deviceId": item.id},
+            );
           },
           title: Text(
             item.deviceName ?? "",
             style: TextStyle(color: Colors.white),
           ),
-          subtitle: Text("${item.userName} ${item.userSurname}",
-              style: TextStyle(color: Colors.white)),
+          subtitle: Text(
+            "${item.userName} ${item.userSurname}",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ),
     ];
     if (controller.showWatchButon(item.id ?? "")) {
-      w.add(Padding(
-        padding: const EdgeInsets.only(right: 10),
-        child: OnLiveComonent(),
-      ));
+      w.add(
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: OnLiveComonent(),
+        ),
+      );
     }
     return w;
   }

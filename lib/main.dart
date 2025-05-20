@@ -1,20 +1,35 @@
 import 'package:baby_monitor/core/app_tools/baby_monitor_translations.dart';
 import 'package:baby_monitor/core/app_tools/theme.dart';
 import 'package:baby_monitor/data/bindings/initial_bindings/initial_binding.dart';
-import 'package:baby_monitor/firebase_options.dart';
+import 'package:baby_monitor/data/services/fcm_callkit_service.dart';
 import 'package:baby_monitor/routing/route_const.dart';
 import 'package:baby_monitor/routing/route_pages.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/adapters.dart';
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('Arka plan bildirimi: ${message.messageId}');
+
+  // Eğer bildirim bir çağrı içeriyorsa
+  if (message.data['type'] == 'call') {
+    await FcmCallkitService.showIncomingCall(message);
+  } else {
+    await FcmCallkitService.showNotification(message);
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FcmCallkitService.initialize();
   await GetStorage.init();
   await Hive.initFlutter();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
 

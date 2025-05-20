@@ -6,4 +6,10 @@ class BaseRepository {
     final box = GetStorage();
     return box.read(ProjectConst.SESSION_CONTS);
   }
+
+  String? getDeviceToken() {
+    final box = GetStorage();
+    var token = box.read(ProjectConst.DEVICE_TOKEN_CONTS);
+    return token;
+  }
 }

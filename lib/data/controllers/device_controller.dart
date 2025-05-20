@@ -1,7 +1,7 @@
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/device_repository.dart';
+import 'package:baby_monitor/data/repositorys/send_notifire_repoistory.dart';
 import 'package:baby_monitor/models/device_models/device_list_model.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class DeviceController extends BaseController {
@@ -12,6 +12,7 @@ class DeviceController extends BaseController {
   DeviceController() {
     _deviceRepository = Get.find();
     getDevices();
+    //Get.find<SendNotifireRepoistory>().start();
   }
 
   Future getDevices() async {
@@ -27,7 +28,8 @@ class DeviceController extends BaseController {
       deviceListLoaing.value = true;
       //apiden güncel veri çekiliyor
       var devices = prepareServiceModel<List<DeviceListModel>>(
-          await _deviceRepository.getDevices());
+        await _deviceRepository.getDevices(),
+      );
       //güncel vei ile ekran değiştiriliyor
       if (devices != null) {
         deviceList.clear();
@@ -64,8 +66,9 @@ class DeviceController extends BaseController {
   Future refreshDevice() async {
     try {
       deviceListLoaing.value = true;
-      prepareServiceModel<int>(
-          await _deviceRepository.refreshDevice(getSession()?.id ?? ""));
+      prepareServiceModel<bool>(
+        await _deviceRepository.refreshDevice(getSession()?.id ?? ""),
+      );
 
       getDevices();
       deviceListLoaing.value = false;
@@ -73,6 +76,10 @@ class DeviceController extends BaseController {
       deviceListLoaing.value = false;
       exceptionHandle(e);
     }
+  }
+
+  Future sendNotifire() async {
+    //Get.find<SendNotifireRepoistory>().sendNotifire();
   }
 
   //sadece kendi çihazlarını silebilir

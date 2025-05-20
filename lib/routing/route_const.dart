@@ -5,5 +5,6 @@ class RouteConst {
   static const home = "/home";
   static const deviceList = "/deviceList";
   static const joinFamilyLayout = "/joinFamilyLayout";
-  static const streamLayout = "/streamLayout";
+  static const viewerScrean = "/viewerScrean";
+  static const streamerScrean = "/streamerScrean";
 }

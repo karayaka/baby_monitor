@@ -5,6 +5,7 @@ import 'package:baby_monitor/data/services/http_service.dart';
 import 'package:baby_monitor/models/base_models/base_result.dart';
 import 'package:baby_monitor/models/device_models/add_device_model.dart';
 import 'package:baby_monitor/models/device_models/device_list_model.dart';
+import 'package:baby_monitor/models/device_models/refresh_FCM_Token_Model.dart';
 
 class DeviceRepository extends BaseRepository {
   late HttpService _service;
@@ -16,8 +17,12 @@ class DeviceRepository extends BaseRepository {
   //AddDeviceModel
   Future<BaseResult> addDevice(AddDeviceModel model) async {
     try {
-      return await _service.post("babymonitor//Device/AddDevice", null, model,
-          token: getToken());
+      return await _service.post(
+        "babymonitor//Device/AddDevice",
+        null,
+        model,
+        token: getToken(),
+      );
     } catch (e) {
       rethrow;
     }
@@ -26,8 +31,10 @@ class DeviceRepository extends BaseRepository {
   Future<BaseResult> getDevices() async {
     try {
       return await _service.get(
-          "babymonitor/Device/GetDevices", DeviceListModel(),
-          token: (getToken() ?? ""));
+        "babymonitor/Device/GetDevices",
+        DeviceListModel(),
+        token: (getToken() ?? ""),
+      );
     } catch (e) {
       rethrow;
     }
@@ -36,16 +43,18 @@ class DeviceRepository extends BaseRepository {
   Future<int?> addThisDbDevice(AddDeviceModel model, String deviceId) async {
     try {
       await _dbManager.init();
-      return await _dbManager.addOrUpdateDevice(DeviceStorageModel(
-        familyID: model.familyID,
-        familyName: model.familyName,
-        deviceBrand: model.deviceBrand,
-        deviceId: deviceId,
-        deviceToken: model.deviceToken,
-        deviceName: model.deviceName,
-        isThisDevice: true,
-        fcmToken: model.fcmToken,
-      ));
+      return await _dbManager.addOrUpdateDevice(
+        DeviceStorageModel(
+          familyID: model.familyID,
+          familyName: model.familyName,
+          deviceBrand: model.deviceBrand,
+          deviceId: deviceId,
+          deviceToken: model.deviceToken,
+          deviceName: model.deviceName,
+          isThisDevice: true,
+          fcmToken: model.fcmToken,
+        ),
+      );
     } catch (e) {
       rethrow;
     }
@@ -61,11 +70,14 @@ class DeviceRepository extends BaseRepository {
   }
 
   Future addOrUpdateDevices(
-      List<DeviceListModel> devices, String? thsDeviceid) async {
+    List<DeviceListModel> devices,
+    String? thsDeviceid,
+  ) async {
     try {
       await _dbManager.init();
       for (var device in devices) {
-        await _dbManager.addOrUpdateDevice(DeviceStorageModel(
+        await _dbManager.addOrUpdateDevice(
+          DeviceStorageModel(
             familyID: device.familyID,
             familyName: device.familyName,
             deviceBrand: device.deviceBrand,
@@ -78,7 +90,9 @@ class DeviceRepository extends BaseRepository {
             userID: device.userID,
             userName: device.userName,
             userSurname: device.userSurname,
-            sd: device.sd));
+            sd: device.sd,
+          ),
+        );
       }
     } catch (e) {
       rethrow;
@@ -101,8 +115,10 @@ class DeviceRepository extends BaseRepository {
   Future<BaseResult> deleteDevice(String deviceId) async {
     try {
       return await _service.get(
-          "babymonitor/Device/DeleteDevice/$deviceId", null,
-          token: (getToken() ?? ""));
+        "babymonitor/Device/DeleteDevice/$deviceId",
+        null,
+        token: (getToken() ?? ""),
+      );
     } catch (e) {
       rethrow;
     }
@@ -111,17 +127,23 @@ class DeviceRepository extends BaseRepository {
   Future<BaseResult> refreshDevice(String userId) async {
     try {
       return await _service.get(
-          "babymonitor/Device/RefresDeviceFamily/$userId", null,
-          token: (getToken() ?? ""));
+        "babymonitor/Device/RefresDeviceFamily/$userId",
+        null,
+        token: (getToken() ?? ""),
+      );
     } catch (e) {
       rethrow;
     }
   }
 
-  Future refreshDevices(String userId) async {
+  Future<BaseResult> refreshFcmDevices(RefreshFcmTokenModel model) async {
     try {
-      await _service.get("babymonitor/Device/RefresDeviceFamily/$userId", null,
-          token: (getToken() ?? ""));
+      return await _service.post(
+        "babymonitor/Device/SetDeviceFCMToken/",
+        null,
+        model,
+        token: (getToken() ?? ""),
+      );
     } catch (e) {
       rethrow;
     }

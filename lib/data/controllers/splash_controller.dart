@@ -34,7 +34,8 @@ class SplashController extends BaseController {
           loginModel.loginType = rememberMe?.loginType;
         }
         var result = prepareServiceModel<String>(
-            await _securityRepository.login(loginModel));
+          await _securityRepository.login(loginModel),
+        );
         if (result != null) {
           setSession(result);
           Get.offAndToNamed(RouteConst.home);

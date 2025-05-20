@@ -18,10 +18,7 @@ class HomePage extends GetView<HomeController> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("gl005"),
-                  CircularProgressIndicator(),
-                ],
+                children: [Text("gl005"), CircularProgressIndicator()],
               ),
             );
           } else {
@@ -34,8 +31,9 @@ class HomePage extends GetView<HomeController> {
             return SizedBox();
           } else {
             return FloatingActionButton(
-                child: Icon(Icons.linked_camera_outlined),
-                onPressed: () => Get.toNamed(RouteConst.streamLayout));
+              child: Icon(Icons.linked_camera_outlined),
+              onPressed: () => Get.toNamed(RouteConst.streamerScrean),
+            );
           }
         }),
       ),

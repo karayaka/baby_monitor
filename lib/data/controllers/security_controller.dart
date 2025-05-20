@@ -27,7 +27,8 @@ class SecurityController extends BaseController {
       loginLoading.value = true;
       loginModel.loginType = 0;
       var result = prepareServiceModel<String>(
-          await _securityRepository.login(loginModel));
+        await _securityRepository.login(loginModel),
+      );
       if (result != null) {
         setSession(result);
         setRememberMe(loginModel.toRememberMeModel());
@@ -40,7 +41,7 @@ class SecurityController extends BaseController {
   }
   //29.0.13113456
 
-//TODO bu bölüm canlıya çıkarken https://console.cloud.google.com/apis/credentials?inv=1&invt=AbtVcw&project=babywacth adresindeki SHA1 değeri canlının ki ile değişecek
+  //TODO bu bölüm canlıya çıkarken https://console.cloud.google.com/apis/credentials?inv=1&invt=AbtVcw&project=babywacth adresindeki SHA1 değeri canlının ki ile değişecek
   googleLogin() async {
     try {
       googleLoginLoading.value = true;
@@ -52,7 +53,8 @@ class SecurityController extends BaseController {
       registerModel.loginType = 1;
       registerModel.image = user?.photoUrl;
       var result = prepareServiceModel<String>(
-          await _securityRepository.register(registerModel));
+        await _securityRepository.register(registerModel),
+      );
       if (result != null) {
         setSession(result);
         setRememberMe(registerModel.toRememberMeModel());
@@ -69,7 +71,8 @@ class SecurityController extends BaseController {
       registerLoading.value = true;
       registerModel.loginType = 0;
       var result = prepareServiceModel<String>(
-          await _securityRepository.register(registerModel));
+        await _securityRepository.register(registerModel),
+      );
       if (result != null) {
         setSession(result);
         setRememberMe(registerModel.toRememberMeModel());
@@ -86,7 +89,8 @@ class SecurityController extends BaseController {
     try {
       resetPasswordLoading.value = true;
       prepareServiceModel<bool>(
-          await _securityRepository.resetPassword(resetPasswordModel));
+        await _securityRepository.resetPassword(resetPasswordModel),
+      );
       resetPasswordLoading.value = false;
       showConfirmedMessage("auth016".tr, "auth017".tr);
     } catch (e) {
@@ -121,3 +125,19 @@ class SecurityController extends BaseController {
     return names[names.length - 1];
   }
 }
+
+/* 
+best google stun server list
+const iceServers = [
+    { urls: "stun:stun.l.google.com:19302" },
+    { urls: "stun:stun.l.google.com:5349" },
+    { urls: "stun:stun1.l.google.com:3478" },
+    { urls: "stun:stun1.l.google.com:5349" },
+    { urls: "stun:stun2.l.google.com:19302" },
+    { urls: "stun:stun2.l.google.com:5349" },
+    { urls: "stun:stun3.l.google.com:3478" },
+    { urls: "stun:stun3.l.google.com:5349" },
+    { urls: "stun:stun4.l.google.com:19302" },
+    { urls: "stun:stun4.l.google.com:5349" }
+];
+*/

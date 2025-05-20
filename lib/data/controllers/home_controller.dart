@@ -27,12 +27,9 @@ class HomeController extends BaseController {
   }
 
   Future<bool> addDevice() async {
-    String? token =
-        await FirebaseMessaging.instance
-            .getToken(); // app kayıt ederken kullanılacak!
-    print("FCM Token: $token");
     try {
       if (!hasDeviceToken()) {
+        String? token = await FirebaseMessaging.instance.getToken();
         //progres yeniden planlanacak
         addDeviceLoaing.value = true;
         var deviceModel = await DeviceService.instance.getDeviceInfo();
@@ -42,11 +39,10 @@ class HomeController extends BaseController {
           deviceName:
               "${sesion?.name ?? ""} ${sesion?.lastName ?? ""} - ${deviceModel.brand ?? " "} ${deviceModel.model ?? " "}",
           deviceToken: deviceModel.id,
-          fcmToken: "fcm token ervis ile gelecek",
+          fcmToken: token,
           familyID: null,
           familyName: null,
         );
-        //Device ekleme süreci devam edilecek
         var deviceId = prepareServiceModel<String>(
           await _deviceRepository.addDevice(addDeviceModel),
         );
