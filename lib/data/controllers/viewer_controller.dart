@@ -13,13 +13,15 @@ class ViewerController extends BaseController {
   webrtc.RTCPeerConnection? _peerConnection;
   ViewerController() {
     _repository = Get.find();
-    _deviceId =
-        Get.arguments['deviceId']; //TODO device ID bu deviceye gönder oluşturulan offer ve ice candidateleri
+    _deviceId = Get.arguments['deviceId'];
   }
   @override
   void onReady() async {
     super.onReady();
-    await _repository.connect();
+    await _repository.connect(
+      answerOffer: answerOffer,
+      answerCandidate: answerCandidate,
+    );
     await remoteRenderer
         .initialize(); // Remote renderer'ı başlat ekranda göstermek için algoritma düşünelecek
     await _initializeConnection();
@@ -33,43 +35,38 @@ class ViewerController extends BaseController {
     final offer = await _peerConnection!.createOffer();
     await _peerConnection!.setLocalDescription(offer);
 
-    await _repository.sendtoCliend(_deviceId, HubMethods.sendOffer, {
-      "sdp": offer.sdp,
-      "type": offer.type,
-    });
+    await _repository.sendtoCliend(
+      _deviceId,
+      HubMethods.sendOffer,
+      offer.toMap(),
+    );
 
     // Remote ICE candidate'leri ekle
     _peerConnection!.onIceCandidate = (candidate) {
-      //TODO daha başarılı bir gönderme yolu olabilirmı bu method asyc method çünkü
-      _repository.sendtoCliend(_deviceId, HubMethods.sendCandidate, {
-        "candidate": candidate.candidate,
-        "sdpMid": candidate.sdpMid,
-        "sdpMLineIndex": candidate.sdpMLineIndex,
-      });
+      _repository.sendtoCliend(
+        _deviceId,
+        HubMethods.sendCandidate,
+        candidate.toMap(),
+      );
     };
+  }
 
-    // Remote description ayarla
-    /* _repository.connect(onReceiveAnswer: (answer) async {
-      print("Received answer: $answer");
-      await _peerConnection!.setRemoteDescription(
-        webrtc.RTCSessionDescription(answer['sdp'], answer['type']),
-      );
-    });
+  void answerOffer(dynamic data) async {
+    var answer = data[1];
+    await _peerConnection!.setRemoteDescription(
+      webrtc.RTCSessionDescription(answer['sdp'], answer['type']),
+    );
+  }
 
-    // ICE candidate'leri al ve ekle
-    _repository.connect(onReceiveIceCandidate: (candidate) async {
-      print("Received ICE candidate: $candidate");
-      final iceCandidate = webrtc.RTCIceCandidate(
-        candidate['candidate'],
-        candidate['sdpMid'],
-        candidate['sdpMLineIndex'],
-      );
-      if (_peerConnection != null) {
-        await _peerConnection!.addCandidate(iceCandidate);
-      } else {
-        _remoteCandidates.add(iceCandidate);
-      }
-    });*/
+  void answerCandidate(dynamic data) async {
+    var candidate = data[1];
+    final iceCandidate = webrtc.RTCIceCandidate(
+      candidate['candidate'],
+      candidate['sdpMid'],
+      candidate['sdpMLineIndex'],
+    );
+    await _peerConnection!.addCandidate(iceCandidate);
+    isConnect.value = true;
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
@@ -91,6 +88,29 @@ class ViewerController extends BaseController {
 
     return peerConnection;
   }
+
+  // Remote description ayarla
+  /* _repository.connect(onReceiveAnswer: (answer) async {
+      print("Received answer: $answer");
+      await _peerConnection!.setRemoteDescription(
+        webrtc.RTCSessionDescription(answer['sdp'], answer['type']),
+      );
+    });
+
+    // ICE candidate'leri al ve ekle
+    _repository.connect(onReceiveIceCandidate: (candidate) async {
+      print("Received ICE candidate: $candidate");
+      final iceCandidate = webrtc.RTCIceCandidate(
+        candidate['candidate'],
+        candidate['sdpMid'],
+        candidate['sdpMLineIndex'],
+      );
+      if (_peerConnection != null) {
+        await _peerConnection!.addCandidate(iceCandidate);
+      } else {
+        _remoteCandidates.add(iceCandidate);
+      }
+    });*/
 
   @override
   void onClose() async {

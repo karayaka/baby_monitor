@@ -28,6 +28,8 @@ class StreamRepoistory extends BaseRepository {
   Future<void> connect({
     Function(dynamic)? sendOffer,
     Function(dynamic)? sendCandidate,
+    Function(dynamic)? answerOffer,
+    Function(dynamic)? answerCandidate,
   }) async {
     if (_connection.state != HubConnectionState.Connected) {
       await _connection.start();
@@ -49,10 +51,6 @@ class StreamRepoistory extends BaseRepository {
     if (_connection.state == HubConnectionState.Connected) {
       await _connection.stop();
     }
-
-    //_connection.on('ReceiveOffer', ()=>{});
-    /*_connection.on('ReceiveAnswer', _handleIncomingAnswer);
-    _connection.on('ReceiveIceCandidate', _handleIceCandidate);*/
   }
 
   Future<void> startStream() async {

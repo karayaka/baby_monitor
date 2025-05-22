@@ -69,27 +69,43 @@ class StreamerController extends BaseController {
 
   ///İzleyiciden gelen offerler işlenecek
   void sendOffer(dynamic data) async {
-    print(data);
-    /*final pc = await _createPeerConnection();
-    final sessionDescription = webrtc.RTCSessionDescription(
-      "",
-      "" /*sdp["sdp"], sdp["type"]*/,
+    print(data[0]); //deviceID
+    print(data[1]); //data map türünde
+    print(data.runtimeType);
+    final pc = await _createPeerConnection();
+    //local stream veri setine eklenyor
+    pc.addStream(_localStream!); // yayın akışı
+
+    pc.onIceCandidate = (candidate) {
+      _repository.sendtoCliend(
+        data[0],
+        HubMethods.sendAnswerCandidate,
+        candidate.toMap(),
+      );
+    };
+    await pc.setRemoteDescription(
+      webrtc.RTCSessionDescription(data[1]["sdp"], data[1]["type"]),
     );
-    await pc.setRemoteDescription(sessionDescription);
+    //sd cevap oluşturuluyor
     final answer = await pc.createAnswer();
-    await pc.setLocalDescription(answer);*/
-    //TODO sendAnsfer
-    //NOTE sesion eklendi ansfer oluşturuldu icecandialeri ekleme yöntemi ve yenilerini üretme seneryosu nedir???
+    await pc.setLocalDescription(answer);
+    //sd cevap gönderiliyor
+    await _repository.sendtoCliend(
+      data[0],
+      HubMethods.sendAnswer,
+      answer.toMap(),
+    );
+    pcs[data[0]] = pc;
   }
 
   ///İzleyiciden gelen Candidateler işelenecek
   void sendCandidate(dynamic data) async {
     //Hubdan glen candiateler bu şekile ekleniyor
-    await pcs["izleyici çihazın ıdsi"]?.addCandidate(
+    await pcs[data[0]]?.addCandidate(
       webrtc.RTCIceCandidate(
-        data['candidate'],
-        data['sdpMid'],
-        data['sdpMLineIndex'],
+        data[1]['candidate'],
+        data[1]['sdpMid'],
+        data[1]['sdpMLineIndex'],
       ),
     );
   }
