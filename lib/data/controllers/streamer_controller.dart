@@ -74,7 +74,9 @@ class StreamerController extends BaseController {
     print(data.runtimeType);
     final pc = await _createPeerConnection();
     //local stream veri setine eklenyor
-    pc.addStream(_localStream!); // yayın akışı
+    _localStream?.getTracks().forEach((track) {
+      pc.addTrack(track, _localStream!);
+    });
 
     pc.onIceCandidate = (candidate) {
       _repository.sendtoCliend(

@@ -45,6 +45,16 @@ class StreamRepoistory extends BaseRepository {
         sendCandidate(arg);
       });
     }
+    if (answerOffer != null) {
+      _connection.on(HubMethods.sendAnswer, (arg) {
+        answerOffer(arg);
+      });
+    }
+    if (answerCandidate != null) {
+      _connection.on(HubMethods.sendAnswer, (arg) {
+        answerCandidate(arg);
+      });
+    }
   }
 
   Future<void> disconnect() async {

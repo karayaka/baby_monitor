@@ -56,6 +56,7 @@ class ViewerController extends BaseController {
     await _peerConnection!.setRemoteDescription(
       webrtc.RTCSessionDescription(answer['sdp'], answer['type']),
     );
+    print("sdp cevap geldi");
   }
 
   void answerCandidate(dynamic data) async {
@@ -67,6 +68,7 @@ class ViewerController extends BaseController {
     );
     await _peerConnection!.addCandidate(iceCandidate);
     isConnect.value = true;
+    print("Candidate cevap geldi");
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
