@@ -77,8 +77,9 @@ class StreamerController extends BaseController {
     _localStream?.getTracks().forEach((track) {
       pc.addTrack(track, _localStream!);
     });
-
+    //TODO viver e null giden bir icecandidate datasi var görünüyor hata o
     pc.onIceCandidate = (candidate) {
+      print(candidate.toMap());
       _repository.sendtoCliend(
         data[0],
         HubMethods.sendAnswerCandidate,
