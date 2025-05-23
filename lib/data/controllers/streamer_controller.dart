@@ -72,14 +72,12 @@ class StreamerController extends BaseController {
         candidate.toMap(),
       );
     };
-
-    //sd cevap oluşturuluyor
-    final answer = await pc.createAnswer();
-    await pc.setLocalDescription(answer);
-    //sıralama değişti!
     await pc.setRemoteDescription(
       webrtc.RTCSessionDescription(data[1]["sdp"], data[1]["type"]),
     );
+    //sd cevap oluşturuluyor
+    final answer = await pc.createAnswer();
+    await pc.setLocalDescription(answer);
     //sd cevap gönderiliyor
     await _repository.sendtoCliend(
       data[0],
