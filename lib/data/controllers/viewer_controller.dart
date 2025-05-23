@@ -79,7 +79,6 @@ class ViewerController extends BaseController {
 
     // Remote track'leri dinle
     peerConnection.onTrack = (webrtc.RTCTrackEvent event) {
-      print("Track received: ${event.track.id}");
       if (event.streams.isNotEmpty) {
         remoteRenderer.srcObject =
             event.streams[0]; // Remote renderer'a bağlanıyor

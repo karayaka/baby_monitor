@@ -23,8 +23,6 @@ class StreamerController extends BaseController {
       sendOffer: sendOffer,
       sendCandidate: sendCandidate,
     );
-    //await _repository.sendStartStreamNotification("deneme1".tr, "body".tr);
-
     await _requestPermissions();
     await _initRendererAndStream();
     await _startStream();
@@ -53,33 +51,21 @@ class StreamerController extends BaseController {
     });
 
     localRenderer.srcObject = _localStream;
-  }
-
-  Future<void> disconnect() async {
-    await _repository.disconnect();
+    await _repository.sendStartStreamNotification("mb006".tr, "mb007".tr);
   }
 
   Future<void> callOthers() async {
     await _repository.callOtherDevice("deviceName");
   }
 
-  Future<void> sendToCliend() async {
-    await _repository.sendtoCliend("", "", "");
-  }
-
   ///İzleyiciden gelen offerler işlenecek
   void sendOffer(dynamic data) async {
-    print(data[0]); //deviceID
-    print(data[1]); //data map türünde
-    print(data.runtimeType);
     final pc = await _createPeerConnection();
     //local stream veri setine eklenyor
     _localStream?.getTracks().forEach((track) {
       pc.addTrack(track, _localStream!);
     });
-    //TODO viver e null giden bir icecandidate datasi var görünüyor hata o
     pc.onIceCandidate = (candidate) {
-      print(candidate.toMap());
       _repository.sendtoCliend(
         data[0],
         HubMethods.sendAnswerCandidate,
@@ -116,7 +102,6 @@ class StreamerController extends BaseController {
   @override
   void onClose() async {
     await _repository.disconnect();
-
     // Local stream'i durdur
     _localStream?.getTracks().forEach((track) {
       track.stop(); // Her bir track'i durdur
@@ -154,46 +139,3 @@ class StreamerController extends BaseController {
     return peerConnection;
   }
 }
-
-/* incleme iyice oku çünkü farklı bir durum var----------------------
-
-hubConnection.on("offer", (args) async {
-  String fromId = args![0];
-  Map offer = args[1];
-
-  // PeerConnection oluştur
-  RTCPeerConnection pc = await createPeerConnection({...});
-  pc.addStream(localMediaStream); // yayın akışı
-
-  pc.onIceCandidate = (candidate) {
-    hubConnection.invoke("SendSignal", args: [
-      {
-        "type": "ice-candidate",
-        "to": fromId,
-        "data": candidate.toMap()
-      }
-    ]);
-  };
-
-  await pc.setRemoteDescription(RTCSessionDescription(
-    offer["sdp"], offer["type"]
-  ));
-
-  RTCSessionDescription answer = await pc.createAnswer();
-  await pc.setLocalDescription(answer);
-
-  // Yanıtı geri gönder
-  hubConnection.invoke("SendSignal", args: [
-    {
-      "type": "answer",
-      "to": fromId,
-      "data": answer.toMap()
-    }
-  ]);
-
-  // Bağlantıyı sakla
-  peerConnections[fromId] = pc;
-});
-
-
-*/

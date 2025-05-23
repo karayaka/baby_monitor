@@ -31,9 +31,6 @@ class DevicePage extends GetView<DeviceController> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => controller.sendNotifire(),
-      ),
       body: RefreshIndicator(
         onRefresh: () async {
           await controller.getDevices();
