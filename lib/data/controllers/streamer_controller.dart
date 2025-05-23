@@ -129,11 +129,22 @@ class StreamerController extends BaseController {
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
-    final constraints = {'mandatory': {}, 'optional': []};
+    final Map<String, dynamic> mediaConstraints = {
+      'audio': true,
+      'video': {
+        'mandatory': {
+          'minWidth': '320',
+          'minHeight': '240',
+          'minFrameRate': '15',
+        },
+        'facingMode': 'user',
+        'optional': [],
+      },
+    };
 
     final peerConnection = await webrtc.createPeerConnection(
       WebrtcConnectionConst.config,
-      constraints,
+      mediaConstraints,
     );
 
     return peerConnection;

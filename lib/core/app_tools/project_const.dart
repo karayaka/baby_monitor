@@ -40,6 +40,11 @@ class WebrtcConnectionConst {
       {'urls': 'stun:stun2.l.google.com:5349'},
       {'urls': 'stun:stun3.l.google.com:3478'},
       {
+        'urls': ['turn:relay.metered.ca:80'],
+        'username': 'openai',
+        'credential': 'openai',
+      },
+      {
         'url': 'turn:numb.viagenie.ca',
         'credential': 'muazkh',
         'username': 'webrtc@live.com',

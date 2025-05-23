@@ -70,11 +70,22 @@ class ViewerController extends BaseController {
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
-    final constraints = {'mandatory': {}, 'optional': []};
+    final Map<String, dynamic> mediaConstraints = {
+      'audio': true,
+      'video': {
+        'mandatory': {
+          'minWidth': '320',
+          'minHeight': '240',
+          'minFrameRate': '15',
+        },
+        'facingMode': 'user',
+        'optional': [],
+      },
+    };
 
     final peerConnection = await webrtc.createPeerConnection(
       WebrtcConnectionConst.config,
-      constraints,
+      mediaConstraints,
     );
 
     // Remote track'leri dinle
@@ -90,9 +101,17 @@ class ViewerController extends BaseController {
 
   @override
   void onClose() async {
+    // PeerConnection'ı kapat ve temizle
     await _peerConnection?.close();
-    //_peerConnection = null;
-    remoteRenderer.dispose();
+    _peerConnection = null;
+
+    // Renderer'ı temizle
+    remoteRenderer.srcObject = null;
+    await remoteRenderer.dispose();
+
+    // SignalR bağlantısını kes
+    await _repository.disconnect();
+
     super.onClose();
   }
 }
