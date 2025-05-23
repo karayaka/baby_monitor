@@ -91,7 +91,7 @@ class ViewerController extends BaseController {
   @override
   void onClose() async {
     await _peerConnection?.close();
-    _peerConnection = null;
+    //_peerConnection = null;
     remoteRenderer.dispose();
     super.onClose();
   }

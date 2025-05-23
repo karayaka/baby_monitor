@@ -86,7 +86,6 @@ class FcmCallkitService {
             String? payload,
           ) async {
             // iOS'ta bildirim tıklandığında yapılacak işlemler
-            print('iOS bildirim tıklandı: $id, $title, $body');
             // Örneğin bir sayfaya yönlendirme yapabilirsiniz
           },
         );
@@ -108,10 +107,6 @@ class FcmCallkitService {
       ) async {
         // Bildirim tıklandığında yapılacak işlemler (hem Android hem iOS)
         final String? payload = notificationResponse.payload;
-        print(
-          'Bildirim tıklandı: ${notificationResponse.id}, payload: $payload',
-        );
-
         // Payload'a göre navigasyon işlemleri yapabilirsiniz
         if (payload != null && payload.isNotEmpty) {
           // Örneğin: Navigator.pushNamed(context, payload);
