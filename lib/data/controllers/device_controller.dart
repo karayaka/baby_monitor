@@ -1,6 +1,5 @@
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/device_repository.dart';
-import 'package:baby_monitor/data/repositorys/send_notifire_repoistory.dart';
 import 'package:baby_monitor/models/device_models/device_list_model.dart';
 import 'package:get/get.dart';
 
@@ -35,7 +34,10 @@ class DeviceController extends BaseController {
         deviceList.clear();
         deviceList.addAll(devices);
         //Hesaptaki bütün deviceler ekleniyor
-        await _deviceRepository.addOrUpdateDevices(devices, getDeviceToken());
+        await _deviceRepository.addOrUpdateDevices(
+          deviceList,
+          getDeviceToken(),
+        );
       }
       deviceListLoaing.value = false;
     } catch (e) {

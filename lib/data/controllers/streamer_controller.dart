@@ -116,10 +116,20 @@ class StreamerController extends BaseController {
   @override
   void onClose() async {
     await _repository.disconnect();
+
+    // Local stream'i durdur
+    _localStream?.getTracks().forEach((track) {
+      track.stop(); // Her bir track'i durdur
+    });
+    _localStream = null;
+
+    // Renderer'ı temizle
     localRenderer.srcObject = null;
     await localRenderer.dispose();
-    if (_localStream != null) await _localStream!.dispose();
+
+    // PeerConnection'ları temizle
     pcs.forEach((key, val) async {
+      await val.close();
       await val.dispose();
     });
     super.onClose();

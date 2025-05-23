@@ -15,7 +15,6 @@ class DeviceDbManager extends BaseDbManager<DeviceStorageModel> {
 
   Future<int?> addOrUpdateDevice(DeviceStorageModel model) async {
     try {
-      await clearAll();
       return await addItem(model);
     } catch (e) {
       rethrow;

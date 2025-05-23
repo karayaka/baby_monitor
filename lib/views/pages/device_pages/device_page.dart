@@ -94,12 +94,11 @@ class DevicePage extends GetView<DeviceController> {
         child: ListTile(
           onTap: () {
             if (controller.showWatchButon(item.id ?? "")) {
-              //TODO izleme ekranına yönlendirilecek
+              Get.toNamed(
+                RouteConst.viewerScrean,
+                arguments: {"deviceId": item.id},
+              );
             }
-            Get.toNamed(
-              RouteConst.viewerScrean,
-              arguments: {"deviceId": item.id},
-            );
           },
           title: Text(
             item.deviceName ?? "",

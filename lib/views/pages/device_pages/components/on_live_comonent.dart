@@ -19,8 +19,10 @@ class _OnLiveComonentState extends State<OnLiveComonent>
       duration: const Duration(milliseconds: 900),
     )..repeat(reverse: true);
 
-    _colorAnim =
-        ColorTween(begin: Colors.red, end: Colors.white).animate(_controller);
+    _colorAnim = ColorTween(
+      begin: Colors.red,
+      end: Colors.white,
+    ).animate(_controller);
   }
 
   @override
@@ -34,14 +36,10 @@ class _OnLiveComonentState extends State<OnLiveComonent>
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        const Icon(
-          Icons.camera_indoor_rounded,
-          size: 48,
-          color: Colors.white,
-        ),
+        const Icon(Icons.camera_indoor_rounded, size: 44, color: Colors.white),
         Positioned(
-          top: -2,
-          right: -2,
+          top: 2,
+          right: 2,
           child: AnimatedBuilder(
             animation: _colorAnim,
             builder: (context, child) {

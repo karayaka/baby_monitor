@@ -75,6 +75,7 @@ class DeviceRepository extends BaseRepository {
   ) async {
     try {
       await _dbManager.init();
+      await _dbManager.clearAll();
       for (var device in devices) {
         await _dbManager.addOrUpdateDevice(
           DeviceStorageModel(

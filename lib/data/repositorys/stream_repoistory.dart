@@ -51,7 +51,7 @@ class StreamRepoistory extends BaseRepository {
       });
     }
     if (answerCandidate != null) {
-      _connection.on(HubMethods.sendAnswer, (arg) {
+      _connection.on(HubMethods.sendAnswerCandidate, (arg) {
         answerCandidate(arg);
       });
     }

@@ -56,7 +56,6 @@ class ViewerController extends BaseController {
     await _peerConnection!.setRemoteDescription(
       webrtc.RTCSessionDescription(answer['sdp'], answer['type']),
     );
-    print("sdp cevap geldi");
   }
 
   void answerCandidate(dynamic data) async {
@@ -68,7 +67,6 @@ class ViewerController extends BaseController {
     );
     await _peerConnection!.addCandidate(iceCandidate);
     isConnect.value = true;
-    print("Candidate cevap geldi");
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
@@ -90,29 +88,6 @@ class ViewerController extends BaseController {
 
     return peerConnection;
   }
-
-  // Remote description ayarla
-  /* _repository.connect(onReceiveAnswer: (answer) async {
-      print("Received answer: $answer");
-      await _peerConnection!.setRemoteDescription(
-        webrtc.RTCSessionDescription(answer['sdp'], answer['type']),
-      );
-    });
-
-    // ICE candidate'leri al ve ekle
-    _repository.connect(onReceiveIceCandidate: (candidate) async {
-      print("Received ICE candidate: $candidate");
-      final iceCandidate = webrtc.RTCIceCandidate(
-        candidate['candidate'],
-        candidate['sdpMid'],
-        candidate['sdpMLineIndex'],
-      );
-      if (_peerConnection != null) {
-        await _peerConnection!.addCandidate(iceCandidate);
-      } else {
-        _remoteCandidates.add(iceCandidate);
-      }
-    });*/
 
   @override
   void onClose() async {
