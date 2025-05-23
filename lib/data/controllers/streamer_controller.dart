@@ -24,13 +24,10 @@ class StreamerController extends BaseController {
       sendCandidate: sendCandidate,
     );
     await _requestPermissions();
-    await _initRendererAndStream();
     await _startStream();
     isConnecting.value = false;
     super.onReady();
   }
-
-  Future<void> _initRendererAndStream() async {}
 
   Future<void> _startStream() async {
     await _repository.startStream();
@@ -84,6 +81,9 @@ class StreamerController extends BaseController {
       HubMethods.sendAnswer,
       answer.toMap(),
     );
+    if (pcs[data[0]] != null) {
+      pcs.remove(pcs[data[0]]);
+    }
     pcs[data[0]] = pc;
   }
 
