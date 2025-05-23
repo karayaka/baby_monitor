@@ -74,9 +74,9 @@ class ViewerController extends BaseController {
       'audio': true,
       'video': {
         'mandatory': {
-          'minWidth': '320',
-          'minHeight': '240',
-          'minFrameRate': '15',
+          'minWidth': '640',
+          'minHeight': '360',
+          'minFrameRate': '7',
         },
         'facingMode': 'user',
         'optional': [],
