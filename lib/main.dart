@@ -14,8 +14,6 @@ import 'package:hive_flutter/adapters.dart';
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('Arka plan bildirimi: ${message.messageId}');
-
   // Eğer bildirim bir çağrı içeriyorsa
   if (message.data['type'] == 'call') {
     await FcmCallkitService.showIncomingCall(message);
