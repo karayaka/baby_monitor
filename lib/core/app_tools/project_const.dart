@@ -31,39 +31,46 @@ class HubMethods {
 class WebrtcConnectionConst {
   static const config = {
     "account_sid": "AC0f888d2bf69790fef945ae0c2ca10a53",
-    "date_created": "Mon, 26 May 2025 16:01:07 +0000",
-    "date_updated": "Mon, 26 May 2025 16:01:07 +0000",
+    "date_created": "Mon, 26 May 2025 17:38:27 +0000",
+    "date_updated": "Mon, 26 May 2025 17:38:27 +0000",
     "ice_servers": [
       {
         "url": "stun:global.stun.twilio.com:3478",
         "urls": "stun:global.stun.twilio.com:3478",
       },
       {
-        "credential": "NtIp4ns+hnaAkjjptYY9TXaGSYbOwSlhxLSmAJN6uyk=",
+        "credential": "90XqkpWXHGgCi/BbXEBVq78fDSt2wbe9cgd5UxM29/s=",
         "url": "turn:global.turn.twilio.com:3478?transport=udp",
         "urls": "turn:global.turn.twilio.com:3478?transport=udp",
         "username":
-            "397141ffd808a7d3f35ee15f6c4088d451a77039eb4956e061a9bd8b763eca0c",
+            "989d52aaf4fa4823ba8fbff88038448a6a907ff4d7a773e7f0ba1c536d1ebde0",
       },
       {
-        "credential": "NtIp4ns+hnaAkjjptYY9TXaGSYbOwSlhxLSmAJN6uyk=",
+        "credential": "90XqkpWXHGgCi/BbXEBVq78fDSt2wbe9cgd5UxM29/s=",
+        "url": "turn:3.120.104.10:3478?transport=tcp",
+        "urls": "turn:3.120.104.10:3478?transport=tcp",
+        "username":
+            "989d52aaf4fa4823ba8fbff88038448a6a907ff4d7a773e7f0ba1c536d1ebde0",
+      },
+      {
+        "credential": "90XqkpWXHGgCi/BbXEBVq78fDSt2wbe9cgd5UxM29/s=",
         "url": "turn:global.turn.twilio.com:3478?transport=tcp",
         "urls": "turn:global.turn.twilio.com:3478?transport=tcp",
         "username":
-            "397141ffd808a7d3f35ee15f6c4088d451a77039eb4956e061a9bd8b763eca0c",
+            "989d52aaf4fa4823ba8fbff88038448a6a907ff4d7a773e7f0ba1c536d1ebde0",
       },
       {
-        "credential": "NtIp4ns+hnaAkjjptYY9TXaGSYbOwSlhxLSmAJN6uyk=",
+        "credential": "90XqkpWXHGgCi/BbXEBVq78fDSt2wbe9cgd5UxM29/s=",
         "url": "turn:global.turn.twilio.com:443?transport=tcp",
         "urls": "turn:global.turn.twilio.com:443?transport=tcp",
         "username":
-            "397141ffd808a7d3f35ee15f6c4088d451a77039eb4956e061a9bd8b763eca0c",
+            "989d52aaf4fa4823ba8fbff88038448a6a907ff4d7a773e7f0ba1c536d1ebde0",
       },
     ],
-    "password": "NtIp4ns+hnaAkjjptYY9TXaGSYbOwSlhxLSmAJN6uyk=",
+    "password": "90XqkpWXHGgCi/BbXEBVq78fDSt2wbe9cgd5UxM29/s=",
     "ttl": "86400",
     "username":
-        "397141ffd808a7d3f35ee15f6c4088d451a77039eb4956e061a9bd8b763eca0c",
+        "989d52aaf4fa4823ba8fbff88038448a6a907ff4d7a773e7f0ba1c536d1ebde0",
   };
 }
 
