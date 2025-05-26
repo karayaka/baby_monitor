@@ -30,6 +30,9 @@ class HubMethods {
 
 class WebrtcConnectionConst {
   static const config = {
+    "account_sid": "AC0f888d2bf69790fef945ae0c2ca10a53",
+    "date_created": "Mon, 26 May 2025 16:01:07 +0000",
+    "date_updated": "Mon, 26 May 2025 16:01:07 +0000",
     "ice_servers": [
       {
         "url": "stun:global.stun.twilio.com:3478",
@@ -57,6 +60,10 @@ class WebrtcConnectionConst {
             "397141ffd808a7d3f35ee15f6c4088d451a77039eb4956e061a9bd8b763eca0c",
       },
     ],
+    "password": "NtIp4ns+hnaAkjjptYY9TXaGSYbOwSlhxLSmAJN6uyk=",
+    "ttl": "86400",
+    "username":
+        "397141ffd808a7d3f35ee15f6c4088d451a77039eb4956e061a9bd8b763eca0c",
   };
 }
 
