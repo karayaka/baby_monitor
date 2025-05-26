@@ -36,25 +36,25 @@ class WebrtcConnectionConst {
         "urls": "stun:global.stun.twilio.com:3478",
       },
       {
-        "credential": "D2QpW8h5xSrxfmBskHXFp2UZs/B4RFr/riwifwWqVxA=",
+        "credential": "NtIp4ns+hnaAkjjptYY9TXaGSYbOwSlhxLSmAJN6uyk=",
         "url": "turn:global.turn.twilio.com:3478?transport=udp",
         "urls": "turn:global.turn.twilio.com:3478?transport=udp",
         "username":
-            "019b0ca5e68506ce6d435ad8d871349a814e96393a85060a9f0cc4d9d6a7d7c6",
+            "397141ffd808a7d3f35ee15f6c4088d451a77039eb4956e061a9bd8b763eca0c",
       },
       {
-        "credential": "D2QpW8h5xSrxfmBskHXFp2UZs/B4RFr/riwifwWqVxA=",
+        "credential": "NtIp4ns+hnaAkjjptYY9TXaGSYbOwSlhxLSmAJN6uyk=",
         "url": "turn:global.turn.twilio.com:3478?transport=tcp",
         "urls": "turn:global.turn.twilio.com:3478?transport=tcp",
         "username":
-            "019b0ca5e68506ce6d435ad8d871349a814e96393a85060a9f0cc4d9d6a7d7c6",
+            "397141ffd808a7d3f35ee15f6c4088d451a77039eb4956e061a9bd8b763eca0c",
       },
       {
-        "credential": "D2QpW8h5xSrxfmBskHXFp2UZs/B4RFr/riwifwWqVxA=",
+        "credential": "NtIp4ns+hnaAkjjptYY9TXaGSYbOwSlhxLSmAJN6uyk=",
         "url": "turn:global.turn.twilio.com:443?transport=tcp",
         "urls": "turn:global.turn.twilio.com:443?transport=tcp",
         "username":
-            "019b0ca5e68506ce6d435ad8d871349a814e96393a85060a9f0cc4d9d6a7d7c6",
+            "397141ffd808a7d3f35ee15f6c4088d451a77039eb4956e061a9bd8b763eca0c",
       },
     ],
   };
