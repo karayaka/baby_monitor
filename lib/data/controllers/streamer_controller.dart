@@ -142,8 +142,13 @@ class StreamerController extends BaseController {
       },
     };
 
+    final Map<String, dynamic> config = {
+      'iceServers': WebrtcConnectionConst.config['ice_servers'],
+      'iceTransportPolicy': 'relay', // Mobil ağlar için zorunlu
+    };
+
     final peerConnection = await webrtc.createPeerConnection(
-      WebrtcConnectionConst.config,
+      config,
       mediaConstraints,
     );
 
