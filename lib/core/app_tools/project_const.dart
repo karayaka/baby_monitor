@@ -40,34 +40,11 @@ class WebrtcConnectionConst {
       {'urls': 'stun:stun2.l.google.com:5349'},
       {'urls': 'stun:stun3.l.google.com:3478'},
       {
-        'urls': ['turn:relay.metered.ca:80'],
-        'username': 'openai',
-        'credential': 'openai',
-      },
-      {
-        'url': 'turn:numb.viagenie.ca',
-        'credential': 'muazkh',
-        'username': 'webrtc@live.com',
-      },
-      {
-        'url': 'turn:192.158.29.39:3478?transport=udp',
-        'credential': 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-        'username': '28224511:1379330808',
-      },
-      {
-        'url': 'turn:192.158.29.39:3478?transport=tcp',
-        'credential': 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-        'username': '28224511:1379330808',
-      },
-      {
-        'url': 'turn:turn.bistri.com:80',
-        'credential': 'homeo',
-        'username': 'homeo',
-      },
-      {
-        'url': 'turn:turn.anyfirewall.com:443?transport=tcp',
-        'credential': 'webrtc',
-        'username': 'webrtc',
+        "credential": "D2QpW8h5xSrxfmBskHXFp2UZs/B4RFr/riwifwWqVxA=",
+        "url": "turn:global.turn.twilio.com:3478?transport=udp",
+        //"urls": "turn:global.turn.twilio.com:3478?transport=udp",
+        "username":
+            "019b0ca5e68506ce6d435ad8d871349a814e96393a85060a9f0cc4d9d6a7d7c6",
       },
     ],
   };
