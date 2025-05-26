@@ -82,12 +82,9 @@ class ViewerController extends BaseController {
         'optional': [],
       },
     };
-    final Map<String, dynamic> config = {
-      'iceServers': WebrtcConnectionConst.config['ice_servers'],
-      'iceTransportPolicy': 'relay', // Mobil ağlar için zorunlu
-    };
+
     final peerConnection = await webrtc.createPeerConnection(
-      config,
+      WebrtcConnectionConst.config,
       mediaConstraints,
     );
 
