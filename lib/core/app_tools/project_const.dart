@@ -31,30 +31,18 @@ class HubMethods {
 class WebrtcConnectionConst {
   static const config = {
     'iceServers': [
+      {'urls': 'stun:stun.l.google.com:19302'},
+      {'urls': 'stun:stun.l.google.com:19302'},
+      {'urls': 'stun:stun.l.google.com:5349'},
+      {'urls': 'stun:stun1.l.google.com:3478'},
+      {'urls': 'stun:stun1.l.google.com:5349'},
+      {'urls': 'stun:stun2.l.google.com:19302'},
+      {'urls': 'stun:stun2.l.google.com:5349'},
+      {'urls': 'stun:stun3.l.google.com:3478'},
       {
-        "url": "stun:global.stun.twilio.com:3478",
-        "urls": "stun:global.stun.twilio.com:3478",
-      },
-      {
-        "credential": "r2EfFv93Q73/0aPVwxeaNg5YaVd8piMKdLG+76CwaMY=",
-        "url": "turn:global.turn.twilio.com:3478?transport=tcp",
-        "urls": "turn:global.turn.twilio.com:3478?transport=tcp",
-        "username":
-            "b5053e7669535ac3eba0aac0365fd7a22482887051cec15b1c5261e964ededc2",
-      },
-      {
-        "credential": "r2EfFv93Q73/0aPVwxeaNg5YaVd8piMKdLG+76CwaMY=",
-        "url": "turn:global.turn.twilio.com:3478?transport=udp",
-        "urls": "turn:global.turn.twilio.com:3478?transport=udp",
-        "username":
-            "b5053e7669535ac3eba0aac0365fd7a22482887051cec15b1c5261e964ededc2",
-      },
-      {
-        "credential": "r2EfFv93Q73/0aPVwxeaNg5YaVd8piMKdLG+76CwaMY=",
-        "url": "turn:global.turn.twilio.com:443?transport=tcp",
-        "urls": "turn:global.turn.twilio.com:443?transport=tcp",
-        "username":
-            "b5053e7669535ac3eba0aac0365fd7a22482887051cec15b1c5261e964ededc2",
+        "urls": "turn:openrelay.metered.ca:80",
+        "username": "openrelayproject",
+        "credential": "openrelayproject",
       },
     ],
   };
