@@ -104,7 +104,7 @@ class ViewerController extends BaseController {
       }
       var reports = peerConnection.getStats().then((stats) {
         for (var stater in stats) {
-          print("ICE Connection report: $stater");
+          print("ICE Connection report: ${stater.values}");
         }
       });
       print(peerConnection.getStats());
