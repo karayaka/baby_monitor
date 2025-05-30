@@ -83,6 +83,7 @@ class ViewerController extends BaseController {
         'optional': [],
       },
     };
+
     final configuration = {
       'iceServers': WebrtcConnectionConst.config,
       'iceTransportPolicy': 'relay', // Sadece TURN kullan
