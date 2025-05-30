@@ -102,6 +102,11 @@ class ViewerController extends BaseController {
       if (state == RTCIceConnectionState.RTCIceConnectionStateFailed) {
         // ICE bağlantısı başarısız oldu
       }
+      var reports = peerConnection.getStats().then((stats) {
+        for (var stater in stats) {
+          print("ICE Connection report: $stater");
+        }
+      });
       print(peerConnection.getStats());
     };
 
