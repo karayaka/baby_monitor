@@ -87,7 +87,6 @@ class ViewerController extends BaseController {
       'iceServers': WebrtcConnectionConst.config,
       'iceTransportPolicy': 'relay', // Sadece TURN kullan
     };
-
     final peerConnection = await webrtc.createPeerConnection(
       WebrtcConnectionConst.config,
       mediaConstraints,
