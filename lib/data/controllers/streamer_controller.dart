@@ -142,8 +142,13 @@ class StreamerController extends BaseController {
       },
     };
 
+    final configuration = {
+      'iceServers': WebrtcConnectionConst.config,
+      'iceTransportPolicy': 'relay', // Sadece TURN kullan
+    };
+
     final peerConnection = await webrtc.createPeerConnection(
-      WebrtcConnectionConst.config,
+      configuration,
       mediaConstraints,
     );
 
