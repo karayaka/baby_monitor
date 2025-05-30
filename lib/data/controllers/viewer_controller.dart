@@ -2,6 +2,7 @@ import 'package:baby_monitor/core/app_tools/project_const.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/stream_repoistory.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as webrtc;
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
 
 class ViewerController extends BaseController {
@@ -94,6 +95,14 @@ class ViewerController extends BaseController {
         remoteRenderer.srcObject =
             event.streams[0]; // Remote renderer'a bağlanıyor
       }
+    };
+
+    peerConnection.onIceConnectionState = (state) {
+      print("ICE Connection State: $state");
+      if (state == RTCIceConnectionState.RTCIceConnectionStateFailed) {
+        // ICE bağlantısı başarısız oldu
+      }
+      print(peerConnection.getStats());
     };
 
     return peerConnection;
