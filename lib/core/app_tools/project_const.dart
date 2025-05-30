@@ -64,11 +64,6 @@ class WebrtcConnectionConst {
       "username": "5bd7dda427cc7c367a6303f3",
       "credential": "noUoSsqd//7KHSTD",
     },
-    {
-      "urls": "turn:global.relay.metered.ca:80?transport=tcp",
-      "username": "5bd7dda427cc7c367a6303f3",
-      "credential": "noUoSsqd//7KHSTD",
-    },
   ];
 }
 
