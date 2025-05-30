@@ -40,14 +40,29 @@ class WebrtcConnectionConst {
       {'urls': 'stun:stun2.l.google.com:5349'},
       {'urls': 'stun:stun3.l.google.com:3478'},
       {
-        "url": "stun:global.stun.twilio.com:3478",
-        "urls": "stun:global.stun.twilio.com:3478",
+        "url": 'turn:numb.viagenie.ca',
+        "credential": 'muazkh',
+        "username": 'webrtc@live.com',
       },
       {
-        "credential": "UnYcq6VE/8IaZvEXbfemNH/usA4=",
-        "url": "relay1.expressturn.com:3480",
-        "urls": "relay1.expressturn.com:3480",
-        "username": "000000002063957299",
+        "url": 'turn:192.158.29.39:3478?transport=udp',
+        "credential": 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+        "username": '28224511:1379330808',
+      },
+      {
+        "url": 'turn:192.158.29.39:3478?transport=tcp',
+        "credential": 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+        "username": '28224511:1379330808',
+      },
+      {
+        "url": 'turn:turn.bistri.com:80',
+        "credential": 'homeo',
+        "username": 'homeo',
+      },
+      {
+        "url": 'turn:turn.anyfirewall.com:443?transport=tcp',
+        "credential": 'webrtc',
+        "username": 'webrtc',
       },
     ],
   };
