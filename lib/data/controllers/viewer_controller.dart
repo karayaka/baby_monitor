@@ -84,7 +84,7 @@ class ViewerController extends BaseController {
       },
     };
     final configuration = {
-      'iceServers': WebrtcConnectionConst.iceArry,
+      'iceServers': WebrtcConnectionConst.config,
       'iceTransportPolicy': 'relay', // Sadece TURN kullan
     };
 
