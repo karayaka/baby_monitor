@@ -148,9 +148,8 @@ class StreamerController extends BaseController {
       'bundlePolicy': 'max-bundle', // DTLS sorununu azaltır
       'rtcpMuxPolicy': 'require',
     };
-
     final peerConnection = await webrtc.createPeerConnection(
-      WebrtcConnectionConst.config,
+      configuration,
       mediaConstraints,
     );
 
