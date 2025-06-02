@@ -142,7 +142,7 @@ class StreamerController extends BaseController {
       },
     };
     final configuration = {
-      'iceServers': WebrtcConnectionConst.config,
+      'iceServers': WebrtcConnectionConst.iceService,
       'iceTransportPolicy': 'relay', // Sadece TURN kullan
       'sdpSemantics': 'unified-plan',
       'bundlePolicy': 'max-bundle', // DTLS sorununu azaltır
