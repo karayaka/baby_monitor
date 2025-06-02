@@ -33,7 +33,7 @@ class WebrtcConnectionConst {
     "iceServers": [
       {
         'urls':
-            'turns:global.relay.metered.ca:443?transport=tcp', // TLS+TCP zorunlu
+            'turn:global.relay.metered.ca:443?transport=tcp', // TLS+TCP zorunlu
         'username': '5bd7dda427cc7c367a6303f3',
         'credential': 'noUoSsqd//7KHSTD',
       },
@@ -42,7 +42,7 @@ class WebrtcConnectionConst {
   static const iceService = [
     {
       'urls':
-          'turns:global.relay.metered.ca:443?transport=tcp', // TLS+TCP zorunlu
+          'turn:global.relay.metered.ca:443?transport=tcp', // TLS+TCP zorunlu
       'username': '5bd7dda427cc7c367a6303f3',
       'credential': 'noUoSsqd//7KHSTD',
     },
