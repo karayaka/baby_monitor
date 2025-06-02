@@ -41,10 +41,9 @@ class WebrtcConnectionConst {
   };
   static const iceService = [
     {
-      'urls':
-          'turn:global.relay.metered.ca:443?transport=tcp', // TLS+TCP zorunlu
-      'username': '5bd7dda427cc7c367a6303f3',
-      'credential': 'noUoSsqd//7KHSTD',
+      "urls": "turn:global.relay.metered.ca:80",
+      "username": "5bd7dda427cc7c367a6303f3",
+      "credential": "noUoSsqd//7KHSTD",
     },
   ];
 }
