@@ -76,7 +76,7 @@ dependencies:
   #signalR
   signalr_netcore: ^1.4.3
   #webrtc
-  flutter_webrtc: ^0.14.0
+  flutter_webrtc: ^0.14.1
   
 
 dev_dependencies:
