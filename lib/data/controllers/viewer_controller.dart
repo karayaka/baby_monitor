@@ -86,6 +86,9 @@ class ViewerController extends BaseController {
     final configuration = {
       'iceServers': WebrtcConnectionConst.config,
       'iceTransportPolicy': 'relay', // Sadece TURN kullan
+      'sdpSemantics': 'unified-plan',
+      'bundlePolicy': 'max-bundle', // DTLS sorununu azaltır
+      'rtcpMuxPolicy': 'require',
     };
     final peerConnection = await webrtc.createPeerConnection(
       WebrtcConnectionConst.config,
