@@ -91,7 +91,7 @@ class ViewerController extends BaseController {
       'rtcpMuxPolicy': 'require',
     };
     final peerConnection = await webrtc.createPeerConnection(
-      configuration,
+      WebrtcConnectionConst.config,
       mediaConstraints,
     );
 
