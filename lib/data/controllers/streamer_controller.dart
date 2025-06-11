@@ -58,17 +58,34 @@ class StreamerController extends BaseController {
   ///İzleyiciden gelen offerler işlenecek
   void sendOffer(dynamic data) async {
     final pc = await _createPeerConnection();
+
+    pc.onConnectionState = (state) async {
+      print("[$data[0]] PeerConnection State: $state");
+      if (state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
+          state ==
+              webrtc
+                  .RTCPeerConnectionState
+                  .RTCPeerConnectionStateDisconnected ||
+          state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
+        await pc.close();
+        pcs.remove(data[0]);
+        print("[$data[0]] PeerConnection closed and removed.");
+      }
+    };
+
     //local stream veri setine eklenyor
     _localStream?.getTracks().forEach((track) {
       pc.addTrack(track, _localStream!);
     });
     pc.onIceCandidate = (candidate) {
+      print("candidatedatası: ${candidate.toMap()}");
       _repository.sendtoCliend(
         data[0],
         HubMethods.sendAnswerCandidate,
         candidate.toMap(),
       );
     };
+
     await pc.setRemoteDescription(
       webrtc.RTCSessionDescription(data[1]["sdp"], data[1]["type"]),
     );
@@ -90,6 +107,7 @@ class StreamerController extends BaseController {
   ///İzleyiciden gelen Candidateler işelenecek
   void sendCandidate(dynamic data) async {
     //Hubdan glen candiateler bu şekile ekleniyor
+
     await pcs[data[0]]?.addCandidate(
       webrtc.RTCIceCandidate(
         data[1]['candidate'],

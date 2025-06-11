@@ -31,6 +31,17 @@ class ViewerController extends BaseController {
   Future<void> _initializeConnection() async {
     // PeerConnection oluştur
     _peerConnection = await _createPeerConnection();
+    _peerConnection?.onConnectionState = (state) async {
+      if (state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
+          state ==
+              webrtc
+                  .RTCPeerConnectionState
+                  .RTCPeerConnectionStateDisconnected ||
+          state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
+        errorMessage("mb008".tr);
+        Get.back();
+      }
+    };
 
     // Local offer oluştur ve SignalR üzerinden gönder
     final offer = await _peerConnection!.createOffer();

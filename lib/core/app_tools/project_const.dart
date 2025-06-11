@@ -26,6 +26,8 @@ class HubMethods {
       "SendAnswer"; //Yayıncı gönderecek izleyici dinleyecek
   static const sendAnswerCandidate =
       "SendAnswerCandidate"; //Yayıncı gönderecek izleyici dinleyecek
+  //Bağlantı koptuğunda bu method çağrılacak
+  static const closeConnection = "ConnectionClosed";
 }
 
 class WebrtcConnectionConst {
