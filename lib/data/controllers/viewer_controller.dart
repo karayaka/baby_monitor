@@ -38,8 +38,10 @@ class ViewerController extends BaseController {
                   .RTCPeerConnectionState
                   .RTCPeerConnectionStateDisconnected ||
           state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
-        errorMessage("mb008".tr);
-        Get.back();
+        Future.microtask(() {
+          errorMessage("mb008".tr);
+          Get.back();
+        });
       }
     };
 

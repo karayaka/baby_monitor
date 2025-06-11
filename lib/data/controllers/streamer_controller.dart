@@ -60,7 +60,7 @@ class StreamerController extends BaseController {
     final pc = await _createPeerConnection();
 
     pc.onConnectionState = (state) async {
-      print("[$data[0]] PeerConnection State: $state");
+      print("${data[0]} PeerConnection State: $state");
       if (state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
           state ==
               webrtc
@@ -69,7 +69,7 @@ class StreamerController extends BaseController {
           state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
         await pc.close();
         pcs.remove(data[0]);
-        print("[$data[0]] PeerConnection closed and removed.");
+        print("gitti ${data[0]}");
       }
     };
 
