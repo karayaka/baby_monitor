@@ -1,7 +1,6 @@
 import 'package:baby_monitor/core/app_tools/project_const.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/stream_repoistory.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as webrtc;
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
@@ -11,7 +10,7 @@ class ViewerController extends BaseController {
   late final StreamRepoistory _repository;
   late final String _deviceId;
   final webrtc.RTCVideoRenderer remoteRenderer = webrtc.RTCVideoRenderer();
-  var isConnect = false.obs;
+  var isConnect = 0.obs;
   webrtc.RTCPeerConnection? _peerConnection;
   ViewerController() {
     _repository = Get.find();
@@ -32,17 +31,14 @@ class ViewerController extends BaseController {
   Future<void> _initializeConnection() async {
     // PeerConnection oluştur
     _peerConnection = await _createPeerConnection();
-    _peerConnection?.onConnectionState = (state) async {
+    _peerConnection?.onConnectionState = (state) {
       if (state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
           state ==
               webrtc
                   .RTCPeerConnectionState
                   .RTCPeerConnectionStateDisconnected ||
           state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          errorMessage("mb008".tr);
-          Get.back();
-        });
+        isConnect.value = 2;
       }
     };
 
@@ -81,7 +77,7 @@ class ViewerController extends BaseController {
       candidate['sdpMLineIndex'],
     );
     await _peerConnection!.addCandidate(iceCandidate);
-    isConnect.value = true;
+    isConnect.value = 1;
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
