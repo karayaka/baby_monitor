@@ -11,6 +11,7 @@ class StreamerController extends BaseController {
   var msg = "".obs;
   webrtc.MediaStream? _localStream;
   final webrtc.RTCVideoRenderer localRenderer = webrtc.RTCVideoRenderer();
+  late Map<String, dynamic> config;
   Map<String, webrtc.RTCPeerConnection> pcs = {};
   StreamerController() {
     _repository = Get.find();
@@ -19,6 +20,7 @@ class StreamerController extends BaseController {
   @override
   void onReady() async {
     isConnecting.value = true;
+    config = await _repository.fetchIceServers();
     await _repository.connect(
       sendOffer: sendOffer,
       sendCandidate: sendCandidate,
@@ -147,7 +149,7 @@ class StreamerController extends BaseController {
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
-    var config = await _repository.fetchIceServers();
+    //var config = await _repository.fetchIceServers();
 
     final Map<String, dynamic> mediaConstraints = {
       'audio': true,

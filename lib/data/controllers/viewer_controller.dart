@@ -12,6 +12,7 @@ class ViewerController extends BaseController {
   final webrtc.RTCVideoRenderer remoteRenderer = webrtc.RTCVideoRenderer();
   var isConnect = 0.obs;
   webrtc.RTCPeerConnection? _peerConnection;
+  late Map<String, dynamic> config;
   ViewerController() {
     _repository = Get.find();
     _deviceId = Get.arguments['deviceId'];
@@ -19,6 +20,7 @@ class ViewerController extends BaseController {
   @override
   void onReady() async {
     super.onReady();
+    config = await _repository.fetchIceServers();
     await _repository.connect(
       answerOffer: answerOffer,
       answerCandidate: answerCandidate,
@@ -82,7 +84,7 @@ class ViewerController extends BaseController {
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
-    var config = await _repository.fetchIceServers();
+    //var config = await _repository.fetchIceServers();
     final Map<String, dynamic> mediaConstraints = {
       'audio': true,
       'video': {
