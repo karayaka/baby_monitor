@@ -21,17 +21,21 @@ class HttpService {
       'AppKey': ProjectConst.APP_KEY,
     };
     final baseOptions = BaseOptions(
-        contentType: Headers.jsonContentType,
-        headers: header,
-        baseUrl: ProjectUrls.base_url);
+      contentType: Headers.jsonContentType,
+      headers: header,
+      baseUrl: ProjectUrls.base_url,
+    );
 
     _dio = Dio(baseOptions);
   }
-  Future<Response?> basePost(String path, Object? data,
-      {String? token = ""}) async {
+  Future<Response?> basePost(
+    String path,
+    Object? data, {
+    String? token = "",
+  }) async {
     try {
-      (_dio?.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-          (HttpClient client) {
+      (_dio?.httpClientAdapter as DefaultHttpClientAdapter)
+          .onHttpClientCreate = (HttpClient client) {
         client.badCertificateCallback =
             (X509Certificate cert, String host, int port) => true;
         return client;
@@ -44,8 +48,11 @@ class HttpService {
   }
 
   Future<BaseResult> post<T extends BaseHttpModel?>(
-      String path, T? model, Object? data,
-      {String? token}) async {
+    String path,
+    T? model,
+    Object? data, {
+    String? token,
+  }) async {
     try {
       final response = await basePost(path, data, token: token);
       var res = _resultBody(response, model);
@@ -55,8 +62,12 @@ class HttpService {
     }
   }
 
-  Future<BaseResult> get<T extends BaseHttpModel?>(String path, T? model,
-      {Map<String, dynamic>? params, String token = ""}) async {
+  Future<BaseResult> get<T extends BaseHttpModel?>(
+    String path,
+    T? model, {
+    Map<String, dynamic>? params,
+    String token = "",
+  }) async {
     try {
       _dio?.options.headers.addAll({"Authorization": "Bearer $token"});
       final response = await _dio?.get(path, queryParameters: params);
@@ -66,8 +77,11 @@ class HttpService {
     }
   }
 
-  Future<BaseResult> delete<T extends BaseHttpModel?>(String path, T? model,
-      {String? token}) async {
+  Future<BaseResult> delete<T extends BaseHttpModel?>(
+    String path,
+    T? model, {
+    String? token,
+  }) async {
     try {
       _dio?.options.headers.addAll({"Authorization": "Bearer $token"});
       final response = await _dio?.delete(path);
@@ -78,7 +92,9 @@ class HttpService {
   }
 
   BaseResult _resultBody<T extends BaseHttpModel?>(
-      Response? response, T? model) {
+    Response? response,
+    T? model,
+  ) {
     try {
       var result = BaseResult();
       result.statusCode = response?.statusCode ?? 400;

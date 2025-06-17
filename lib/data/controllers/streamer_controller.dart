@@ -147,6 +147,8 @@ class StreamerController extends BaseController {
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
+    //var config = await _repository.fetchIceServers();
+
     final Map<String, dynamic> mediaConstraints = {
       'audio': true,
       'video': {
