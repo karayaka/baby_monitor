@@ -151,9 +151,9 @@ class StreamerController extends BaseController {
       'audio': true,
       'video': {
         'mandatory': {
-          'minWidth': '640',
-          'minHeight': '360',
-          'minFrameRate': '7',
+          'minWidth': '320',
+          'minHeight': '180',
+          'minFrameRate': '5',
         },
         'facingMode': 'user',
         'optional': [],
