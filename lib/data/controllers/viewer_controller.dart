@@ -82,6 +82,7 @@ class ViewerController extends BaseController {
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
+    var config = await _repository.fetchIceServers();
     final Map<String, dynamic> mediaConstraints = {
       'audio': true,
       'video': {
@@ -96,7 +97,7 @@ class ViewerController extends BaseController {
     };
 
     final peerConnection = await webrtc.createPeerConnection(
-      WebrtcConnectionConst.config,
+      config,
       mediaConstraints,
     );
 
