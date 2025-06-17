@@ -12,8 +12,10 @@ class ViewerPage extends GetView<ViewerController> {
       appBar: AppBar(title: Text("İzleme Ekranı"), centerTitle: true),
       body: Obx(() {
         if (controller.isConnect.value == 2) {
-          controller.warningMessage("BAğlantı koptu");
-          Get.back();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            controller.errorMessage("mb008".tr);
+            Get.back();
+          });
         }
         return Column(
           children: [
@@ -21,9 +23,7 @@ class ViewerPage extends GetView<ViewerController> {
               child:
                   controller.isConnect.value == 1
                       ? RTCVideoView(controller.remoteRenderer)
-                      : const Text(
-                        'Kamera akışı başlatılıyor...',
-                      ), //TODO prores olacak component yazılacak
+                      : const CircularProgressIndicator(),
             ),
           ],
         );

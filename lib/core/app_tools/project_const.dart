@@ -35,22 +35,22 @@ class WebrtcConnectionConst {
     "iceServers": [
       {"urls": "stun:stun.relay.metered.ca:80"},
       {
-        "urls": "turn:global.relay.metered.ca:80",
+        "urls": "turn:us-east.relay.metered.ca:80",
         "username": "5bd7dda427cc7c367a6303f3",
         "credential": "noUoSsqd//7KHSTD",
       },
       {
-        "urls": "turn:global.relay.metered.ca:80?transport=tcp",
+        "urls": "turn:us-east.relay.metered.ca:80?transport=tcp",
         "username": "5bd7dda427cc7c367a6303f3",
         "credential": "noUoSsqd//7KHSTD",
       },
       {
-        "urls": "turn:global.relay.metered.ca:443",
+        "urls": "turn:us-east.relay.metered.ca:443",
         "username": "5bd7dda427cc7c367a6303f3",
         "credential": "noUoSsqd//7KHSTD",
       },
       {
-        "urls": "turns:global.relay.metered.ca:443?transport=tcp",
+        "urls": "turns:us-east.relay.metered.ca:443?transport=tcp",
         "username": "5bd7dda427cc7c367a6303f3",
         "credential": "noUoSsqd//7KHSTD",
       },

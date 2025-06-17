@@ -39,6 +39,7 @@ class ViewerController extends BaseController {
                   .RTCPeerConnectionStateDisconnected ||
           state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
         isConnect.value = 2;
+        print("close");
       }
     };
 
