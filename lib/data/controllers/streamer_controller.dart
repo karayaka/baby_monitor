@@ -159,13 +159,7 @@ class StreamerController extends BaseController {
         'optional': [],
       },
     };
-    final configuration = {
-      'iceServers': WebrtcConnectionConst.iceService,
-      'iceTransportPolicy': 'relay', // Sadece TURN kullan
-      'sdpSemantics': 'unified-plan',
-      'bundlePolicy': 'max-bundle', // DTLS sorununu azaltır
-      'rtcpMuxPolicy': 'require',
-    };
+
     final peerConnection = await webrtc.createPeerConnection(
       WebrtcConnectionConst.config,
       mediaConstraints,

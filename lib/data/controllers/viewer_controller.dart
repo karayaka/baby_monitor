@@ -86,21 +86,15 @@ class ViewerController extends BaseController {
       'audio': true,
       'video': {
         'mandatory': {
-          'minWidth': '640',
-          'minHeight': '360',
-          'minFrameRate': '7',
+          'maxWidth': '640',
+          'maxHeight': '360',
+          'maxFrameRate': '7',
         },
         'facingMode': 'user',
         'optional': [],
       },
     };
-    final configuration = {
-      'iceServers': WebrtcConnectionConst.iceService,
-      'iceTransportPolicy': 'relay', // Sadece TURN kullan
-      'sdpSemantics': 'unified-plan',
-      'bundlePolicy': 'max-bundle', // DTLS sorununu azaltır
-      'rtcpMuxPolicy': 'require',
-    };
+
     final peerConnection = await webrtc.createPeerConnection(
       WebrtcConnectionConst.config,
       mediaConstraints,

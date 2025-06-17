@@ -56,13 +56,8 @@ class WebrtcConnectionConst {
       },
     ],
   };
-  static const iceService = [
-    {
-      "urls": "turn:global.relay.metered.ca:80",
-      "username": "5bd7dda427cc7c367a6303f3",
-      "credential": "noUoSsqd//7KHSTD",
-    },
-  ];
+  static const URL =
+      "https://baby_monitor.metered.live/api/v1/turn/credentials?apiKey=110e7c0d3e74a163413b84766345b4609582&region=us_east";
 }
 
 //Project storage password Kara.531531
