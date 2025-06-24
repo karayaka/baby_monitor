@@ -1,6 +1,7 @@
 import 'package:baby_monitor/core/app_tools/project_const.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/stream_repoistory.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as webrtc;
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -12,6 +13,7 @@ class StreamerController extends BaseController {
   webrtc.MediaStream? _localStream;
   final webrtc.RTCVideoRenderer localRenderer = webrtc.RTCVideoRenderer();
   late Map<String, dynamic> config;
+  var listening = false.obs;
   Map<String, webrtc.RTCPeerConnection> pcs = {};
   StreamerController() {
     _repository = Get.find();
@@ -19,6 +21,10 @@ class StreamerController extends BaseController {
 
   @override
   void onReady() async {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     isConnecting.value = true;
     config = await _repository.fetchIceServers();
     await _repository.connect(
@@ -44,7 +50,7 @@ class StreamerController extends BaseController {
       'video': {
         'facingMode': 'environment',
         'width': 800,
-        'height': 480,
+        'height': 320,
         'frameRate': 15,
       },
     });
@@ -62,7 +68,6 @@ class StreamerController extends BaseController {
     final pc = await _createPeerConnection();
 
     pc.onConnectionState = (state) async {
-      print("${data[0]} PeerConnection State: $state");
       if (state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
           state ==
               webrtc
@@ -71,7 +76,6 @@ class StreamerController extends BaseController {
           state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
         await pc.close();
         pcs.remove(data[0]);
-        print("gitti ${data[0]}");
       }
     };
 
@@ -80,7 +84,6 @@ class StreamerController extends BaseController {
       pc.addTrack(track, _localStream!);
     });
     pc.onIceCandidate = (candidate) {
-      print("candidatedatası: ${candidate.toMap()}");
       _repository.sendtoCliend(
         data[0],
         HubMethods.sendAnswerCandidate,
@@ -119,6 +122,38 @@ class StreamerController extends BaseController {
     );
   }
 
+  Future<void> _requestPermissions() async {
+    await [
+      Permission.camera,
+      Permission.microphone,
+      Permission.storage,
+    ].request();
+  }
+
+  Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
+    //var config = await _repository.fetchIceServers();
+
+    final Map<String, dynamic> mediaConstraints = {
+      'audio': true,
+      'video': {
+        'mandatory': {
+          'maxWidth': '320',
+          'maxHeight': '140',
+          'maxFrameRate': '5',
+        },
+        'facingMode': 'user',
+        'optional': [],
+      },
+    };
+
+    final peerConnection = await webrtc.createPeerConnection(
+      config,
+      mediaConstraints,
+    );
+
+    return peerConnection;
+  }
+
   @override
   void onClose() async {
     await _repository.disconnect();
@@ -137,38 +172,7 @@ class StreamerController extends BaseController {
       await val.close();
       await val.dispose();
     });
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.onClose();
-  }
-
-  Future<void> _requestPermissions() async {
-    await [
-      Permission.camera,
-      Permission.microphone,
-      Permission.storage,
-    ].request();
-  }
-
-  Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
-    //var config = await _repository.fetchIceServers();
-
-    final Map<String, dynamic> mediaConstraints = {
-      'audio': true,
-      'video': {
-        'mandatory': {
-          'maxWidth': '320',
-          'maxHeight': '180',
-          'maxFrameRate': '5',
-        },
-        'facingMode': 'user',
-        'optional': [],
-      },
-    };
-
-    final peerConnection = await webrtc.createPeerConnection(
-      config,
-      mediaConstraints,
-    );
-
-    return peerConnection;
   }
 }

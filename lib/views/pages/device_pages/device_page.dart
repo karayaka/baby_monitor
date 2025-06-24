@@ -13,7 +13,7 @@ class DevicePage extends GetView<DeviceController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Çihazlarım"),
+        title: Text("Cihazlarım"),
         actions: [
           IconButton(
             onPressed: () => controller.refreshDevice(),

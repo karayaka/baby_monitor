@@ -1,8 +1,9 @@
 import 'package:baby_monitor/core/app_tools/project_const.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
+import 'package:baby_monitor/data/controllers/device_controller.dart';
 import 'package:baby_monitor/data/repositorys/stream_repoistory.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as webrtc;
-import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
 
 class ViewerController extends BaseController {
@@ -28,6 +29,10 @@ class ViewerController extends BaseController {
     await remoteRenderer
         .initialize(); // Remote renderer'ı başlat ekranda göstermek için algoritma düşünelecek
     await _initializeConnection();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
   }
 
   Future<void> _initializeConnection() async {
@@ -41,7 +46,6 @@ class ViewerController extends BaseController {
                   .RTCPeerConnectionStateDisconnected ||
           state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
         isConnect.value = 2;
-        print("close");
       }
     };
 
@@ -90,8 +94,8 @@ class ViewerController extends BaseController {
       'video': {
         'mandatory': {
           'maxWidth': '320',
-          'maxHeight': '180',
-          'maxFrameRate': '7',
+          'maxHeight': '140',
+          'maxFrameRate': '5',
         },
         'facingMode': 'user',
         'optional': [],
@@ -110,20 +114,6 @@ class ViewerController extends BaseController {
             event.streams[0]; // Remote renderer'a bağlanıyor
       }
     };
-
-    peerConnection.onIceConnectionState = (state) {
-      print("ICE Connection State: $state");
-      if (state == RTCIceConnectionState.RTCIceConnectionStateFailed) {
-        // ICE bağlantısı başarısız oldu
-      }
-      var reports = peerConnection.getStats().then((stats) {
-        for (var stater in stats) {
-          print("ICE Connection report: ${stater.values}");
-        }
-      });
-      print(peerConnection.getStats());
-    };
-
     return peerConnection;
   }
 
@@ -139,7 +129,8 @@ class ViewerController extends BaseController {
 
     // SignalR bağlantısını kes
     await _repository.disconnect();
-
+    Get.find<DeviceController>().getDevices();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.onClose();
   }
 }

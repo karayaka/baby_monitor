@@ -45,16 +45,19 @@ class BaseController extends GetxController {
       } else {
         if (e.response!.data is List) {
           var errors = List<BaseError>.from(
-              e.response!.data.map((s) => BaseError.fromJson(s)));
+            e.response!.data.map((s) => BaseError.fromJson(s)),
+          );
           List<String> errorMessages = [];
           for (var err in errors) {
             errorMessages.addAll(err.values!);
           }
-          errorMessage("Hata".tr,
-              widget: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: _showValidateError(errorMessages),
-              ));
+          errorMessage(
+            "Hata".tr,
+            widget: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _showValidateError(errorMessages),
+            ),
+          );
         } else {
           try {
             var err = BaseError.fromJson(jsonDecode(e.response!.data!));
@@ -74,56 +77,59 @@ class BaseController extends GetxController {
   _showValidateError(List<String> errorMessages) {
     List<Widget> content = [];
     for (var i in errorMessages) {
-      content.add(Text(
-        i.tr,
-        style: const TextStyle(color: Colors.white),
-      ));
+      content.add(Text(i.tr, style: const TextStyle(color: Colors.white)));
     }
     return content;
   }
 
-  showConfirmeDialog(void Function()? onConfirme,
-      {String title = "", String message = "", String confirmeText = "Tamam"}) {
+  showConfirmeDialog(
+    void Function()? onConfirme, {
+    String title = "",
+    String message = "",
+    String confirmeText = "Tamam",
+  }) {
     Get.defaultDialog(
-        title: title,
-        titleStyle: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold), // Burada yazı boyutunu ayarlıyorsunuz
-        content: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.center, // Yatayda ortalamak için
-          children: [
-            Text(
-              message,
-              textAlign: TextAlign.center, // Mesajın içeriğini de ortalıyoruz
-            ),
-          ],
-        ),
-        onConfirm: onConfirme,
-        textCancel: "İptal".tr,
-        textConfirm: confirmeText,
-        confirmTextColor: Colors.white);
+      title: title,
+      titleStyle: const TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.bold,
+      ), // Burada yazı boyutunu ayarlıyorsunuz
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.center, // Yatayda ortalamak için
+        children: [
+          Text(
+            message,
+            textAlign: TextAlign.center, // Mesajın içeriğini de ortalıyoruz
+          ),
+        ],
+      ),
+      onConfirm: onConfirme,
+      textCancel: "İptal".tr,
+      textConfirm: confirmeText,
+      confirmTextColor: Colors.white,
+    );
   }
 
   showConfirmedMessage(String title, String message) {
     Get.defaultDialog(
-        title: title,
-        textConfirm: "gl003".tr,
-        onConfirm: () => Get.back(),
-        titleStyle: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold), // Burada yazı boyutunu ayarlıyorsunuz
-        content: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.center, // Yatayda ortalamak için
-          children: [
-            Text(
-              message,
-              textAlign: TextAlign.center, // Mesajın içeriğini de ortalıyoruz
-            ),
-          ],
-        ),
-        confirmTextColor: Colors.white);
+      title: title,
+      textConfirm: "gl003".tr,
+      onConfirm: () => Get.back(),
+      titleStyle: const TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.bold,
+      ), // Burada yazı boyutunu ayarlıyorsunuz
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.center, // Yatayda ortalamak için
+        children: [
+          Text(
+            message,
+            textAlign: TextAlign.center, // Mesajın içeriğini de ortalıyoruz
+          ),
+        ],
+      ),
+      confirmTextColor: Colors.white,
+    );
   }
 
   succesMessage(String message) {
@@ -156,17 +162,15 @@ class BaseController extends GetxController {
 
   showProgressDialog({title = "gl004"}) {
     Get.dialog(
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(title),
-              CircularProgressIndicator(),
-            ],
-          ),
+      Expanded(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [Text(title), CircularProgressIndicator()],
         ),
-        barrierDismissible: false);
+      ),
+      barrierDismissible: false,
+    );
   }
 
   closeProgressDilog() {

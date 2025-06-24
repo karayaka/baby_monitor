@@ -113,9 +113,7 @@ class StreamRepoistory extends BaseRepository {
         final iceServers = response.data;
 
         // Örnek olarak peerConnection yapılandırmasında kullanabilirsin:
-        final config = {'iceServers': iceServers['iceServers']};
-        print(config);
-        return config;
+        return {'iceServers': iceServers['iceServers']};
       } else {
         return WebrtcConnectionConst.config;
       }

@@ -9,21 +9,28 @@ class ViewerPage extends GetView<ViewerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("İzleme Ekranı"), centerTitle: true),
       body: Obx(() {
-        if (controller.isConnect.value == 2) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            controller.errorMessage("mb008".tr);
-            Get.back();
-          });
+        if (controller.isConnect.value == 0) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (controller.isConnect.value == 2) {
+          return Center(child: Text("mb008".tr));
         }
-        return Column(
+        return Stack(
           children: [
+            // Sol üstte kapatma butonu
+            Positioned(
+              top: 10,
+              left: 10,
+              child: IconButton(
+                onPressed: () => Get.back(),
+                icon: const Icon(Icons.close, color: Colors.black),
+              ),
+            ),
             Expanded(
               child:
                   controller.isConnect.value == 1
                       ? RTCVideoView(controller.remoteRenderer)
-                      : const CircularProgressIndicator(),
+                      : Center(child: const CircularProgressIndicator()),
             ),
           ],
         );

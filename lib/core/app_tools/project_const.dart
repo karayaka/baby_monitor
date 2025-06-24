@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 class ProjectConst {
   static const SESSION_CONTS = "CAGNAZ_APP_SESSION";
   static const DEVICE_TOKEN_CONTS = "CAGNAZ_APP_DEVICE_TOKEN";
   static const REMEMBER_ME = "CAGNAZ_APP_REMEMBER_ME";
   static const APP_KEY = "apikey olak zorunda her istekde";
+  static const NOISE_METER_DEB = "NOISE_METER_DEB";
 }
 
 class ProjectUrls {
