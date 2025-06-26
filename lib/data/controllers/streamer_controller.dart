@@ -148,7 +148,7 @@ class StreamerController extends BaseController {
 
     final peerConnection = await webrtc.createPeerConnection(
       config,
-      mediaConstraints,
+      //mediaConstraints,
     );
 
     return peerConnection;

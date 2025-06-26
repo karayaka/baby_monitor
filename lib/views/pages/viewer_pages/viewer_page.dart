@@ -20,8 +20,13 @@ class ViewerPage extends GetView<ViewerController> {
                 return Center(child: Text("mb008".tr));
               }
 
-              return Positioned.fill(
-                child: RTCVideoView(controller.remoteRenderer),
+              return Container(
+                color: Colors.red,
+                child: RTCVideoView(
+                  controller.remoteRenderer,
+                  mirror: true,
+                  objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                ),
               );
             }),
 
