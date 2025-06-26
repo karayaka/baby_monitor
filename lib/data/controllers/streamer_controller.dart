@@ -138,8 +138,8 @@ class StreamerController extends BaseController {
       'video': {
         'mandatory': {
           'maxWidth': '320',
-          'maxHeight': '140',
-          'maxFrameRate': '5',
+          'maxHeight': '240',
+          'maxFrameRate': '10',
         },
         'facingMode': 'user',
         'optional': [],

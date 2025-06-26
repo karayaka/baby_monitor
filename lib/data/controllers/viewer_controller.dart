@@ -88,14 +88,13 @@ class ViewerController extends BaseController {
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
-    //var config = await _repository.fetchIceServers();
     final Map<String, dynamic> mediaConstraints = {
       'audio': true,
       'video': {
         'mandatory': {
           'maxWidth': '320',
-          'maxHeight': '140',
-          'maxFrameRate': '5',
+          'maxHeight': '240',
+          'maxFrameRate': '10',
         },
         'facingMode': 'user',
         'optional': [],
@@ -124,7 +123,6 @@ class ViewerController extends BaseController {
     _peerConnection = null;
 
     // Renderer'ı temizle
-    remoteRenderer.srcObject = null;
     await remoteRenderer.dispose();
 
     // SignalR bağlantısını kes

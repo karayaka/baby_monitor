@@ -10,9 +10,22 @@ class ViewerPage extends GetView<ViewerController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        //stack buraya konup test edilecek
         body: Stack(
           children: [
+            /// Video gösterimi
+            Obx(() {
+              if (controller.isConnect.value == 0) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (controller.isConnect.value == 2) {
+                return Center(child: Text("mb008".tr));
+              }
+
+              return Positioned.fill(
+                child: RTCVideoView(controller.remoteRenderer),
+              );
+            }),
+
+            /// Kapatma butonu (üstte sabit)
             Positioned(
               top: 10,
               left: 10,
@@ -21,21 +34,6 @@ class ViewerPage extends GetView<ViewerController> {
                 icon: const Icon(Icons.close, color: Colors.black),
               ),
             ),
-            Obx(() {
-              if (controller.isConnect.value == 0) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (controller.isConnect.value == 2) {
-                return Center(child: Text("mb008".tr));
-              }
-              return Expanded(
-                child:
-                    controller.isConnect.value == 1
-                        ? Positioned.fill(
-                          child: RTCVideoView(controller.remoteRenderer),
-                        )
-                        : Center(child: const CircularProgressIndicator()),
-              );
-            }),
           ],
         ),
       ),
