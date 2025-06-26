@@ -49,9 +49,9 @@ class StreamerController extends BaseController {
       },
       'video': {
         'facingMode': 'environment',
-        'width': 800,
-        'height': 320,
-        'frameRate': 15,
+        'width': 320,
+        'height': 240,
+        'frameRate': 10,
       },
     });
 
