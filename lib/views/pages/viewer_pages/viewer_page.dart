@@ -10,32 +10,34 @@ class ViewerPage extends GetView<ViewerController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Obx(() {
-          if (controller.isConnect.value == 0) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (controller.isConnect.value == 2) {
-            return Center(child: Text("mb008".tr));
-          }
-          return Stack(
-            children: [
-              // Sol üstte kapatma butonu
-              Positioned(
-                top: 10,
-                left: 10,
-                child: IconButton(
-                  onPressed: () => Get.back(),
-                  icon: const Icon(Icons.close, color: Colors.black),
-                ),
+        //stack buraya konup test edilecek
+        body: Stack(
+          children: [
+            Positioned(
+              top: 10,
+              left: 10,
+              child: IconButton(
+                onPressed: () => Get.back(),
+                icon: const Icon(Icons.close, color: Colors.black),
               ),
-              Expanded(
+            ),
+            Obx(() {
+              if (controller.isConnect.value == 0) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (controller.isConnect.value == 2) {
+                return Center(child: Text("mb008".tr));
+              }
+              return Expanded(
                 child:
                     controller.isConnect.value == 1
-                        ? RTCVideoView(controller.remoteRenderer)
+                        ? Positioned.fill(
+                          child: RTCVideoView(controller.remoteRenderer),
+                        )
                         : Center(child: const CircularProgressIndicator()),
-              ),
-            ],
-          );
-        }),
+              );
+            }),
+          ],
+        ),
       ),
     );
   }
