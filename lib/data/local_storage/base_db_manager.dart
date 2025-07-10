@@ -132,10 +132,11 @@ abstract class BaseDbManager<T extends HiveObject> {
   Future<void> removeItemByQuery(bool Function(T? element) query) async {
     try {
       // Sorguya uyan objelerin anahtarlarını bul
-      final keysToDelete = _box?.keys.where((key) {
-        final item = _box?.get(key);
-        return query(item);
-      }).toList();
+      final keysToDelete =
+          _box?.keys.where((key) {
+            final item = _box?.get(key);
+            return query(item);
+          }).toList();
 
       // Eğer anahtarlar varsa sil
       if (keysToDelete != null && keysToDelete.isNotEmpty) {

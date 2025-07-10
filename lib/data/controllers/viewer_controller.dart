@@ -7,7 +7,6 @@ import 'package:flutter_webrtc/flutter_webrtc.dart' as webrtc;
 import 'package:get/get.dart';
 
 class ViewerController extends BaseController {
-  //viewer işlemşeri signalr bağlantıları yapılaca
   late final StreamRepoistory _repository;
   late final String _deviceId;
   final webrtc.RTCVideoRenderer remoteRenderer = webrtc.RTCVideoRenderer();
@@ -20,6 +19,10 @@ class ViewerController extends BaseController {
   }
   @override
   void onReady() async {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     super.onReady();
     config = await _repository.fetchIceServers();
     await _repository.connect(
@@ -29,10 +32,6 @@ class ViewerController extends BaseController {
     await remoteRenderer
         .initialize(); // Remote renderer'ı başlat ekranda göstermek için algoritma düşünelecek
     await _initializeConnection();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
   }
 
   Future<void> _initializeConnection() async {

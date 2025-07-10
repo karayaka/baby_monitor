@@ -10,7 +10,7 @@ class DownTimerComponent extends StatefulWidget {
   DownTimerComponent({
     super.key,
     this.onTimeEnd,
-    this.startTime = 15,
+    this.startTime = 10,
     this.label = "",
   });
 

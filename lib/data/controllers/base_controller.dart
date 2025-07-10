@@ -244,4 +244,14 @@ class BaseController extends GetxController {
   }
 
   bool hasDeviceToken() => getDeviceToken() != null;
+
+  void setNoiseMeterDp(int db) {
+    final box = GetStorage();
+    box.write(ProjectConst.NOISE_METER_DEB, db);
+  }
+
+  int getNoiseMeterDp(int db) {
+    final box = GetStorage();
+    return box.read(ProjectConst.NOISE_METER_DEB);
+  }
 }

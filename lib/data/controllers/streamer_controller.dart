@@ -1,6 +1,7 @@
 import 'package:baby_monitor/core/app_tools/project_const.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/stream_repoistory.dart';
+import 'package:baby_monitor/views/pages/streamer_pages/components/noise_meter_controller.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as webrtc;
 import 'package:get/get.dart';
@@ -59,15 +60,12 @@ class StreamerController extends BaseController {
     await _repository.sendStartStreamNotification("mb006".tr, "mb007".tr);
   }
 
-  Future<void> callOthers() async {
-    await _repository.callOtherDevice("deviceName");
-  }
-
   ///İzleyiciden gelen offerler işlenecek
   void sendOffer(dynamic data) async {
     final pc = await _createPeerConnection();
 
     pc.onConnectionState = (state) async {
+      //TODO Yayın durdurma ve bağlantı yönetimleri çoklu çihazlaral test edilmeli!!!
       if (state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
           state ==
               webrtc
@@ -76,6 +74,10 @@ class StreamerController extends BaseController {
           state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
         await pc.close();
         pcs.remove(data[0]);
+      }
+
+      if (pcs.isEmpty) {
+        Get.find<NoiseMeterController>().onStream.value = false;
       }
     };
 
@@ -107,6 +109,10 @@ class StreamerController extends BaseController {
       pcs.remove(pcs[data[0]]);
     }
     pcs[data[0]] = pc;
+    if (pcs.isNotEmpty) {
+      Get.find<NoiseMeterController>().onStream.value = true;
+      Get.find<NoiseMeterController>().stopRecording();
+    }
   }
 
   ///İzleyiciden gelen Candidateler işelenecek

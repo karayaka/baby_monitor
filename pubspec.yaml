@@ -72,13 +72,14 @@ dependencies:
   #callkit incoming
   flutter_callkit_incoming: ^2.5.2
   flutter_local_notifications: ^17.1.2
-  permission_handler: ^11.0.0 #güncelleenbilir
+  permission_handler: ^11.4.0 #güncelleenbilir
   #signalR
   signalr_netcore: ^1.4.3
   #webrtc
   flutter_webrtc: ^0.14.1
   #gürültü ölçümü
-  #noise_meter: ^5.0.2
+  flutter_sound: ^9.28.0
+  path_provider: ^2.1.5
 
   
 

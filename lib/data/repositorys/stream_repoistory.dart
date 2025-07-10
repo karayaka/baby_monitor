@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:baby_monitor/core/app_tools/project_const.dart';
+import 'package:baby_monitor/data/local_storage/device_db_manager.dart';
 import 'package:baby_monitor/data/repositorys/base_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
@@ -12,6 +13,7 @@ import 'package:signalr_netcore/itransport.dart';
 class StreamRepoistory extends BaseRepository {
   //signalr bağlantıları strart stream gibi işlemler yapılacak
   late final HubConnection _connection;
+  late DeviceDbManager _dbManager;
 
   StreamRepoistory() {
     var deviceToken = getDeviceToken() ?? "";
@@ -27,6 +29,7 @@ class StreamRepoistory extends BaseRepository {
               options: httpOptions,
             )
             .build();
+    _dbManager = DeviceDbManager();
   }
 
   Future<void> connect({
@@ -78,8 +81,15 @@ class StreamRepoistory extends BaseRepository {
     );
   }
 
-  Future<void> callOtherDevice(String deviceName) async {
-    await _connection.invoke(HubMethods.startCall, args: [deviceName]);
+  Future<void> callOtherDevice() async {
+    await _dbManager.init();
+    var device = _dbManager.getFistWhere(
+      (d) => d?.deviceId == getDeviceToken(),
+    );
+    await _connection.invoke(
+      HubMethods.startCall,
+      args: [device?.deviceName ?? "unknown"],
+    ); //TODO tr çevirisi
   }
 
   Future<void> sendtoCliend(

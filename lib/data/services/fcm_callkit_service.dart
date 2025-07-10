@@ -251,7 +251,9 @@ class FcmCallkitService {
   }
 
   static void _handleCallAccepted(body) {
+    print(body);
     final extras = body?['extra'];
+
     Get.toNamed(
       RouteConst.viewerScrean,
       arguments: {"deviceId": extras['deviceId']},
