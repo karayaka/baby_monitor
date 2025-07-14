@@ -19,7 +19,7 @@ class StreamerController extends BaseController {
   StreamerController() {
     _repository = Get.find();
   }
-
+  //TODO bir kere çağrı atıyor bidaha amıyr irdelenecek
   @override
   void onReady() async {
     SystemChrome.setPreferredOrientations([
@@ -137,21 +137,6 @@ class StreamerController extends BaseController {
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
-    //var config = await _repository.fetchIceServers();
-
-    final Map<String, dynamic> mediaConstraints = {
-      'audio': true,
-      'video': {
-        'mandatory': {
-          'maxWidth': '320',
-          'maxHeight': '240',
-          'maxFrameRate': '10',
-        },
-        'facingMode': 'user',
-        'optional': [],
-      },
-    };
-
     final peerConnection = await webrtc.createPeerConnection(
       config,
       //mediaConstraints,

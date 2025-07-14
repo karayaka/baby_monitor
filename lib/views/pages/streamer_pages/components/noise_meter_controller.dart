@@ -52,6 +52,7 @@ class NoiseMeterController extends BaseController {
         if (db != null) {
           if (db > 100) db = 100.0;
           dbSize.value = db / 100; // UI'da göstermek için
+          print("Db:${db}");
           await checkDbLevel(db);
         }
       });

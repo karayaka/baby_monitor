@@ -254,4 +254,15 @@ class BaseController extends GetxController {
     final box = GetStorage();
     return box.read(ProjectConst.NOISE_METER_DEB);
   }
+
+  String? getStoredRoute() {
+    final box = GetStorage();
+    var token = box.read(ProjectConst.BACKGROUND_ROUTE);
+    return token;
+  }
+
+  void clearStoredRoute() async {
+    final box = GetStorage();
+    await box.remove(ProjectConst.BACKGROUND_ROUTE);
+  }
 }

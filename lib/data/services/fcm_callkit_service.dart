@@ -251,13 +251,15 @@ class FcmCallkitService {
   }
 
   static void _handleCallAccepted(body) {
-    print(body);
     final extras = body?['extra'];
+    final deviceId = extras?['deviceId'];
 
-    Get.toNamed(
-      RouteConst.viewerScrean,
-      arguments: {"deviceId": extras['deviceId']},
-    );
-    //İleme sayfasına device id ile yönlendirip connection işlemleri halledilecek
+    if (deviceId == null) {
+      print("Cihaz ID'si bulunamadı: $body");
+      return;
+    }
+    Future.delayed(Duration(milliseconds: 500), () {
+      Get.toNamed(RouteConst.viewerScrean, arguments: {'deviceId': deviceId});
+    });
   }
 }

@@ -28,6 +28,7 @@ class StreamRepoistory extends BaseRepository {
               'https://babymonitor.cagnaz.com/liveStream?deviceId=$deviceToken',
               options: httpOptions,
             )
+            .withAutomaticReconnect()
             .build();
     _dbManager = DeviceDbManager();
   }
@@ -41,7 +42,11 @@ class StreamRepoistory extends BaseRepository {
     if (_connection.state != HubConnectionState.Connected) {
       await _connection.start();
     }
-    //_connection.onreconnected(callback)//TODO start stream durumunda ise repoyu çağıran controller startStream metodu yenden çağrılacak
+    //TODO start stream durumunda ise repoyu çağıran controller startStream metodu yenden çağrılacak
+    _connection.onreconnected(({String? connectionId}) async {
+      print("SignalR yeniden bağlandı. ConnectionId: $connectionId");
+      await startStream();
+    });
     if (sendOffer != null) {
       _connection.on(HubMethods.sendOffer, (arg) {
         sendOffer(arg);
@@ -89,7 +94,7 @@ class StreamRepoistory extends BaseRepository {
     await _connection.invoke(
       HubMethods.startCall,
       args: [device?.deviceName ?? "unknown"],
-    ); //TODO tr çevirisi
+    );
   }
 
   Future<void> sendtoCliend(

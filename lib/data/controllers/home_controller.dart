@@ -22,8 +22,8 @@ class HomeController extends BaseController {
   }
   @override
   onInit() {
-    super.onInit();
     addDevice();
+    super.onInit();
   }
 
   Future<bool> addDevice() async {
