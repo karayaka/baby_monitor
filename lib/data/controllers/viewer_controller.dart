@@ -5,12 +5,14 @@ import 'package:baby_monitor/data/repositorys/stream_repoistory.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as webrtc;
 import 'package:get/get.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class ViewerController extends BaseController {
   late final StreamRepoistory _repository;
   late final String _deviceId;
   final webrtc.RTCVideoRenderer remoteRenderer = webrtc.RTCVideoRenderer();
   var isConnect = 0.obs;
+  var showAdd = false.obs;
   webrtc.RTCPeerConnection? _peerConnection;
   late Map<String, dynamic> config;
   ViewerController() {
@@ -24,6 +26,7 @@ class ViewerController extends BaseController {
       DeviceOrientation.landscapeRight,
     ]);
     super.onReady();
+    WakelockPlus.enable();
     config = await _repository.fetchIceServers();
     await _repository.connect(
       answerOffer: answerOffer,
@@ -128,6 +131,7 @@ class ViewerController extends BaseController {
     await _repository.disconnect();
     Get.find<DeviceController>().getDevices();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    WakelockPlus.disable();
     super.onClose();
   }
 }

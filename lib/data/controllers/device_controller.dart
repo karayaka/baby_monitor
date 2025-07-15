@@ -1,6 +1,7 @@
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/device_repository.dart';
 import 'package:baby_monitor/models/device_models/device_list_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
 class DeviceController extends BaseController {
@@ -12,6 +13,9 @@ class DeviceController extends BaseController {
     _deviceRepository = Get.find();
     getDevices();
     //Get.find<SendNotifireRepoistory>().start();
+    FirebaseMessaging.onMessage.listen((message) {
+      if (message.data['type'] == 'start_stream') getDevices();
+    });
   }
 
   Future getDevices() async {

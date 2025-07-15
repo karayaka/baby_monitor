@@ -250,7 +250,7 @@ class BaseController extends GetxController {
     box.write(ProjectConst.NOISE_METER_DEB, db);
   }
 
-  int getNoiseMeterDp(int db) {
+  int? getNoiseMeterDp() {
     final box = GetStorage();
     return box.read(ProjectConst.NOISE_METER_DEB);
   }

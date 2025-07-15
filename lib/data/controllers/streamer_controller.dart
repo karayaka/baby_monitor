@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as webrtc;
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class StreamerController extends BaseController {
   late final StreamRepoistory _repository;
@@ -19,7 +20,7 @@ class StreamerController extends BaseController {
   StreamerController() {
     _repository = Get.find();
   }
-  //TODO bir kere çağrı atıyor bidaha amıyr irdelenecek
+  //TODO Bu sayfada ekran parlaklığı kısalabilir!
   @override
   void onReady() async {
     SystemChrome.setPreferredOrientations([
@@ -35,6 +36,7 @@ class StreamerController extends BaseController {
     await _requestPermissions();
     await _startStream();
     isConnecting.value = false;
+    WakelockPlus.enable();
     super.onReady();
   }
 
@@ -164,6 +166,7 @@ class StreamerController extends BaseController {
       await val.dispose();
     });
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    WakelockPlus.disable();
     super.onClose();
   }
 }

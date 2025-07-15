@@ -78,8 +78,8 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                onPressed: () async {
-                                  controller.dbLevel.value = 0;
+                                onPressed: () {
+                                  controller.setDbLevel(0);
                                 },
                                 child: Text("Kapalı"),
                               ),
@@ -101,7 +101,7 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  controller.dbLevel.value = 1;
+                                  controller.setDbLevel(1);
                                 },
                                 child: Text("Düşük"),
                               ),
@@ -123,7 +123,7 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  controller.dbLevel.value = 2;
+                                  controller.setDbLevel(2);
                                 },
                                 child: Text("Orta"),
                               ),
@@ -145,7 +145,7 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  controller.dbLevel.value = 3;
+                                  controller.setDbLevel(3);
                                 },
                                 child: Text("Yüksek"),
                               ),

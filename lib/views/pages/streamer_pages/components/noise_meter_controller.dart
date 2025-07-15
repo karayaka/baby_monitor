@@ -20,6 +20,7 @@ class NoiseMeterController extends BaseController {
 
   NoiseMeterController() {
     _repository = Get.find();
+    dbLevel.value = getNoiseMeterDp() ?? 2;
   }
 
   @override
@@ -29,6 +30,7 @@ class NoiseMeterController extends BaseController {
   }
 
   Future<void> _initRecorder() async {
+    _highDbStartTime = null;
     final status = await Permission.microphone.request();
     if (!status.isGranted) {
       Get.snackbar('İzin Gerekli', 'Mikrofon izni verilmedi!');
@@ -49,10 +51,10 @@ class NoiseMeterController extends BaseController {
 
       _subscription = _recorder.onProgress!.listen((event) async {
         double? db = event.decibels;
+        print("Okundu:" + db.toString());
         if (db != null) {
           if (db > 100) db = 100.0;
           dbSize.value = db / 100; // UI'da göstermek için
-          print("Db:${db}");
           await checkDbLevel(db);
         }
       });
@@ -86,12 +88,17 @@ class NoiseMeterController extends BaseController {
 
   double _getThreshold() {
     if (dbLevel.value == 3) {
-      return 45;
+      return 35;
     } else if (dbLevel.value == 2) {
-      return 55;
+      return 45;
     } else {
       return 65;
     }
+  }
+
+  void setDbLevel(int level) {
+    setNoiseMeterDp(level);
+    dbLevel.value = level;
   }
 
   Future<void> stopRecording() async {

@@ -23,6 +23,9 @@ class HomeController extends BaseController {
   @override
   onInit() {
     addDevice();
+    FirebaseMessaging.onMessage.listen((message) {
+      if (message.data['type'] == 'start_stream') getDevices();
+    });
     super.onInit();
   }
 
@@ -116,6 +119,11 @@ class HomeController extends BaseController {
       exceptionHandle(e);
     }
   }
+
+  bool hasStreamedDevice() => deviceList.any((t) => t.streamStatus == 1);
+
+  Iterable<DeviceListModel> getStreamedDevices() =>
+      deviceList.where((t) => t.streamStatus == 1);
 
   ///Stream işlemleri
 }

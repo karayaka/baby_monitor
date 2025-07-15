@@ -1,4 +1,5 @@
 import 'package:baby_monitor/data/controllers/viewer_controller.dart';
+import 'package:baby_monitor/views/pages/viewer_pages/components/viewer_timer_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
@@ -20,18 +21,44 @@ class ViewerPage extends GetView<ViewerController> {
               }
               return Positioned.fill(
                 child: RTCVideoView(
-                  controller.remoteRenderer, // <-- Burada positional argüman
+                  controller.remoteRenderer,
                   mirror: true,
                   objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
                 ),
               );
             }),
+            // Sol üstte kapatma butonu
             Positioned(
-              top: 10,
-              left: 10,
-              child: IconButton(
-                onPressed: () => Get.back(),
-                icon: const Icon(Icons.close, color: Colors.black),
+              top: 3,
+              left: 3,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () => Get.back(),
+                      icon: const Icon(Icons.close, color: Colors.black),
+                    ),
+                    Obx(() {
+                      if (controller.isConnect.value == 1) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: ViewerTimerComponent(
+                            triggerSecond: 5,
+                            tickTrigged: (second) {
+                              controller.showAdd.value =
+                                  !controller.showAdd.value;
+                            },
+                          ),
+                        );
+                      }
+                      return SizedBox();
+                    }),
+                  ],
+                ),
               ),
             ),
           ],
