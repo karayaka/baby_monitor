@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class DownTimerComponent extends StatefulWidget {
   Function? onTimeEnd;
   int cout = 15;
-  int startTime = 15;
+  int startTime = 10;
   String label = "";
   DownTimerComponent({
     super.key,
@@ -22,9 +22,9 @@ class _DownTimerState extends State<DownTimerComponent> {
   Timer? _timer;
   @override
   void initState() {
+    widget.cout = widget.startTime;
     super.initState();
     _startCountdown();
-    widget.cout = widget.startTime;
   }
 
   void _startCountdown() {
@@ -57,11 +57,10 @@ class _DownTimerState extends State<DownTimerComponent> {
       children: [
         Expanded(
           flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8),
+          child: Center(
             child: Text(
               widget.cout.toString(),
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
         ),

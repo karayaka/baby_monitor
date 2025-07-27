@@ -24,7 +24,7 @@ class BaseController extends GetxController {
         return model.data;
       } else if (model.statusCode == 401 &&
           Get.currentRoute != RouteConst.security) {
-        Get.to(RouteConst.security);
+        Get.offAllNamed(RouteConst.security);
       } else {
         errorMessage(message);
       }
@@ -194,6 +194,11 @@ class BaseController extends GetxController {
     box.write(ProjectConst.SESSION_CONTS, jwt);
   }
 
+  removeAllStore() {
+    final box = GetStorage();
+    box.erase();
+  }
+
   bool isTokenExpired() {
     var session = getSession();
     return (session?.expiredDate?.isBefore(DateTime.now()) ?? true);
@@ -253,16 +258,5 @@ class BaseController extends GetxController {
   int? getNoiseMeterDp() {
     final box = GetStorage();
     return box.read(ProjectConst.NOISE_METER_DEB);
-  }
-
-  String? getStoredRoute() {
-    final box = GetStorage();
-    var token = box.read(ProjectConst.BACKGROUND_ROUTE);
-    return token;
-  }
-
-  void clearStoredRoute() async {
-    final box = GetStorage();
-    await box.remove(ProjectConst.BACKGROUND_ROUTE);
   }
 }

@@ -16,37 +16,34 @@ class RegisterForm extends GetView<SecurityController> {
             initialValue: controller.registerModel.name,
             onChanged: (value) => controller.registerModel.name = value,
             decoration: InputDecoration(
-                prefixIcon: Icon(Icons.account_box),
-                hintText: "Ad".tr,
-                border: OutlineInputBorder()),
+              prefixIcon: Icon(Icons.account_box),
+              hintText: "mb038".tr,
+              border: OutlineInputBorder(),
+            ),
           ),
-          SizedBox(
-            height: 5,
-          ),
+          SizedBox(height: 5),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             initialValue: controller.registerModel.surname,
             onChanged: (value) => controller.registerModel.surname = value,
             decoration: InputDecoration(
-                prefixIcon: Icon(Icons.account_box),
-                hintText: "Soyad".tr,
-                border: OutlineInputBorder()),
+              prefixIcon: Icon(Icons.account_box),
+              hintText: "mb039".tr,
+              border: OutlineInputBorder(),
+            ),
           ),
-          SizedBox(
-            height: 5,
-          ),
+          SizedBox(height: 5),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             initialValue: controller.registerModel.email,
             onChanged: (value) => controller.registerModel.email = value,
             decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email),
-                hintText: "Email".tr,
-                border: OutlineInputBorder()),
+              prefixIcon: Icon(Icons.email),
+              hintText: "mb040".tr,
+              border: OutlineInputBorder(),
+            ),
           ),
-          SizedBox(
-            height: 5,
-          ),
+          SizedBox(height: 5),
           TextFormField(
             obscureText: true,
             keyboardType: TextInputType.visiblePassword,
@@ -54,39 +51,36 @@ class RegisterForm extends GetView<SecurityController> {
             onChanged: (value) => controller.registerModel.password = value,
             onFieldSubmitted: (val) {},
             decoration: InputDecoration(
-                prefixIcon: Icon(Icons.key),
-                hintText: "Şifre".tr,
-                border: OutlineInputBorder()),
+              prefixIcon: Icon(Icons.key),
+              hintText: "mb045".tr,
+              border: OutlineInputBorder(),
+            ),
           ),
-          SizedBox(
-            height: 5,
+          SizedBox(height: 5),
+          Obx(
+            () => SecurityButton(
+              text: "mb049".tr,
+              onTab: controller.register,
+              isLoading: controller.registerLoading.value,
+            ),
           ),
-          Obx(() => SecurityButton(
-                text: "Kayıt Ol".tr,
-                onTab: controller.register,
-                isLoading: controller.registerLoading.value,
-              )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
-                  onPressed: controller.getLoginTab,
-                  child: Row(
-                    children: [
-                      Icon(Icons.arrow_back),
-                      Text("Giriş".tr),
-                    ],
-                  )),
+                onPressed: controller.getLoginTab,
+                child: Row(
+                  children: [Icon(Icons.arrow_back), Text("mb046".tr)],
+                ),
+              ),
               TextButton(
-                  onPressed: controller.getForgetPasswordTab,
-                  child: Row(
-                    children: [
-                      Text("Şifremi Unuttum".tr),
-                      Icon(Icons.arrow_forward),
-                    ],
-                  )),
+                onPressed: controller.getForgetPasswordTab,
+                child: Row(
+                  children: [Text("mb048".tr), Icon(Icons.arrow_forward)],
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

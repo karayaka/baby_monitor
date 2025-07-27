@@ -21,7 +21,7 @@ class HomeController extends BaseController {
     _familyRepoistory = Get.find();
   }
   @override
-  onInit() {
+  onInit() async {
     addDevice();
     FirebaseMessaging.onMessage.listen((message) {
       if (message.data['type'] == 'start_stream') getDevices();
@@ -126,4 +126,6 @@ class HomeController extends BaseController {
       deviceList.where((t) => t.streamStatus == 1);
 
   ///Stream işlemleri
+  ///
+  //TODO devam edilecek
 }

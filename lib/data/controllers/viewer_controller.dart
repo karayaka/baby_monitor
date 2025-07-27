@@ -38,55 +38,69 @@ class ViewerController extends BaseController {
   }
 
   Future<void> _initializeConnection() async {
-    // PeerConnection oluştur
-    _peerConnection = await _createPeerConnection();
-    _peerConnection?.onConnectionState = (state) {
-      if (state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
-          state ==
-              webrtc
-                  .RTCPeerConnectionState
-                  .RTCPeerConnectionStateDisconnected ||
-          state == webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
-        isConnect.value = 2;
-      }
-    };
+    try {
+      // PeerConnection oluştur
+      _peerConnection = await _createPeerConnection();
+      _peerConnection?.onConnectionState = (state) {
+        if (state ==
+                webrtc.RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
+            state ==
+                webrtc
+                    .RTCPeerConnectionState
+                    .RTCPeerConnectionStateDisconnected ||
+            state ==
+                webrtc.RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
+          isConnect.value = 2;
+        }
+      };
 
-    // Local offer oluştur ve SignalR üzerinden gönder
-    final offer = await _peerConnection!.createOffer();
-    await _peerConnection!.setLocalDescription(offer);
+      // Local offer oluştur ve SignalR üzerinden gönder
+      final offer = await _peerConnection!.createOffer();
+      await _peerConnection!.setLocalDescription(offer);
 
-    await _repository.sendtoCliend(
-      _deviceId,
-      HubMethods.sendOffer,
-      offer.toMap(),
-    );
-
-    // Remote ICE candidate'leri ekle
-    _peerConnection!.onIceCandidate = (candidate) {
-      _repository.sendtoCliend(
+      await _repository.sendtoCliend(
         _deviceId,
-        HubMethods.sendCandidate,
-        candidate.toMap(),
+        HubMethods.sendOffer,
+        offer.toMap(),
       );
-    };
+
+      // Remote ICE candidate'leri ekle
+      _peerConnection!.onIceCandidate = (candidate) {
+        _repository.sendtoCliend(
+          _deviceId,
+          HubMethods.sendCandidate,
+          candidate.toMap(),
+        );
+      };
+    } catch (e) {
+      exceptionHandle(e);
+    }
   }
 
   void answerOffer(dynamic data) async {
-    var answer = data[1];
-    await _peerConnection!.setRemoteDescription(
-      webrtc.RTCSessionDescription(answer['sdp'], answer['type']),
-    );
+    try {
+      var answer = data[1];
+      await _peerConnection!.setRemoteDescription(
+        webrtc.RTCSessionDescription(answer['sdp'], answer['type']),
+      );
+    } catch (e) {
+      exceptionHandle(e);
+    }
   }
 
   void answerCandidate(dynamic data) async {
-    var candidate = data[1];
-    final iceCandidate = webrtc.RTCIceCandidate(
-      candidate['candidate'],
-      candidate['sdpMid'],
-      candidate['sdpMLineIndex'],
-    );
-    await _peerConnection!.addCandidate(iceCandidate);
-    isConnect.value = 1;
+    try {
+      var candidate = data[1];
+      final iceCandidate = webrtc.RTCIceCandidate(
+        candidate['candidate'],
+        candidate['sdpMid'],
+        candidate['sdpMLineIndex'],
+      );
+      await _peerConnection!.addCandidate(iceCandidate);
+      isConnect.value = 1;
+    } catch (e) {
+      exceptionHandle(e);
+    }
   }
 
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
@@ -120,18 +134,23 @@ class ViewerController extends BaseController {
 
   @override
   void onClose() async {
-    // PeerConnection'ı kapat ve temizle
-    await _peerConnection?.close();
-    _peerConnection = null;
+    try {
+      // PeerConnection'ı kapat ve temizle
+      await _peerConnection?.close();
+      _peerConnection = null;
 
-    // Renderer'ı temizle
-    await remoteRenderer.dispose();
+      // Renderer'ı temizle
+      await remoteRenderer.dispose();
 
-    // SignalR bağlantısını kes
-    await _repository.disconnect();
-    Get.find<DeviceController>().getDevices();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    WakelockPlus.disable();
+      // SignalR bağlantısını kes
+      await _repository.disconnect();
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+      WakelockPlus.disable();
+      Get.find<DeviceController>().getDevices();
+    } catch (e) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    }
+
     super.onClose();
   }
 }

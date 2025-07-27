@@ -139,7 +139,6 @@ class FcmCallkitService {
     RemoteMessage message,
   ) async {
     await Firebase.initializeApp();
-    print('Arka plan bildirimi: ${message.messageId}');
 
     // Eğer bildirim bir çağrı içeriyorsa
     if (message.data['type'] == 'call') {
@@ -151,7 +150,6 @@ class FcmCallkitService {
 
   //ön plan bilidirileri call gösteilmelim ?
   static Future<void> _handleForegroundMessage(RemoteMessage message) async {
-    print('Ön plan bildirimi: ${message.messageId}');
     // Eğer bildirim bir çağrı içeriyorsa
     if (message.data['type'] == 'call') {
       await showIncomingCall(message);

@@ -12,63 +12,72 @@ class FamilyPage extends GetView<FamilyController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Obx(() => controller.familyModel.value.id == null
-            ? Text("mb002".tr)
-            : Text(controller.familyModel.value.name ?? "")),
+        title: Obx(
+          () =>
+              controller.familyModel.value.id == null
+                  ? Text("mb002".tr)
+                  : Text(controller.familyModel.value.name ?? ""),
+        ),
         bottom: PreferredSize(
-            preferredSize: Size.fromHeight(4.0),
-            child: Obx(() => controller.familyLoading.value
-                ? LinearProgressIndicator()
-                : Container())),
+          preferredSize: Size.fromHeight(4.0),
+          child: Obx(
+            () =>
+                controller.familyLoading.value
+                    ? LinearProgressIndicator()
+                    : Container(),
+          ),
+        ),
       ),
-      body: Obx(() => controller.familyModel.value.id == null
-          ? AddFamilyLayout()
-          : FamilyListLayout()),
-      floatingActionButton: Obx(() => controller.familyModel.value.id == null
-          ? SizedBox()
-          : FloatingActionButton(
-              onPressed: () => _drawFamilyQrCode(),
-              child: Icon(Icons.login_outlined),
-            )),
+      body: Obx(
+        () =>
+            controller.familyModel.value.id == null
+                ? AddFamilyLayout()
+                : FamilyListLayout(),
+      ),
+      floatingActionButton: Obx(
+        () =>
+            controller.familyModel.value.id == null
+                ? SizedBox()
+                : FloatingActionButton(
+                  onPressed: () => _drawFamilyQrCode(),
+                  child: Icon(Icons.login_outlined),
+                ),
+      ),
     );
   }
 
   void _drawFamilyQrCode() {
-    print(controller.familyModel.value.id);
     Get.bottomSheet(
-        isDismissible: false,
-        Material(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Spacer(),
-                  Text(
-                    "Qr Okutup Aile Katılın",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                  Spacer(),
-                  IconButton(
-                      onPressed: () {
-                        Get.back();
-                        controller.getFamily();
-                      },
-                      icon: Icon(
-                        Icons.close,
-                        color: Colors.black,
-                      )),
-                  SizedBox(
-                    width: 5,
-                  )
-                ],
-              ),
-              Expanded(
-                child: PrettyQrView.data(
-                  data: controller.familyModel.value.id ?? "deneme",
+      isDismissible: false,
+      Material(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Spacer(),
+                Text(
+                  "mb024".tr,
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
+                Spacer(),
+                IconButton(
+                  onPressed: () {
+                    Get.back();
+                    controller.getFamily();
+                  },
+                  icon: Icon(Icons.close, color: Colors.black),
+                ),
+                SizedBox(width: 5),
+              ],
+            ),
+            Expanded(
+              child: PrettyQrView.data(
+                data: controller.familyModel.value.id ?? "",
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

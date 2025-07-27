@@ -18,22 +18,19 @@ class AddFamilyLayout extends GetView<FamilyController> {
           CustomCardButton(
             onPressed: () {
               controller.addFamilyModel.name =
-                  (controller.getSession()?.lastName ?? "") +
-                      (" - Aliesi").tr; //TODO translate eklenecek
+                  (controller.getSession()?.lastName ?? "") + (" - mb013").tr;
               _openBottomSheet();
             },
-            title: "Aile Oluştur",
-            desc:
-                "Eğer Aile Olarak İlk Defa Kullanıyorsanız Aile Oluşturun Ve Üyeleri Ekleyin",
+            title: "mb014".tr,
+            desc: "mb015".tr,
             iconData: Icons.people_alt_outlined,
           ),
           CustomCardButton(
             onPressed: () => Get.toNamed(RouteConst.joinFamilyLayout),
-            title: "Aileye Katıl",
-            desc:
-                "Eğer Aile Üyelerinden Birinin Aile Hesabı Varsa Aileye Dahil Olabilirsin",
+            title: "mb016".tr,
+            desc: "mb017".tr,
             iconData: Icons.person_add_alt_1_outlined,
-          )
+          ),
         ],
       ),
     );
@@ -52,14 +49,14 @@ class AddFamilyLayout extends GetView<FamilyController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Yeni Aile Oluştur",
+              "mb018".tr,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             TextFormField(
               initialValue: controller.addFamilyModel.name,
-              decoration: const InputDecoration(
-                labelText: "Aile Adı",
+              decoration: InputDecoration(
+                labelText: "mb019".tr,
                 border: OutlineInputBorder(),
               ),
               validator: (value) => ProjectValidations.notEmty(value),
@@ -76,36 +73,36 @@ class AddFamilyLayout extends GetView<FamilyController> {
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.red, // Yazı ve ikon rengi
                           side: const BorderSide(
-                              color: Colors.red), // Kenar çizgisi
+                            color: Colors.red,
+                          ), // Kenar çizgisi
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
                         onPressed: () => Get.back(),
-                        child: const Text("İptal"),
+                        child: Text("gl007".tr),
                       ),
                     ),
-                    SizedBox(
-                      width: 5,
-                    ),
+                    SizedBox(width: 5),
                     Expanded(
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.green, // Yazı ve ikon rengi
                           side: const BorderSide(
-                              color: Colors.green), // Kenar çizgisi
+                            color: Colors.green,
+                          ), // Kenar çizgisi
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
                         onPressed: () => controller.addFamily(),
-                        child: const Text("Kaydet"),
+                        child: Text("gl008".tr),
                       ),
                     ),
                   ],
                 );
               }
-            })
+            }),
           ],
         ),
       ),

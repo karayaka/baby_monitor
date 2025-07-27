@@ -14,36 +14,39 @@ class FamilyListLayout extends GetView<FamilyController> {
         await controller.getFamily();
       },
       child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: controller.familyModel.value.members?.length ?? 0,
-          itemBuilder: (context, i) {
-            var item = controller.familyModel.value.members?[i];
-            if (controller.canLeaveFromMaily(item?.userID ?? "")) {
-              return Slidable(
-                  key: ValueKey(i),
-                  endActionPane:
-                      ActionPane(motion: const BehindMotion(), children: [
-                    SlidableAction(
-                      onPressed: (context) {
-                        controller.showConfirmeDialog(
-                            title:
-                                "Aileden Ayrılmak İstdiğinizden Eminmisiniz?",
-                            message:
-                                "Aileden Ayrıldığınıza Çihaz Bağlantılarıda Kopar!",
-                            () {
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: controller.familyModel.value.members?.length ?? 0,
+        itemBuilder: (context, i) {
+          var item = controller.familyModel.value.members?[i];
+          if (controller.canLeaveFromMaily(item?.userID ?? "")) {
+            return Slidable(
+              key: ValueKey(i),
+              endActionPane: ActionPane(
+                motion: const BehindMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: (context) {
+                      controller.showConfirmeDialog(
+                        title: "mb020".tr,
+                        message: "mb021".tr,
+                        () {
                           controller.leaveFamily(item?.id ?? "");
-                        });
-                      },
-                      backgroundColor: Color(0xFFFE4A49),
-                      foregroundColor: Colors.white,
-                      icon: Icons.logout_outlined,
-                      label: 'Ayrıl',
-                    ),
-                  ]),
-                  child: _drawCard(item));
-            }
-            return _drawCard(item);
-          }),
+                        },
+                      );
+                    },
+                    backgroundColor: Color(0xFFFE4A49),
+                    foregroundColor: Colors.white,
+                    icon: Icons.logout_outlined,
+                    label: 'mb022'.tr,
+                  ),
+                ],
+              ),
+              child: _drawCard(item),
+            );
+          }
+          return _drawCard(item);
+        },
+      ),
     );
   }
 
@@ -57,8 +60,10 @@ class FamilyListLayout extends GetView<FamilyController> {
           "${item?.memberName ?? ""} ${item?.memberSurname}",
           style: TextStyle(color: Colors.white),
         ),
-        subtitle: Text(_getBirdDate(item?.birdDate),
-            style: TextStyle(color: Colors.white)),
+        subtitle: Text(
+          _getBirdDate(item?.birdDate),
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }

@@ -33,7 +33,7 @@ class NoiseMeterController extends BaseController {
     _highDbStartTime = null;
     final status = await Permission.microphone.request();
     if (!status.isGranted) {
-      Get.snackbar('İzin Gerekli', 'Mikrofon izni verilmedi!');
+      Get.snackbar('mb059'.tr, 'mb060'.tr);
       return;
     }
     await _recorder.openRecorder();
@@ -51,7 +51,6 @@ class NoiseMeterController extends BaseController {
 
       _subscription = _recorder.onProgress!.listen((event) async {
         double? db = event.decibels;
-        print("Okundu:" + db.toString());
         if (db != null) {
           if (db > 100) db = 100.0;
           dbSize.value = db / 100; // UI'da göstermek için
@@ -88,9 +87,9 @@ class NoiseMeterController extends BaseController {
 
   double _getThreshold() {
     if (dbLevel.value == 3) {
-      return 35;
+      return 30;
     } else if (dbLevel.value == 2) {
-      return 45;
+      return 40;
     } else {
       return 65;
     }

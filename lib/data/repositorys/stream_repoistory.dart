@@ -39,9 +39,7 @@ class StreamRepoistory extends BaseRepository {
     Function(dynamic)? answerOffer,
     Function(dynamic)? answerCandidate,
   }) async {
-    if (_connection.state != HubConnectionState.Connected) {
-      await _connection.start();
-    }
+    await startConnection();
     //TODO start stream durumunda ise repoyu çağıran controller startStream metodu yenden çağrılacak
     _connection.onreconnected(({String? connectionId}) async {
       print("SignalR yeniden bağlandı. ConnectionId: $connectionId");
@@ -69,6 +67,18 @@ class StreamRepoistory extends BaseRepository {
     }
   }
 
+  Future startConnection() async {
+    while (_connection.state != HubConnectionState.Connected) {
+      try {
+        await _connection.start();
+      } catch (e) {
+        await Future.delayed(
+          Duration(seconds: 1),
+        ); // 1 saniye sonra tekrar dene
+      }
+    }
+  }
+
   Future<void> disconnect() async {
     if (_connection.state == HubConnectionState.Connected) {
       await _connection.stop();
@@ -76,25 +86,38 @@ class StreamRepoistory extends BaseRepository {
   }
 
   Future<void> startStream() async {
-    await _connection.invoke(HubMethods.startStream);
+    try {
+      await _connection.invoke(HubMethods.startStream);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> sendStartStreamNotification(String title, String body) async {
-    await _connection.invoke(
-      HubMethods.sendStartStreamNotification,
-      args: [title, body],
-    );
+    try {
+      await _connection.invoke(
+        HubMethods.sendStartStreamNotification,
+        args: [title, body],
+      );
+    } catch (e) {
+      //TODO bağlantı kopması alinde post api ile işlem yapılabilir
+      rethrow;
+    }
   }
 
   Future<void> callOtherDevice() async {
-    await _dbManager.init();
-    var device = _dbManager.getFistWhere(
-      (d) => d?.deviceId == getDeviceToken(),
-    );
-    await _connection.invoke(
-      HubMethods.startCall,
-      args: [device?.deviceName ?? "unknown"],
-    );
+    try {
+      await _dbManager.init();
+      var device = _dbManager.getFistWhere(
+        (d) => d?.deviceId == getDeviceToken(),
+      );
+      await _connection.invoke(
+        HubMethods.startCall,
+        args: [device?.deviceName ?? "unknown"],
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> sendtoCliend(
@@ -102,10 +125,14 @@ class StreamRepoistory extends BaseRepository {
     String method,
     dynamic data,
   ) async {
-    await _connection.invoke(
-      HubMethods.sendToCliend,
-      args: [toDeviceId, method, data],
-    );
+    try {
+      await _connection.invoke(
+        HubMethods.sendToCliend,
+        args: [toDeviceId, method, data],
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
   //Metedred api
 

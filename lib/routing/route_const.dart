@@ -7,4 +7,5 @@ class RouteConst {
   static const joinFamilyLayout = "/joinFamilyLayout";
   static const viewerScrean = "/viewerScrean";
   static const streamerScrean = "/streamerScrean";
+  static const profile = "/profile";
 }

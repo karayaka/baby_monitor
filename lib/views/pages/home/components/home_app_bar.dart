@@ -10,10 +10,12 @@ class HomeAppBar extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Get.theme.primaryColor,
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20))),
+        color: Get.theme.primaryColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
       height: 110,
       width: Get.width,
       child: Column(
@@ -33,12 +35,11 @@ class HomeAppBar extends GetView<HomeController> {
               Padding(
                 padding: const EdgeInsets.only(left: 4.0),
                 child: IconButton(
-                  //TODO bu bölüm notification sayısınıda gösterecek notificationmlar planacak
                   onPressed: () {},
-                  icon: Icon(Icons.notifications),
+                  icon: Icon(Icons.settings),
                   color: Colors.white,
                 ),
-              )
+              ),
             ],
           ),
           HomeProfileCard(session: controller.getSession()),

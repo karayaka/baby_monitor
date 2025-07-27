@@ -13,7 +13,7 @@ class DevicePage extends GetView<DeviceController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cihazlarım"),
+        title: Text("mb010".tr),
         actions: [
           IconButton(
             onPressed: () => controller.refreshDevice(),
@@ -50,9 +50,8 @@ class DevicePage extends GetView<DeviceController> {
                       SlidableAction(
                         onPressed: (context) {
                           controller.showConfirmeDialog(
-                            title: "Cihazı Silmek İstediğinizden Eminmisiniz?",
-                            message:
-                                "Lütfen cihazdan çıkış yaptığınızdan emin olun",
+                            title: "mb011".tr,
+                            message: "mb012".tr,
                             () {
                               controller.deleteDevice(device.id ?? "");
                             },

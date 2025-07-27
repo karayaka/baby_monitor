@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/security_repository.dart';
 import 'package:baby_monitor/data/services/google_service.dart';
 import 'package:baby_monitor/models/security_models/login_model.dart';
 import 'package:baby_monitor/routing/route_const.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SplashController extends BaseController {
   var controllerInt = "Hesap Bilgileri İnceleniyor".tr.obs;
@@ -13,6 +16,8 @@ class SplashController extends BaseController {
   }
   @override
   void onInit() async {
+    await requestIgnoreBatteryOptimizations();
+    await _requestPermissions();
     if (await hasLogined()) {
       Get.offAllNamed(RouteConst.home);
     } else if (hasRememberMe()) {
@@ -46,8 +51,30 @@ class SplashController extends BaseController {
     } else {
       Get.offAllNamed(RouteConst.security);
     }
+
     super.onInit();
   }
 
-  Future _registerFirebase() async {}
+  Future<void> requestIgnoreBatteryOptimizations() async {
+    if (Platform.isAndroid) {
+      //var val = await Permission.ignoreBatteryOptimizations.request();
+      /*final info = await PackageInfo.fromPlatform();
+      final packageName = info.packageName;
+
+      final intent = AndroidIntent(
+        action: 'android.settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
+        //data: 'package:$packageName',
+      );
+      await intent.launch();*/
+      await Permission.ignoreBatteryOptimizations.request();
+    }
+  }
+
+  Future<void> _requestPermissions() async {
+    await [
+      Permission.camera,
+      Permission.microphone,
+      Permission.storage,
+    ].request();
+  }
 }

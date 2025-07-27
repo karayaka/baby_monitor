@@ -3,7 +3,6 @@ import 'package:baby_monitor/routing/route_const.dart';
 import 'package:baby_monitor/views/pages/device_pages/components/on_live_comonent.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:signalr_netcore/iconnection.dart';
 
 class OnStramDeviceCard extends GetView<HomeController> {
   const OnStramDeviceCard({super.key});
@@ -22,7 +21,7 @@ class OnStramDeviceCard extends GetView<HomeController> {
     List<Widget> list = [
       Padding(
         padding: const EdgeInsets.only(left: 5),
-        child: Text("Yayındaki Çihazlar", style: TextStyle(fontSize: 22)),
+        child: Text("mb027".tr, style: TextStyle(fontSize: 22)),
       ),
       SizedBox(height: 10),
     ];

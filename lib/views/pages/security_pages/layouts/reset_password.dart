@@ -16,39 +16,36 @@ class ResetPassword extends GetView<SecurityController> {
             initialValue: controller.resetPasswordModel.email,
             onChanged: (value) => controller.resetPasswordModel.email = value,
             decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email),
-                hintText: "Email".tr,
-                border: OutlineInputBorder()),
+              prefixIcon: Icon(Icons.email),
+              hintText: "mb040".tr,
+              border: OutlineInputBorder(),
+            ),
           ),
-          SizedBox(
-            height: 5,
+          SizedBox(height: 5),
+          Obx(
+            () => SecurityButton(
+              text: "mb050".tr,
+              onTab: controller.resetPassword,
+              isLoading: controller.resetPasswordLoading.value,
+            ),
           ),
-          Obx(() => SecurityButton(
-                text: "Gönder".tr,
-                onTab: controller.resetPassword,
-                isLoading: controller.resetPasswordLoading.value,
-              )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
-                  onPressed: controller.getRegisterTab,
-                  child: Row(
-                    children: [
-                      Icon(Icons.arrow_back),
-                      Text("Kayıt Ol".tr),
-                    ],
-                  )),
+                onPressed: controller.getRegisterTab,
+                child: Row(
+                  children: [Icon(Icons.arrow_back), Text("mb047".tr)],
+                ),
+              ),
               TextButton(
-                  onPressed: controller.getLoginTab,
-                  child: Row(
-                    children: [
-                      Text("Giriş".tr),
-                      Icon(Icons.arrow_forward),
-                    ],
-                  )),
+                onPressed: controller.getLoginTab,
+                child: Row(
+                  children: [Text("mb046".tr), Icon(Icons.arrow_forward)],
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

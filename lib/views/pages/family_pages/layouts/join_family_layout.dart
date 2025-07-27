@@ -1,6 +1,6 @@
 import 'package:baby_monitor/data/controllers/family_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class JoinFamilyLayout extends GetView<FamilyController> {
@@ -9,14 +9,10 @@ class JoinFamilyLayout extends GetView<FamilyController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Aileye Katıl"),
-      ),
+      appBar: AppBar(title: Text("mb023".tr)),
       body: Obx(() {
         if (controller.familyLoading.value) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return Center(child: CircularProgressIndicator());
         } else {
           return _drawScanner();
         }
@@ -43,7 +39,6 @@ class JoinFamilyLayout extends GetView<FamilyController> {
   }
 
   void _handleBarcode(BarcodeCapture barcodes) {
-    print(barcodes.barcodes.firstOrNull?.displayValue);
     if (barcodes.barcodes.firstOrNull != null && !onDedect) {
       onDedect = true;
       controller.joinFamily(barcodes.barcodes.firstOrNull?.displayValue ?? "");

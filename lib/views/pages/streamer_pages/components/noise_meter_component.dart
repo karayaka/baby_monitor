@@ -24,13 +24,13 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
             }
             if (!controller.onStream.value) {
               return DownTimerComponent(
-                label: "Dinleme Başlıyor",
+                label: "mb051".tr,
                 onTimeEnd: () async {
                   await controller.startRecording();
                 },
               );
             } else {
-              return Text("Yayında"); //Bu bölüm düşünülecek
+              return Text("mb052".tr); //Bu bölüm düşünülecek
             }
           }),
         ),
@@ -50,14 +50,14 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                     children: [
                       Center(
                         child: Text(
-                          "Hassasiyet",
+                          "mb053".tr,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      Center(child: Text("Ses Algılanma Hassasiyeti")),
+                      Center(child: Text("mb054".tr)),
                       Obx(
                         () => Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +81,7 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                 onPressed: () {
                                   controller.setDbLevel(0);
                                 },
-                                child: Text("Kapalı"),
+                                child: Text("mb055".tr),
                               ),
                             ),
                             Padding(
@@ -103,7 +103,7 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                 onPressed: () async {
                                   controller.setDbLevel(1);
                                 },
-                                child: Text("Düşük"),
+                                child: Text("mb056".tr),
                               ),
                             ),
                             Padding(
@@ -125,7 +125,7 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                 onPressed: () {
                                   controller.setDbLevel(2);
                                 },
-                                child: Text("Orta"),
+                                child: Text("mb057".tr),
                               ),
                             ),
                             Padding(
@@ -147,7 +147,7 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                 onPressed: () {
                                   controller.setDbLevel(3);
                                 },
-                                child: Text("Yüksek"),
+                                child: Text("mb058".tr),
                               ),
                             ),
                           ],

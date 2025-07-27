@@ -21,9 +21,7 @@ class StreamerPage extends GetView<StreamerController> {
                   Obx(
                     () =>
                         controller.isConnecting.value
-                            ? const Center(
-                              child: Text('Kamera akışı başlatılıyor...'),
-                            )
+                            ? Center(child: Text('mb061'.tr))
                             : Positioned.fill(
                               child: RTCVideoView(
                                 controller.localRenderer,

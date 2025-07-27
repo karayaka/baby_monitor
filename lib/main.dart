@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
       initialRoute: RouteConst.splashScrean,
       theme: theme.light(),
       darkTheme: theme.dark(),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
     );
   }
 }
