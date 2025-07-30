@@ -1,4 +1,5 @@
 import 'package:baby_monitor/core/app_tools/baby_monitor_translations.dart';
+import 'package:baby_monitor/core/app_tools/project_const.dart';
 import 'package:baby_monitor/core/app_tools/theme.dart';
 import 'package:baby_monitor/data/bindings/initial_bindings/initial_binding.dart';
 import 'package:baby_monitor/data/services/fcm_callkit_service.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
       getPages: RoutePages.pages,
       translations: BabyMonitorTranslations(),
       initialRoute: RouteConst.splashScrean,
+      locale: ProjectConst.getLocale(),
       theme: theme.light(),
       darkTheme: theme.dark(),
       themeMode: ThemeMode.light,

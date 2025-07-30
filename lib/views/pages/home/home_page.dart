@@ -18,7 +18,7 @@ class HomePage extends GetView<HomeController> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [Text("gl005"), CircularProgressIndicator()],
+                children: [Text("gl005".tr), CircularProgressIndicator()],
               ),
             );
           } else {

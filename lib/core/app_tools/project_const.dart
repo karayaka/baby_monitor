@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 
 class ProjectConst {
   static const SESSION_CONTS = "CAGNAZ_APP_SESSION";
@@ -7,6 +10,15 @@ class ProjectConst {
   static const APP_KEY = "apikey olak zorunda her istekde";
   static const NOISE_METER_DEB = "NOISE_METER_DEB";
   static const BACKGROUND_ROUTE = "BACKGROUNG_ROUTE";
+  static Locale getLocale() {
+    var lc = Get.deviceLocale;
+    if (lc?.languageCode == "en" ||
+        lc?.languageCode == "tr" ||
+        lc?.languageCode == "de") {
+      return lc!;
+    }
+    return Locale("en", "US");
+  }
 }
 
 class ProjectUrls {

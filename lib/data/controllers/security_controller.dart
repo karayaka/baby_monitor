@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class SecurityController extends BaseController {
   var screanState = 0.obs;
-  var title = "Giriş".tr.obs;
+  var title = "mb046".tr.obs;
   var loginLoading = false.obs;
   var registerLoading = false.obs;
   var googleLoginLoading = false.obs;
@@ -101,17 +101,17 @@ class SecurityController extends BaseController {
 
   getRegisterTab() {
     screanState.value = 1;
-    title.value = "Kayıt Ol".tr;
+    title.value = "mb049".tr;
   }
 
   getLoginTab() {
     screanState.value = 2;
-    title.value = "Giriş".tr;
+    title.value = "mb046".tr;
   }
 
   getForgetPasswordTab() {
     screanState.value = 3;
-    title.value = "Şifremi Unuttum".tr;
+    title.value = "mb048".tr;
   }
 
   String getName(String displayName) {

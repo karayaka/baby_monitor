@@ -38,7 +38,7 @@ class BaseController extends GetxController {
   exceptionHandle(Object? e) {
     if (e is DioException) {
       if (e.response?.data == null || e.response == null) {
-        errorMessage("Bir Hata Oluştu.".tr);
+        errorMessage("gl002".tr);
       } else if (e.response!.statusCode == 401 &&
           Get.currentRoute != RouteConst.security) {
         Get.toNamed(RouteConst.security); // giriş yapılamam hali ise
@@ -52,7 +52,7 @@ class BaseController extends GetxController {
             errorMessages.addAll(err.values!);
           }
           errorMessage(
-            "Hata".tr,
+            "gl012".tr,
             widget: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: _showValidateError(errorMessages),
@@ -70,14 +70,19 @@ class BaseController extends GetxController {
     } else if (e is CustomException) {
       errorMessage(e.toString());
     } else {
-      errorMessage("Bir Hata Oluştu.".tr);
+      errorMessage("gl002".tr);
     }
   }
 
   _showValidateError(List<String> errorMessages) {
     List<Widget> content = [];
     for (var i in errorMessages) {
-      content.add(Text(i.tr, style: const TextStyle(color: Colors.white)));
+      content.add(
+        Text(
+          translateApiMessage(i),
+          style: const TextStyle(color: Colors.white),
+        ),
+      );
     }
     return content;
   }
@@ -86,10 +91,10 @@ class BaseController extends GetxController {
     void Function()? onConfirme, {
     String title = "",
     String message = "",
-    String confirmeText = "Tamam",
+    String confirmeText = "",
   }) {
     Get.defaultDialog(
-      title: title,
+      title: translateApiMessage(title),
       titleStyle: const TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.bold,
@@ -98,21 +103,21 @@ class BaseController extends GetxController {
         crossAxisAlignment: CrossAxisAlignment.center, // Yatayda ortalamak için
         children: [
           Text(
-            message,
+            translateApiMessage(message),
             textAlign: TextAlign.center, // Mesajın içeriğini de ortalıyoruz
           ),
         ],
       ),
       onConfirm: onConfirme,
-      textCancel: "İptal".tr,
-      textConfirm: confirmeText,
+      textCancel: "gl007".tr,
+      textConfirm: translateApiMessage(confirmeText),
       confirmTextColor: Colors.white,
     );
   }
 
   showConfirmedMessage(String title, String message) {
     Get.defaultDialog(
-      title: title,
+      title: translateApiMessage(title),
       textConfirm: "gl003".tr,
       onConfirm: () => Get.back(),
       titleStyle: const TextStyle(
@@ -123,7 +128,7 @@ class BaseController extends GetxController {
         crossAxisAlignment: CrossAxisAlignment.center, // Yatayda ortalamak için
         children: [
           Text(
-            message,
+            translateApiMessage(message),
             textAlign: TextAlign.center, // Mesajın içeriğini de ortalıyoruz
           ),
         ],
@@ -134,8 +139,8 @@ class BaseController extends GetxController {
 
   succesMessage(String message) {
     Get.snackbar(
-      "Başarılı".tr,
-      message,
+      "gl011".tr,
+      translateApiMessage(message),
       colorText: Colors.white,
       backgroundColor: Colors.green,
     );
@@ -143,8 +148,8 @@ class BaseController extends GetxController {
 
   errorMessage(String message, {Widget? widget}) {
     Get.snackbar(
-      "Hata".tr,
-      message,
+      "gl009".tr,
+      translateApiMessage(message),
       colorText: Colors.white,
       backgroundColor: Colors.red,
       messageText: widget,
@@ -153,8 +158,8 @@ class BaseController extends GetxController {
 
   warningMessage(String message) {
     Get.snackbar(
-      "Uyarı",
-      message,
+      "gl009".tr,
+      translateApiMessage(message), //TODO burdan devam edlecek
       colorText: Colors.white,
       backgroundColor: Colors.orange.shade600,
     );
@@ -166,7 +171,10 @@ class BaseController extends GetxController {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Text(title), CircularProgressIndicator()],
+          children: [
+            Text(translateApiMessage(title)),
+            CircularProgressIndicator(),
+          ],
         ),
       ),
       barrierDismissible: false,
@@ -258,5 +266,23 @@ class BaseController extends GetxController {
   int? getNoiseMeterDp() {
     final box = GetStorage();
     return box.read(ProjectConst.NOISE_METER_DEB);
+  }
+
+  //TODO apiden gelen mesajlar böyle düzeltilecek ve base controller gözen geçirelecek
+  String translateApiMessage(String apiMessageKey) {
+    // Mevcut locale'i al
+    final locale = Get.locale;
+    // GetX'in translations map'ine erişim
+    final translations = Get.translations;
+    // Önce mevcut dil için çeviriyi kontrol et
+    if (translations[locale.toString()]?.containsKey(apiMessageKey) ?? false) {
+      return translations[locale.toString()]![apiMessageKey]!;
+    }
+    // Fallback olarak İngilizce çeviriyi kontrol et
+    if (translations['tr']?.containsKey(apiMessageKey) ?? false) {
+      return translations['tr']![apiMessageKey]!;
+    }
+    // Hiçbiri yoksa orijinal mesajı döndür
+    return apiMessageKey;
   }
 }

@@ -18,11 +18,14 @@ class FormMessageRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Icon(color: _getColor, _getIcon),
-          Padding(
-            padding: const EdgeInsets.only(left: 12),
-            child: Text(
-              message,
-              style: TextStyle(color: _getColor, fontWeight: FontWeight.bold),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: Text(
+                softWrap: true,
+                message,
+                style: TextStyle(color: _getColor, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],

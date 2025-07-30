@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class SplashController extends BaseController {
-  var controllerInt = "Hesap Bilgileri İnceleniyor".tr.obs;
+  var controllerInt = "mb062".tr.obs;
   late SecurityRepository _securityRepository;
   SplashController() {
     _securityRepository = Get.find();
@@ -57,15 +57,6 @@ class SplashController extends BaseController {
 
   Future<void> requestIgnoreBatteryOptimizations() async {
     if (Platform.isAndroid) {
-      //var val = await Permission.ignoreBatteryOptimizations.request();
-      /*final info = await PackageInfo.fromPlatform();
-      final packageName = info.packageName;
-
-      final intent = AndroidIntent(
-        action: 'android.settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
-        //data: 'package:$packageName',
-      );
-      await intent.launch();*/
       await Permission.ignoreBatteryOptimizations.request();
     }
   }
