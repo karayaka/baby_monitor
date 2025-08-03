@@ -56,3 +56,5 @@ class MyApp extends StatelessWidget {
 //TODO keytool password Kara.531531
 
 //TODO app id dart run change_app_package_name:main com.cagnaz.babymonitor
+
+//TODO paketleri lates e çek ve güncellemeyi dene yedeklendi !
