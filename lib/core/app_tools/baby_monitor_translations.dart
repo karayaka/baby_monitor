@@ -125,6 +125,7 @@ class BabyMonitorTranslations extends Translations {
       "mb061": "Starting camera stream...",
       "mb062": "Account Information is Being Reviewed",
       "mb063": "Re-Logging In",
+      "mb064": "Privacy Policy",
     },
     "tr_TR": {
       "gl001": "Kayıt Başarılı",
@@ -247,6 +248,7 @@ class BabyMonitorTranslations extends Translations {
       "mb061": "Kamera akışı başlatılıyor...",
       "mb062": "Hesap Bilgileri İnceleniyor...",
       "mb063": "Yeniden Giriş Yapılıyor",
+      "mb064": "Gizlilik Sözleşmesi",
     },
     "de_DE": {
       "gl001": "Registrierung erfolgreich",
@@ -374,6 +376,7 @@ class BabyMonitorTranslations extends Translations {
       "mb061": "Kamera-Stream wird gestartet …",
       "mb062": "Kontoinformationen werden überprüft",
       "mb063": "Erneutes Anmelden",
+      "mb064": "Datenschutzrichtlinie",
     },
   };
 }

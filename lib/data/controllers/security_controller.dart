@@ -1,3 +1,4 @@
+import 'package:baby_monitor/core/app_tools/project_const.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/security_repository.dart';
 import 'package:baby_monitor/data/services/google_service.dart';
@@ -6,6 +7,7 @@ import 'package:baby_monitor/models/security_models/register_model.dart';
 import 'package:baby_monitor/models/security_models/reset_password_model.dart';
 import 'package:baby_monitor/routing/route_const.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SecurityController extends BaseController {
   var screanState = 0.obs;
@@ -123,5 +125,11 @@ class SecurityController extends BaseController {
   String getSurname(String displayName) {
     var names = displayName.split(" ");
     return names[names.length - 1];
+  }
+
+  Future<void> privacyPage() async {
+    if (!await launchUrl(Uri.parse(ProjectConst.privacyUrl()))) {
+      throw Exception('Could not launch');
+    }
   }
 }

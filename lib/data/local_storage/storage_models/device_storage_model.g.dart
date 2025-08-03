@@ -24,14 +24,14 @@ class DeviceStorageModelAdapter extends TypeAdapter<DeviceStorageModel> {
       deviceToken: fields[4] as String?,
       deviceId: fields[6] as String?,
       fcmToken: fields[5] as String?,
+      userName: fields[12] as String?,
+      userSurname: fields[13] as String?,
+      userID: fields[11] as String?,
       iceCandidate: fields[8] as String?,
       sd: fields[7] as String?,
       streamStatus: fields[10] as int?,
       isThisDevice: fields[9] as bool,
-    )
-      ..userID = fields[11] as String?
-      ..userName = fields[12] as String?
-      ..userSurname = fields[13] as String?;
+    );
   }
 
   @override

@@ -17,14 +17,15 @@ class FamilyMemberStorageModelAdapter
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return FamilyMemberStorageModel()
-      ..id = fields[0] as String?
-      ..familyId = fields[1] as String?
-      ..userId = fields[2] as String?
-      ..memberName = fields[3] as String?
-      ..memberSurname = fields[4] as String?
-      ..memberStatus = fields[5] as int?
-      ..birdDate = fields[6] as DateTime?;
+    return FamilyMemberStorageModel(
+      birdDate: fields[6] as DateTime?,
+      familyId: fields[1] as String?,
+      id: fields[0] as String?,
+      memberName: fields[3] as String?,
+      memberStatus: fields[5] as int?,
+      memberSurname: fields[4] as String?,
+      userId: fields[2] as String?,
+    );
   }
 
   @override

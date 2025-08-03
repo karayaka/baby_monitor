@@ -15,29 +15,20 @@ class SecurityPage extends GetView<SecurityController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          title: Obx(
-            () => Text(
-              controller.title.value,
-              style: Get.textTheme.headlineMedium,
-            ),
-          )),
+        centerTitle: true,
+        title: Obx(
+          () =>
+              Text(controller.title.value, style: Get.textTheme.headlineMedium),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 10,
-              ),
-              Image.asset(
-                "assets/icon/and_icon.png",
-                width: 200,
-                height: 200,
-              ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
+              Image.asset("assets/icon/and_icon.png", width: 200, height: 200),
+              SizedBox(height: 10),
               Obx(() {
                 Widget child = LoginForm();
                 if (controller.screanState.value == 1) {
@@ -47,29 +38,37 @@ class SecurityPage extends GetView<SecurityController> {
                 }
                 return AnimatedSwitcher(
                   duration: Duration(milliseconds: 500),
-                  transitionBuilder:
-                      (Widget child, Animation<double> animation) {
+                  transitionBuilder: (
+                    Widget child,
+                    Animation<double> animation,
+                  ) {
                     final slideAnimation = Tween<Offset>(
                       begin: Offset(1.0, 0.0), // Sağdan başlasın
                       end: Offset(0.0, 0.0), // Normal konumuna gelsin
                     ).animate(animation);
                     return SlideTransition(
-                        position: slideAnimation, child: child);
+                      position: slideAnimation,
+                      child: child,
+                    );
                   },
                   child: child,
                 );
               }),
               LoginDivider(),
-              SizedBox(
-                height: 10,
+              SizedBox(height: 10),
+              Obx(
+                () => GoogleLoginButton(
+                  isLoading: controller.googleLoginLoading.value,
+                  onTab: controller.googleLogin,
+                ),
               ),
-              Obx(() => GoogleLoginButton(
-                    isLoading: controller.googleLoginLoading.value,
-                    onTab: controller.googleLogin,
-                  ))
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: TextButton(
+        onPressed: () => controller.privacyPage(),
+        child: Text("mb064".tr),
       ),
     );
   }

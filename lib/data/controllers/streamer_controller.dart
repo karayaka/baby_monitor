@@ -21,6 +21,7 @@ class StreamerController extends BaseController {
     _repository = Get.find();
   }
   //TODO Bu sayfada ekran parlaklığı kısalabilir!
+  //TODO yeni versiyonda uzaktan flah açma kapama yapılacak
   @override
   void onReady() async {
     SystemChrome.setPreferredOrientations([
@@ -46,25 +47,16 @@ class StreamerController extends BaseController {
       await localRenderer.initialize();
 
       _localStream = await webrtc.navigator.mediaDevices.getUserMedia({
-        'audio': true,
+        'audio': {
+          'echoCancellation': true,
+          'noiseSuppression': false,
+          'autoGainControl': false,
+        },
         'video': {
-          'width': {'ideal': 640},
-          'height': {'ideal': 360},
-          'frameRate': {
-            'ideal': 15,
-          }, // Düşük FPS daha iyi düşük ışık performansı
           'facingMode': 'environment',
-          'advanced': [
-            {'name': 'exposureMode', 'value': 'continuous'},
-            {'name': 'exposureCompensation', 'value': 1.5}, // Pozlamayı artır
-            {
-              'name': 'iso',
-              'value': {'min': 100, 'max': 1600},
-            }, // Yüksek ISO
-            {'name': 'lowLightBoost', 'value': true}, // Özel düşük ışık modu
-            {'name': 'noiseReduction', 'value': true}, // Gürültü azaltma
-            {'name': 'whiteBalanceMode', 'value': 'continuous'},
-          ],
+          'width': 320,
+          'height': 240,
+          'frameRate': 10,
         },
       });
 
@@ -81,6 +73,7 @@ class StreamerController extends BaseController {
       final pc = await _createPeerConnection();
 
       pc.onConnectionState = (state) async {
+        //TODO Yayın durdurma ve bağlantı yönetimleri çoklu çihazlaral test edilmeli!!!
         if (state ==
                 webrtc.RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
             state ==
@@ -163,27 +156,10 @@ class StreamerController extends BaseController {
   Future<webrtc.RTCPeerConnection> _createPeerConnection() async {
     final peerConnection = await webrtc.createPeerConnection(
       config,
-      getLowLightMediaConstraints(),
+      //mediaConstraints,
     );
 
     return peerConnection;
-  }
-
-  Map<String, dynamic> getLowLightMediaConstraints() {
-    return {
-      'audio': true,
-      'video': {
-        'width': {'ideal': 1280, 'max': 1920},
-        'height': {'ideal': 720, 'max': 1080},
-        'frameRate': {
-          'ideal': 10,
-          'max': 30,
-        }, // Düşük FPS daha iyi düşük ışık performansı
-        'facingMode':
-            'environment', // Arka kamera genelde daha iyi performans gösterir
-        'resizeMode': 'crop-and-scale', // Görüntüyü optimize et
-      },
-    };
   }
 
   @override

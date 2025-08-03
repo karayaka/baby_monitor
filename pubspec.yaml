@@ -82,6 +82,8 @@ dependencies:
   path_provider: ^2.1.5
   #Ekranı sürekli açık tutma
   wakelock_plus: ^1.3.2
+  #url_luncher
+  url_launcher: ^6.3.2
 
   
 

@@ -38,7 +38,7 @@ class DeleteProfileWarningUi extends GetView<ProfileController> {
                 Get.back();
                 Get.toNamed(RouteConst.deviceList);
               },
-              child: Text("mb037"),
+              child: Text("mb037".tr),
             ), //TODO uygulamalrım sayfası gelince güncellenecek
             Obx(() {
               if (controller.updateProfileLoading.value) {

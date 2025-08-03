@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class ProjectConst {
@@ -18,6 +16,11 @@ class ProjectConst {
       return lc!;
     }
     return Locale("en", "US");
+  }
+
+  static String privacyUrl() {
+    var lc = Get.deviceLocale;
+    return "https://privacy.cagnaz.com/baby_monitor/privacy-${lc?.languageCode ?? "tr"}.html";
   }
 }
 
