@@ -32,6 +32,7 @@ class HomeController extends BaseController {
   Future<bool> addDevice() async {
     try {
       if (!hasDeviceToken()) {
+        addDeviceLoaing.value = true;
         String? token = await FirebaseMessaging.instance.getToken();
         //progres yeniden planlanacak
         addDeviceLoaing.value = true;

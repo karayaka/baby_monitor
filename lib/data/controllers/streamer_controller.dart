@@ -88,6 +88,8 @@ class StreamerController extends BaseController {
 
         if (pcs.isEmpty) {
           Get.find<NoiseMeterController>().onStream.value = false;
+        } else {
+          Get.find<NoiseMeterController>().onStream.value = true;
         }
       };
 
@@ -121,7 +123,7 @@ class StreamerController extends BaseController {
       pcs[data[0]] = pc;
       if (pcs.isNotEmpty) {
         Get.find<NoiseMeterController>().onStream.value = true;
-        Get.find<NoiseMeterController>().stopRecording();
+        await Get.find<NoiseMeterController>().stopRecording();
       }
     } catch (e) {
       exceptionHandle(e);

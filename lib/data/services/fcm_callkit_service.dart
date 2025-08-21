@@ -79,15 +79,6 @@ class FcmCallkitService {
           requestAlertPermission: true,
           requestBadgePermission: true,
           requestSoundPermission: true,
-          onDidReceiveLocalNotification: (
-            int id,
-            String? title,
-            String? body,
-            String? payload,
-          ) async {
-            // iOS'ta bildirim tıklandığında yapılacak işlemler
-            // Örneğin bir sayfaya yönlendirme yapabilirsiniz
-          },
         );
 
     // Başlatma ayarları (Android ve iOS)

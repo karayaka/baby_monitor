@@ -22,7 +22,7 @@ class HomeLayout extends GetView<HomeController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HomeAppBar(),
+            //HomeAppBar(),
             SizedBox(height: 10),
             Obx(
               () => DeviceCard(

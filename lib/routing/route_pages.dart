@@ -7,6 +7,7 @@ import 'package:baby_monitor/data/bindings/splash_bindings/splash_binding.dart';
 import 'package:baby_monitor/data/bindings/streamer_bindings/streamer_binding.dart';
 import 'package:baby_monitor/data/bindings/viewer_bindings/viewer_binding.dart';
 import 'package:baby_monitor/routing/route_const.dart';
+import 'package:baby_monitor/views/pages/apps_pages/apps_page.dart';
 import 'package:baby_monitor/views/pages/device_pages/device_page.dart';
 import 'package:baby_monitor/views/pages/family_pages/family_page.dart';
 import 'package:baby_monitor/views/pages/family_pages/layouts/join_family_layout.dart';
@@ -78,6 +79,11 @@ class RoutePages {
       page: () => ProfilePage(),
       transition: _popuptransition,
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: RouteConst.apps,
+      page: () => const AppsPage(),
+      //transition: _transition,
     ),
   ];
 }

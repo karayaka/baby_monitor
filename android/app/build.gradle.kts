@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -10,6 +13,11 @@ plugins {
 dependencies {
     implementation("com.google.android.material:material:1.11.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+}
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
 android {
@@ -39,19 +47,19 @@ android {
     }
 
     signingConfigs {
-        // Mevcut debug konfigürasyonunu özelleştir
-        getByName("debug").apply {
-        keyAlias = "androiddebugkey"
-        keyPassword = "Kara.531531"
-        storeFile = file("mykey.jks")
-        storePassword = "Kara.531531"
-    }
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
     }
 
     buildTypes {
-        getByName("debug") {
-            // Debug build türü için signingConfig'i ayarlıyoruz
-            signingConfig = signingConfigs.getByName("debug")
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }

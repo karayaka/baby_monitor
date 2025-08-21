@@ -8,4 +8,5 @@ class RouteConst {
   static const viewerScrean = "/viewerScrean";
   static const streamerScrean = "/streamerScrean";
   static const profile = "/profile";
+  static const apps = "/apps";
 }

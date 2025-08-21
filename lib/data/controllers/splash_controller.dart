@@ -11,8 +11,10 @@ import 'package:permission_handler/permission_handler.dart';
 class SplashController extends BaseController {
   var controllerInt = "mb062".tr.obs;
   late SecurityRepository _securityRepository;
+  late GoogleService _service;
   SplashController() {
     _securityRepository = Get.find();
+    _service = Get.find();
   }
   @override
   void onInit() async {
@@ -26,7 +28,7 @@ class SplashController extends BaseController {
         controllerInt.value = "Yeniden Giriş Yapılıyor".tr;
         var rememberMe = getRememberMe();
         if (rememberMe?.loginType == 1) {
-          var user = await GoogleService.googleLogin();
+          var user = await _service.googleLogin();
           if (user == null) {
             Get.offAndToNamed(RouteConst.home);
           }

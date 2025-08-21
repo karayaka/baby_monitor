@@ -63,15 +63,6 @@ class ViewerController extends BaseController {
         HubMethods.sendOffer,
         offer.toMap(),
       );
-
-      // Remote ICE candidate'leri ekle
-      _peerConnection!.onIceCandidate = (candidate) {
-        _repository.sendtoCliend(
-          _deviceId,
-          HubMethods.sendCandidate,
-          candidate.toMap(),
-        );
-      };
     } catch (e) {
       exceptionHandle(e);
     }
@@ -83,6 +74,14 @@ class ViewerController extends BaseController {
       await _peerConnection!.setRemoteDescription(
         webrtc.RTCSessionDescription(answer['sdp'], answer['type']),
       );
+      // Remote ICE candidate'leri ekle
+      _peerConnection!.onIceCandidate = (candidate) {
+        _repository.sendtoCliend(
+          _deviceId,
+          HubMethods.sendCandidate,
+          candidate.toMap(),
+        );
+      };
     } catch (e) {
       exceptionHandle(e);
     }

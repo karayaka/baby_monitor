@@ -1,10 +1,13 @@
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleService {
-  static final _googleApi = GoogleSignIn();
+  final googleSignIn = GoogleSignIn.instance;
 
-  ///TODO google login sürecinden devam edilecek
-  static Future<GoogleSignInAccount?> googleLogin() async {
-    return await _googleApi.signIn();
+  Future<GoogleSignInAccount?> googleLogin() async {
+    await googleSignIn.initialize(
+      serverClientId:
+          "498075473311-jv1e6bnhb5bjb9ej024vunupa1bhbfvp.apps.googleusercontent.com",
+    );
+    return await GoogleSignIn.instance.authenticate();
   }
 }

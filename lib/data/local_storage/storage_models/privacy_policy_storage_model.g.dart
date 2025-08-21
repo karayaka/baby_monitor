@@ -1,34 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'device_session_model.dart';
+part of 'privacy_policy_storage_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class DeviceSessionModelAdapter extends TypeAdapter<DeviceSessionModel> {
+class PrivacyPolicyStorageModelAdapter
+    extends TypeAdapter<PrivacyPolicyStorageModel> {
   @override
-  final int typeId = 1;
+  final int typeId = 5;
 
   @override
-  DeviceSessionModel read(BinaryReader reader) {
+  PrivacyPolicyStorageModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DeviceSessionModel()
-      ..deviceId = fields[0] as String?
-      ..deviceName = fields[1] as String?;
+    return PrivacyPolicyStorageModel()
+      ..isAcceptance = fields[0] as bool?
+      ..acceptanceDate = fields[1] as DateTime?
+      ..versione = fields[2] as int?;
   }
 
   @override
-  void write(BinaryWriter writer, DeviceSessionModel obj) {
+  void write(BinaryWriter writer, PrivacyPolicyStorageModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.deviceId)
+      ..write(obj.isAcceptance)
       ..writeByte(1)
-      ..write(obj.deviceName);
+      ..write(obj.acceptanceDate)
+      ..writeByte(2)
+      ..write(obj.versione);
   }
 
   @override
@@ -37,7 +41,7 @@ class DeviceSessionModelAdapter extends TypeAdapter<DeviceSessionModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DeviceSessionModelAdapter &&
+      other is PrivacyPolicyStorageModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

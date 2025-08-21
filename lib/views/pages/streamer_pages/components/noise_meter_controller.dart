@@ -10,7 +10,7 @@ class NoiseMeterController extends BaseController {
   var startListening = false.obs;
   var dbLevel = 2.obs;
   var dbSize = 1.0.obs;
-  final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
+  late final FlutterSoundRecorder _recorder;
   StreamSubscription? _subscription;
   var onStream = false.obs;
   DateTime? _highDbStartTime;
@@ -25,6 +25,7 @@ class NoiseMeterController extends BaseController {
 
   @override
   void onInit() async {
+    _recorder = FlutterSoundRecorder();
     super.onInit();
     await _initRecorder();
   }
@@ -43,45 +44,57 @@ class NoiseMeterController extends BaseController {
     if (_recorder.isStopped) {
       await _initRecorder();
     }
-    startListening.value = true;
-    final dir = await getTemporaryDirectory();
-    final path = '${dir.path}/sound.aac';
-    if (!_recorder.isRecording) {
-      await _recorder.startRecorder(toFile: path, codec: Codec.aacADTS);
+    try {
+      startListening.value = true;
+      final dir = await getTemporaryDirectory();
+      final path = '${dir.path}/sound.aac';
+      if (_recorder != null && !_recorder.isRecording) {
+        await _recorder.startRecorder(toFile: path, codec: Codec.aacADTS);
 
-      _subscription = _recorder.onProgress!.listen((event) async {
-        double? db = event.decibels;
-        if (db != null) {
-          if (db > 100) db = 100.0;
-          dbSize.value = db / 100; // UI'da göstermek için
-          await checkDbLevel(db);
-        }
-      });
-      await _recorder.setSubscriptionDuration(
-        Duration(milliseconds: 100), // 100 ms
-      );
+        _subscription = _recorder.onProgress!.listen((event) async {
+          double? db = event.decibels;
+          if (db != null) {
+            if (db > 100) db = 100.0;
+            dbSize.value = db / 100; // UI'da göstermek için
+            await checkDbLevel(db);
+          }
+        });
+        await _recorder.setSubscriptionDuration(
+          Duration(milliseconds: 100), // 100 ms
+        );
+      }
+    } catch (e) {
+      //timer bekletme işelmei hataya düşürüyor tekrar denenemeli
+      await Future.delayed(Duration(seconds: 5));
+      await startRecording();
     }
   }
 
   Future<void> checkDbLevel(double? db) async {
-    if (dbLevel.value == 0) {
-      return;
-    }
-    if ((db ?? 0) > _getThreshold()) {
-      // Yüksek ses başladıysa zamanı kaydet
-      _highDbStartTime ??= DateTime.now();
-      // Yüksek sesin ne kadar sürdüğünü kontrol et
-      int elapsed = DateTime.now().difference(_highDbStartTime!).inMilliseconds;
-      if (elapsed > minCryDurationMs) {
-        // Ağlama algılandı!
-        _repository.callOtherDevice();
-        await stopRecording();
-        _highDbStartTime = null;
-        // Burada alarm, bildirim vs. tetikleyebilirsin
+    try {
+      if (dbLevel.value == 0) {
+        return;
       }
-    } else {
-      // Ses seviyesi düştüyse zamanı sıfırla
-      _highDbStartTime = null;
+      if ((db ?? 0) > _getThreshold()) {
+        // Yüksek ses başladıysa zamanı kaydet
+        _highDbStartTime ??= DateTime.now();
+        // Yüksek sesin ne kadar sürdüğünü kontrol et
+        int elapsed =
+            DateTime.now().difference(_highDbStartTime!).inMilliseconds;
+        if (elapsed > minCryDurationMs) {
+          // Ağlama algılandı!
+          _highDbStartTime = null;
+          await _repository.callOtherDevice();
+          await stopRecording();
+
+          // Burada alarm, bildirim vs. tetikleyebilirsin
+        }
+      } else {
+        // Ses seviyesi düştüyse zamanı sıfırla
+        _highDbStartTime = null;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 

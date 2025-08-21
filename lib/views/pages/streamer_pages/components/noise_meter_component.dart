@@ -30,7 +30,10 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                 },
               );
             } else {
-              return Text("mb052".tr); //Bu bölüm düşünülecek
+              return Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text("mb052".tr),
+              ); //Bu bölüm düşünülecek
             }
           }),
         ),

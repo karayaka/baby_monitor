@@ -58,3 +58,4 @@ class MyApp extends StatelessWidget {
 //TODO app id dart run change_app_package_name:main com.cagnaz.babymonitor
 
 //TODO paketleri lates e çek ve güncellemeyi dene yedeklendi !
+//TODO keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android

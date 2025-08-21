@@ -72,7 +72,10 @@ class DeleteProfileWarningUi extends GetView<ProfileController> {
                     onPressed: () async {
                       await controller.deleteProfile();
                     },
-                    child: Text("gl010".tr),
+                    child: Text(
+                      "gl010".tr,
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               );

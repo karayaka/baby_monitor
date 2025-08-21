@@ -111,6 +111,7 @@ class StreamRepoistory extends BaseRepository {
       var device = _dbManager.getFistWhere(
         (d) => d?.deviceId == getDeviceToken(),
       );
+
       await _connection.invoke(
         HubMethods.startCall,
         args: [device?.deviceName ?? "unknown"],

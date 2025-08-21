@@ -58,17 +58,19 @@ class SecurityPage extends GetView<SecurityController> {
               SizedBox(height: 10),
               Obx(
                 () => GoogleLoginButton(
+                  privacyPage: () async {
+                    await controller.privacyPage();
+                  },
                   isLoading: controller.googleLoginLoading.value,
-                  onTab: controller.googleLogin,
+                  onTab: () {
+                    controller.googleLogin();
+                    Get.back();
+                  },
                 ),
               ),
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: TextButton(
-        onPressed: () => controller.privacyPage(),
-        child: Text("mb064".tr),
       ),
     );
   }

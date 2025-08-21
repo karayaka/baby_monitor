@@ -1,4 +1,5 @@
 import 'package:baby_monitor/data/controllers/home_controller.dart';
+import 'package:baby_monitor/routing/route_const.dart';
 import 'package:baby_monitor/views/pages/home/components/home_profile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,13 +33,15 @@ class HomeAppBar extends GetView<HomeController> {
                 ),
               ),
               Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(left: 4.0),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.settings),
-                  color: Colors.white,
-                ),
+              IconButton(
+                onPressed: () => Get.toNamed(RouteConst.profile),
+                icon: Icon(Icons.settings),
+                color: Colors.white,
+              ),
+              IconButton(
+                onPressed: () => Get.toNamed(RouteConst.apps),
+                icon: Icon(Icons.info),
+                color: Colors.white,
               ),
             ],
           ),

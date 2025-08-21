@@ -1,11 +1,13 @@
 import 'package:baby_monitor/core/app_tools/project_const.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
+import 'package:baby_monitor/data/local_storage/privacy_policy_db_manager.dart';
 import 'package:baby_monitor/data/repositorys/security_repository.dart';
 import 'package:baby_monitor/data/services/google_service.dart';
 import 'package:baby_monitor/models/security_models/login_model.dart';
 import 'package:baby_monitor/models/security_models/register_model.dart';
 import 'package:baby_monitor/models/security_models/reset_password_model.dart';
 import 'package:baby_monitor/routing/route_const.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,13 +18,19 @@ class SecurityController extends BaseController {
   var registerLoading = false.obs;
   var googleLoginLoading = false.obs;
   var resetPasswordLoading = false.obs;
+  var isAcceptancePolicy = false.obs;
   late SecurityRepository _securityRepository;
+  late GoogleService _service;
+  late PrivacyPolicyDbManager _policyDbManager;
   var loginModel = LoginModel();
   var registerModel = RegisterModel();
   var resetPasswordModel = ResetPasswordModel();
+  var registerFormKey = GlobalKey<FormState>();
 
   SecurityController() {
     _securityRepository = Get.find();
+    _service = Get.find();
+    _policyDbManager = PrivacyPolicyDbManager();
   }
   login() async {
     try {
@@ -47,7 +55,7 @@ class SecurityController extends BaseController {
   googleLogin() async {
     try {
       googleLoginLoading.value = true;
-      var user = await GoogleService.googleLogin();
+      var user = await _service.googleLogin();
       registerModel.email = user?.email;
       registerModel.name = getName(user?.displayName ?? "");
       registerModel.surname = getSurname(user?.displayName ?? "");
@@ -60,6 +68,7 @@ class SecurityController extends BaseController {
       if (result != null) {
         setSession(result);
         setRememberMe(registerModel.toRememberMeModel());
+        await _policyDbManager.setPrivacyPolicyData();
         Get.offAndToNamed(RouteConst.home);
       }
     } catch (e) {
@@ -70,6 +79,13 @@ class SecurityController extends BaseController {
 
   register() async {
     try {
+      if (!registerFormKey.currentState!.validate()) {
+        return;
+      }
+      if (!isAcceptancePolicy.value) {
+        errorMessage("mb065".tr);
+        return;
+      }
       registerLoading.value = true;
       registerModel.loginType = 0;
       var result = prepareServiceModel<String>(
@@ -78,8 +94,10 @@ class SecurityController extends BaseController {
       if (result != null) {
         setSession(result);
         setRememberMe(registerModel.toRememberMeModel());
+        await _policyDbManager.setPrivacyPolicyData();
         Get.offAndToNamed(RouteConst.home);
       }
+      registerLoading.value = false;
     } catch (e) {
       registerLoading.value = false;
       exceptionHandle(e);

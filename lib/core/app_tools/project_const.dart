@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ProjectConst {
   static const SESSION_CONTS = "CAGNAZ_APP_SESSION";
@@ -8,19 +9,46 @@ class ProjectConst {
   static const APP_KEY = "apikey olak zorunda her istekde";
   static const NOISE_METER_DEB = "NOISE_METER_DEB";
   static const BACKGROUND_ROUTE = "BACKGROUNG_ROUTE";
+  static const LANGUAGE_CODE = "LANGUAGE_CODE";
   static Locale getLocale() {
-    var lc = Get.deviceLocale;
-    if (lc?.languageCode == "en" ||
-        lc?.languageCode == "tr" ||
-        lc?.languageCode == "de") {
-      return lc!;
+    final box = GetStorage();
+    var langugeCode = box.read(ProjectConst.LANGUAGE_CODE);
+    if (langugeCode == null) {
+      var lc = Get.deviceLocale;
+      if (lc?.languageCode == "en" ||
+          lc?.languageCode == "tr" ||
+          lc?.languageCode == "de") {
+        return lc!;
+      }
+    } else {
+      return getSelectedLocale(langugeCode);
     }
     return Locale("en", "US");
   }
 
+  static Locale getSelectedLocale(String code) {
+    if (code == "tr") {
+      return Locale("tr", "TR");
+    } else if (code == "de") {
+      return Locale("de", "DE");
+    } else {
+      return Locale("en", "US");
+    }
+  }
+
+  static String getLangugeText() {
+    var lc = getLocale();
+    if (lc.languageCode == "tr") {
+      return "Türkçe";
+    } else if (lc.languageCode == "de") {
+      return "Deutsch";
+    }
+    return "English";
+  }
+
   static String privacyUrl() {
-    var lc = Get.deviceLocale;
-    return "https://privacy.cagnaz.com/baby_monitor/privacy-${lc?.languageCode ?? "tr"}.html";
+    var lc = getLocale();
+    return "https://privacy.cagnaz.com/baby_monitor/privacy-${lc.languageCode}.html";
   }
 }
 
