@@ -36,7 +36,7 @@ class DeleteProfileWarningUi extends GetView<ProfileController> {
             TextButton(
               onPressed: () {
                 Get.back();
-                Get.toNamed(RouteConst.deviceList);
+                Get.toNamed(RouteConst.apps);
               },
               child: Text("mb037".tr),
             ), //TODO uygulamalrım sayfası gelince güncellenecek
