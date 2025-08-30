@@ -10,6 +10,7 @@ class AddFamilyLayout extends GetView<FamilyController> {
 
   @override
   Widget build(BuildContext context) {
+    var text = "mb013".tr;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -18,7 +19,7 @@ class AddFamilyLayout extends GetView<FamilyController> {
           CustomCardButton(
             onPressed: () {
               controller.addFamilyModel.name =
-                  (controller.getSession()?.lastName ?? "") + (" - mb013").tr;
+                  (controller.getSession()?.lastName ?? "") + ("-" + text);
               _openBottomSheet();
             },
             title: "mb014".tr,

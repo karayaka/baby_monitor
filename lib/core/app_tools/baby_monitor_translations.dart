@@ -201,7 +201,7 @@ class BabyMonitorTranslations extends Translations {
       "mb010": "Cihazlarım",
       "mb011": "Cihazı Silmek İstediğinizden Emin Misiniz?",
       "mb012": "Lütfen Cihazdan Çıkış Yaptığınızdan Emin Olun!",
-      "mb013": "AliesiAilesi",
+      "mb013": "Ailesi",
       "mb014": "Aile Oluştur",
       "mb015":
           "Eğer Aile Olarak İlk Defa Kullanıyorsanız Aile Oluşturun Ve Üyeleri Ekleyin",

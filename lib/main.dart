@@ -59,3 +59,7 @@ class MyApp extends StatelessWidget {
 
 //TODO paketleri lates e çek ve güncellemeyi dene yedeklendi !
 //TODO keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+
+//TODO banner adps ID. ca-app-pub-1229600046040111/4682663571
+
+//TODO IOS AD BAnner ca-app-pub-1229600046040111/4065400688

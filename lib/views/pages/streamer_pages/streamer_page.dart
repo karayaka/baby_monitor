@@ -3,6 +3,7 @@ import 'package:baby_monitor/views/pages/streamer_pages/components/noise_meter_c
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class StreamerPage extends GetView<StreamerController> {
   const StreamerPage({super.key});
@@ -10,7 +11,17 @@ class StreamerPage extends GetView<StreamerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //bottomNavigationBar: Container(width: 200, height: 20),reklam için deneme
+      /*bottomNavigationBar: Obx(() {
+        if (controller.isBottomLoaded.value) {
+          return SizedBox(
+            height: controller.bottomBannerAd?.size.height.toDouble(),
+            width: controller.bottomBannerAd?.size.width.toDouble(),
+            child: AdWidget(ad: controller.bottomBannerAd!),
+          );
+        } else {
+          return const SizedBox();
+        }
+      }),*/
       body: SafeArea(
         child: Column(
           children: [
@@ -34,7 +45,7 @@ class StreamerPage extends GetView<StreamerController> {
 
                   // Sol üstte kapatma butonu
                   Positioned(
-                    top: 10,
+                    top: 5,
                     left: 10,
                     child: Container(
                       decoration: BoxDecoration(
@@ -45,6 +56,42 @@ class StreamerPage extends GetView<StreamerController> {
                         onPressed: () => Get.back(),
                         icon: const Icon(Icons.close, color: Colors.black),
                       ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 10,
+                    child: Obx(
+                      () =>
+                          controller.isTopAdLoaded.value
+                              ? SizedBox(
+                                height:
+                                    controller.topBannerAd?.size.height
+                                        .toDouble(),
+                                width:
+                                    controller.topBannerAd?.size.width
+                                        .toDouble(),
+                                child: AdWidget(ad: controller.topBannerAd!),
+                              )
+                              : SizedBox(),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 10,
+                    child: Obx(
+                      () =>
+                          controller.isBottomLoaded.value
+                              ? SizedBox(
+                                height:
+                                    controller.bottomBannerAd?.size.height
+                                        .toDouble(),
+                                width:
+                                    controller.bottomBannerAd?.size.width
+                                        .toDouble(),
+                                child: AdWidget(ad: controller.bottomBannerAd!),
+                              )
+                              : SizedBox(),
                     ),
                   ),
                 ],

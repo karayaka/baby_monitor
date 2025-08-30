@@ -84,6 +84,8 @@ dependencies:
   wakelock_plus: ^1.3.2
   #url_luncher
   url_launcher: ^6.3.2
+  #admob
+  google_mobile_ads: ^6.0.0
 
   
 

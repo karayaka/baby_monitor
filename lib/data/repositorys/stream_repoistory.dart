@@ -40,7 +40,6 @@ class StreamRepoistory extends BaseRepository {
     Function(dynamic)? answerCandidate,
   }) async {
     await startConnection();
-    //TODO start stream durumunda ise repoyu çağıran controller startStream metodu yenden çağrılacak
     _connection.onreconnected(({String? connectionId}) async {
       print("SignalR yeniden bağlandı. ConnectionId: $connectionId");
       await startStream();

@@ -1,12 +1,12 @@
 import 'package:baby_monitor/data/controllers/home_controller.dart';
 import 'package:baby_monitor/routing/route_const.dart';
-import 'package:baby_monitor/views/pages/device_pages/components/on_live_comonent.dart';
 import 'package:baby_monitor/views/pages/home/components/family_card.dart';
-import 'package:baby_monitor/views/pages/home/components/home_app_bar.dart';
 import 'package:baby_monitor/views/pages/home/components/device_card.dart';
 import 'package:baby_monitor/views/pages/home/components/on_stram_device_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class HomeLayout extends GetView<HomeController> {
   const HomeLayout({super.key});

@@ -4,6 +4,7 @@ import 'package:baby_monitor/views/pages/home/components/home_profile_card.dart'
 import 'package:baby_monitor/views/pages/home/layouts/home_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 // ignore: must_be_immutable
 class HomePage extends GetView<HomeController> {
@@ -37,6 +38,17 @@ class HomePage extends GetView<HomeController> {
             ),
           ],
         ),
+        bottomNavigationBar: Obx(() {
+          if (controller.isAdLoaded.value) {
+            return SizedBox(
+              height: controller.bannerAd?.size.height.toDouble(),
+              width: controller.bannerAd?.size.width.toDouble(),
+              child: AdWidget(ad: controller.bannerAd!),
+            );
+          } else {
+            return const SizedBox(height: 8);
+          }
+        }),
         body: Obx(() {
           if (controller.addDeviceLoaing.value) {
             return Center(
@@ -56,7 +68,7 @@ class HomePage extends GetView<HomeController> {
           } else {
             return FloatingActionButton(
               child: Icon(Icons.linked_camera_outlined),
-              onPressed: () => Get.toNamed(RouteConst.streamerScrean),
+              onPressed: () => controller.showRewardedAd(),
             );
           }
         }),

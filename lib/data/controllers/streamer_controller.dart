@@ -5,6 +5,7 @@ import 'package:baby_monitor/views/pages/streamer_pages/components/noise_meter_c
 import 'package:flutter/services.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as webrtc;
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -17,8 +18,16 @@ class StreamerController extends BaseController {
   late Map<String, dynamic> config;
   var listening = false.obs;
   Map<String, webrtc.RTCPeerConnection> pcs = {};
+  //ads
+  BannerAd? bottomBannerAd;
+  var isBottomLoaded = false.obs;
+  BannerAd? topBannerAd;
+  var isTopAdLoaded = false.obs;
+
   StreamerController() {
     _repository = Get.find();
+    _createTopBannerAd();
+    _createBottomBannerAd();
   }
   //TODO Bu sayfada ekran parlaklığı kısalabilir!
   //TODO yeni versiyonda uzaktan flah açma kapama yapılacak
@@ -73,7 +82,6 @@ class StreamerController extends BaseController {
       final pc = await _createPeerConnection();
 
       pc.onConnectionState = (state) async {
-        //TODO Yayın durdurma ve bağlantı yönetimleri çoklu çihazlaral test edilmeli!!!
         if (state ==
                 webrtc.RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
             state ==
@@ -162,6 +170,42 @@ class StreamerController extends BaseController {
     );
 
     return peerConnection;
+  }
+
+  _createBottomBannerAd() {
+    bottomBannerAd = BannerAd(
+      adUnitId:
+          "ca-app-pub-3940256099942544/9214589741", //TODO ADS banner ad ID
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          isBottomLoaded.value = true;
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    bottomBannerAd?.load();
+  }
+
+  _createTopBannerAd() {
+    topBannerAd = BannerAd(
+      adUnitId:
+          "ca-app-pub-3940256099942544/9214589741", //TODO ADS banner ad ID
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          isTopAdLoaded.value = true;
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    topBannerAd?.load();
   }
 
   @override

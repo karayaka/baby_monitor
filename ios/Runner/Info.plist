@@ -57,5 +57,7 @@
 		<string>$(PRODUCT_NAME) Camera Usage!</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>$(PRODUCT_NAME) Microphone Usage!</string>
+		<key>GADApplicationIdentifier</key>
+		<string>ca-app-pub-1229600046040111~1206452990</string>
 	</dict>
 </plist>

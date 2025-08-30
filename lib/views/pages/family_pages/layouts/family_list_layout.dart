@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 class FamilyListLayout extends GetView<FamilyController> {
   const FamilyListLayout({super.key});
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -28,6 +27,7 @@ class FamilyListLayout extends GetView<FamilyController> {
                     onPressed: (context) {
                       controller.showConfirmeDialog(
                         title: "mb020".tr,
+                        confirmeText: "gl003".tr,
                         message: "mb021".tr,
                         () {
                           controller.leaveFamily(item?.id ?? "");

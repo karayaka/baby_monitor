@@ -20,7 +20,6 @@ class SessionModel extends BaseHttpModel {
 
   @override
   Map<String, dynamic> toJson() {
-    // TODO: implement toJson
     throw UnimplementedError();
   }
 }

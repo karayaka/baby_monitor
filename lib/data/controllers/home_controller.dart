@@ -5,8 +5,10 @@ import 'package:baby_monitor/data/services/device_service.dart';
 import 'package:baby_monitor/models/device_models/add_device_model.dart';
 import 'package:baby_monitor/models/device_models/device_list_model.dart';
 import 'package:baby_monitor/models/family_models/family_model.dart';
+import 'package:baby_monitor/routing/route_const.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class HomeController extends BaseController {
   late DeviceRepository _deviceRepository;
@@ -16,17 +18,114 @@ class HomeController extends BaseController {
   var deviceListLoaing = false.obs;
   var addDeviceLoaing = false.obs;
   var familyLoading = false.obs;
+  bool _earnedReward = false;
+  //add obs
+  AppOpenAd? _appOpenAd;
+  var isAdLoaded = false.obs;
+  BannerAd? bannerAd;
+  RewardedAd? _rewardedAd;
+
   HomeController() {
     _deviceRepository = Get.find();
     _familyRepoistory = Get.find();
   }
   @override
   onInit() async {
+    super.onInit();
+    _loadAppOpenAd();
+    _createBannerAd();
+    _loadRewardedAd();
     addDevice();
     FirebaseMessaging.onMessage.listen((message) {
       if (message.data['type'] == 'start_stream') getDevices();
     });
-    super.onInit();
+  }
+
+  _createBannerAd() {
+    bannerAd = BannerAd(
+      adUnitId:
+          "ca-app-pub-3940256099942544/9214589741", //TODO ADS banner ad ID
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          isAdLoaded.value = true;
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    bannerAd?.load();
+  }
+
+  void _loadAppOpenAd() {
+    AppOpenAd.load(
+      adUnitId:
+          'ca-app-pub-3940256099942544/9257395921', //TODO ADS  Uygulama açılış reklam ID gelecek
+      request: const AdRequest(),
+      adLoadCallback: AppOpenAdLoadCallback(
+        onAdLoaded: (ad) {
+          _appOpenAd = ad;
+          _showAdIfAvailable();
+        },
+        onAdFailedToLoad: (error) {
+          print("AppOpenAd failed to load: $error");
+        },
+      ),
+    );
+  }
+
+  void _showAdIfAvailable() {
+    if (_appOpenAd == null) return;
+    _appOpenAd!.show();
+    _appOpenAd = null;
+  }
+
+  void _loadRewardedAd() {
+    RewardedAd.load(
+      adUnitId:
+          "ca-app-pub-3940256099942544/5224354917", // //TODO ADS ödülüü reklam
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (RewardedAd ad) {
+          _rewardedAd = ad;
+        },
+        onAdFailedToLoad: (LoadAdError error) {},
+      ),
+    );
+  }
+
+  void showRewardedAd() {
+    if (_rewardedAd == null) {
+      //Get.toNamed(RouteConst.streamerScrean);
+      return;
+    }
+    _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdDismissedFullScreenContent: (RewardedAd ad) {
+        if (_earnedReward) {
+          Get.toNamed(RouteConst.streamerScrean);
+        } else {
+          errorMessage("Uayrı");
+        }
+        ad.dispose();
+        _loadRewardedAd(); // tekrar yükle
+      },
+      onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
+        //Get.toNamed(RouteConst.streamerScrean);
+        ad.dispose();
+        _loadRewardedAd();
+      },
+    );
+
+    _rewardedAd!.show(
+      onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem) {
+        //ödül alındı sayfaya yürüt
+        _earnedReward = true;
+      },
+    );
+
+    _rewardedAd = null;
   }
 
   Future<bool> addDevice() async {
@@ -125,8 +224,9 @@ class HomeController extends BaseController {
 
   Iterable<DeviceListModel> getStreamedDevices() =>
       deviceList.where((t) => t.streamStatus == 1);
-
-  ///Stream işlemleri
-  ///
-  //TODO devam edilecek
+  @override
+  void dispose() {
+    bannerAd?.dispose();
+    super.dispose();
+  }
 }

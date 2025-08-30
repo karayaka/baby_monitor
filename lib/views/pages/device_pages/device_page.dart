@@ -5,6 +5,7 @@ import 'package:baby_monitor/views/pages/device_pages/components/on_live_comonen
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class DevicePage extends GetView<DeviceController> {
   const DevicePage({super.key});
@@ -22,15 +23,32 @@ class DevicePage extends GetView<DeviceController> {
         ],
         centerTitle: true,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(4.0),
+          preferredSize: Size.fromHeight(32.0),
           child: Obx(
             () =>
                 controller.deviceListLoaing.value
                     ? LinearProgressIndicator()
-                    : Container(),
+                    : controller.isTopAdLoaded.value
+                    ? SizedBox(
+                      height: controller.topBannerAd?.size.height.toDouble(),
+                      width: controller.topBannerAd?.size.width.toDouble(),
+                      child: AdWidget(ad: controller.topBannerAd!),
+                    )
+                    : SizedBox(),
           ),
         ),
       ),
+      bottomNavigationBar: Obx(() {
+        if (controller.isBottomLoaded.value) {
+          return SizedBox(
+            height: controller.bottomBannerAd?.size.height.toDouble(),
+            width: controller.bottomBannerAd?.size.width.toDouble(),
+            child: AdWidget(ad: controller.bottomBannerAd!),
+          );
+        } else {
+          return const SizedBox(height: 8);
+        }
+      }),
       body: RefreshIndicator(
         onRefresh: () async {
           await controller.getDevices();

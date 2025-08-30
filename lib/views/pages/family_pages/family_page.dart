@@ -3,6 +3,7 @@ import 'package:baby_monitor/views/pages/family_pages/layouts/add_family_layout.
 import 'package:baby_monitor/views/pages/family_pages/layouts/family_list_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 class FamilyPage extends GetView<FamilyController> {
@@ -28,6 +29,17 @@ class FamilyPage extends GetView<FamilyController> {
           ),
         ),
       ),
+      bottomNavigationBar: Obx(() {
+        if (controller.isBottomLoaded.value) {
+          return SizedBox(
+            height: controller.bottomBannerAd?.size.height.toDouble(),
+            width: controller.bottomBannerAd?.size.width.toDouble(),
+            child: AdWidget(ad: controller.bottomBannerAd!),
+          );
+        } else {
+          return const SizedBox(height: 8);
+        }
+      }),
       body: Obx(
         () =>
             controller.familyModel.value.id == null

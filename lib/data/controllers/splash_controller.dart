@@ -6,6 +6,7 @@ import 'package:baby_monitor/data/services/google_service.dart';
 import 'package:baby_monitor/models/security_models/login_model.dart';
 import 'package:baby_monitor/routing/route_const.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class SplashController extends BaseController {
@@ -53,8 +54,8 @@ class SplashController extends BaseController {
     } else {
       Get.offAllNamed(RouteConst.security);
     }
-
     super.onInit();
+    await MobileAds.instance.initialize();
   }
 
   Future<void> requestIgnoreBatteryOptimizations() async {

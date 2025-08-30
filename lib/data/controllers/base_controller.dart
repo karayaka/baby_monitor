@@ -159,7 +159,7 @@ class BaseController extends GetxController {
   warningMessage(String message) {
     Get.snackbar(
       "gl009".tr,
-      translateApiMessage(message), //TODO burdan devam edlecek
+      translateApiMessage(message),
       colorText: Colors.white,
       backgroundColor: Colors.orange.shade600,
     );
@@ -268,7 +268,6 @@ class BaseController extends GetxController {
     return box.read(ProjectConst.NOISE_METER_DEB);
   }
 
-  //TODO apiden gelen mesajlar böyle düzeltilecek ve base controller gözen geçirelecek
   String translateApiMessage(String apiMessageKey) {
     // Mevcut locale'i al
     final locale = Get.locale;
