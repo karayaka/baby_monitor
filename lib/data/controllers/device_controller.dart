@@ -1,3 +1,4 @@
+import 'package:baby_monitor/core/app_tools/ad_helper.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/device_repository.dart';
 import 'package:baby_monitor/models/device_models/device_list_model.dart';
@@ -17,7 +18,6 @@ class DeviceController extends BaseController {
   DeviceController() {
     _deviceRepository = Get.find();
     getDevices();
-    //Get.find<SendNotifireRepoistory>().start();
     FirebaseMessaging.onMessage.listen((message) {
       if (message.data['type'] == 'start_stream') getDevices();
     });
@@ -32,10 +32,10 @@ class DeviceController extends BaseController {
     });
   }
 
+  //TODO sram loglar kaldırılacak medetred kredş kartı girilecek ve karekod ve listener progrss ufaltılabilirmi diye bakılacak
   _createBottomBannerAd() {
     bottomBannerAd = BannerAd(
-      adUnitId:
-          "ca-app-pub-3940256099942544/9214589741", //TODO ADS banner ad ID
+      adUnitId: AdHelper.bannerAdID,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -52,8 +52,7 @@ class DeviceController extends BaseController {
 
   _createTopBannerAd() {
     topBannerAd = BannerAd(
-      adUnitId:
-          "ca-app-pub-3940256099942544/9214589741", //TODO ADS banner ad ID
+      adUnitId: AdHelper.bannerAdID,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(

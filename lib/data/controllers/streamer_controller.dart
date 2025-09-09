@@ -1,3 +1,4 @@
+import 'package:baby_monitor/core/app_tools/ad_helper.dart';
 import 'package:baby_monitor/core/app_tools/project_const.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/stream_repoistory.dart';
@@ -23,6 +24,7 @@ class StreamerController extends BaseController {
   var isBottomLoaded = false.obs;
   BannerAd? topBannerAd;
   var isTopAdLoaded = false.obs;
+  InterstitialAd? _interstitialAd;
 
   StreamerController() {
     _repository = Get.find();
@@ -174,8 +176,7 @@ class StreamerController extends BaseController {
 
   _createBottomBannerAd() {
     bottomBannerAd = BannerAd(
-      adUnitId:
-          "ca-app-pub-3940256099942544/9214589741", //TODO ADS banner ad ID
+      adUnitId: AdHelper.bannerAdID,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -192,8 +193,7 @@ class StreamerController extends BaseController {
 
   _createTopBannerAd() {
     topBannerAd = BannerAd(
-      adUnitId:
-          "ca-app-pub-3940256099942544/9214589741", //TODO ADS banner ad ID
+      adUnitId: AdHelper.bannerAdID,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -208,9 +208,31 @@ class StreamerController extends BaseController {
     topBannerAd?.load();
   }
 
+  Future<void> _loadInterstitialAd() async {
+    await InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdID,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          _interstitialAd = ad;
+          _interstitialAd!.show();
+        },
+        onAdFailedToLoad: (error) {
+          if (_interstitialAd != null) {
+            _interstitialAd!.dispose();
+          }
+        },
+      ),
+    );
+  }
+
   @override
   void onClose() async {
     try {
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+      ]);
+      _loadInterstitialAd();
       await _repository.disconnect();
       // Local stream'i durdur
       _localStream?.getTracks().forEach((track) {
@@ -227,8 +249,9 @@ class StreamerController extends BaseController {
         await val.close();
         await val.dispose();
       });
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
       WakelockPlus.disable();
+
+      //_showInterstitialAd();
     } catch (e) {
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
       WakelockPlus.disable();

@@ -133,6 +133,10 @@ class BabyMonitorTranslations extends Translations {
       "mb069": "Settings",
       "mb070": "Approval Date:",
       "mb071": "Language:",
+      "mb072": "Family Addition Successful",
+      "mb073": "Family Separation Successful",
+      "mb074": "Please Watch the Ad",
+      "mb075": "You've Earned 60 More Seconds of Watching Time",
     },
     "tr_TR": {
       "gl001": "Kayıt Başarılı",
@@ -263,6 +267,10 @@ class BabyMonitorTranslations extends Translations {
       "mb069": "Ayarlar",
       "mb070": "Onay Tarihi:",
       "mb071": "Dil:",
+      "mb072": "Aile Ekleme İşlemi Başarılı",
+      "mb073": "Aileden Ayrılma İşlemi Başarılı",
+      "mb074": "Lütfen Reklamı İzleyin",
+      "mb075": "60 Saniye Daha İzleme Hakkı Kazandınız",
     },
     "de_DE": {
       "gl001": "Registrierung erfolgreich",
@@ -398,6 +406,10 @@ class BabyMonitorTranslations extends Translations {
       "mb069": "Einstellungen",
       "mb070": "Genehmigungsdatum:",
       "mb071": "Sprache:",
+      "mb072": "Familienzuwachs gelungen",
+      "mb073": "Familientrennung erfolgreich",
+      "mb074": "Bitte sehen Sie sich die Anzeige an",
+      "mb075": "Sie haben 60 Sekunden zusätzliche Wiedergabezeit verdient",
     },
   };
 }

@@ -1,3 +1,4 @@
+import 'package:baby_monitor/core/app_tools/ad_helper.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/family_repoistory.dart';
 import 'package:baby_monitor/models/family_models/add_family_model.dart';
@@ -28,8 +29,7 @@ class FamilyController extends BaseController {
 
   Future<void> _loadInterstitialAd() async {
     await InterstitialAd.load(
-      adUnitId:
-          "ca-app-pub-3940256099942544/1033173712", //TODO GEçiş reklamı ıd
+      adUnitId: AdHelper.interstitialAdID,
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
@@ -47,8 +47,7 @@ class FamilyController extends BaseController {
 
   _createBottomBannerAd() {
     bottomBannerAd = BannerAd(
-      adUnitId:
-          "ca-app-pub-3940256099942544/9214589741", //TODO ADS banner ad ID
+      adUnitId: AdHelper.bannerAdID,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -96,9 +95,7 @@ class FamilyController extends BaseController {
     );
     Get.back();
     addFamilyLoading.value = false;
-    succesMessage("Aile Ekleme İşlemi Bşarılı");
-
-    ///TODO treanslate
+    succesMessage("mb072".tr);
     getFamily();
     try {} catch (e) {
       addFamilyLoading.value = false;
@@ -115,7 +112,7 @@ class FamilyController extends BaseController {
       );
       familyLoading.value = false;
       Get.back();
-      succesMessage("Aileden Ayrılma İşlemi Bşarılı"); //TODO translate
+      succesMessage("mb073".tr);
       getFamily();
     } catch (e) {
       addFamilyLoading.value = false;
@@ -142,6 +139,7 @@ class FamilyController extends BaseController {
   @override
   void dispose() {
     _interstitialAd!.dispose();
+    bottomBannerAd!.dispose();
     super.dispose();
   }
 }

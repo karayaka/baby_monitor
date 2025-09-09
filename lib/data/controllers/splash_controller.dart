@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:baby_monitor/core/app_tools/ad_helper.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/security_repository.dart';
 import 'package:baby_monitor/data/services/google_service.dart';
@@ -13,6 +14,7 @@ class SplashController extends BaseController {
   var controllerInt = "mb062".tr.obs;
   late SecurityRepository _securityRepository;
   late GoogleService _service;
+  AppOpenAd? _appOpenAd;
   SplashController() {
     _securityRepository = Get.find();
     _service = Get.find();
@@ -54,8 +56,9 @@ class SplashController extends BaseController {
     } else {
       Get.offAllNamed(RouteConst.security);
     }
-    super.onInit();
     await MobileAds.instance.initialize();
+    super.onInit();
+    _loadAppOpenAd();
   }
 
   Future<void> requestIgnoreBatteryOptimizations() async {
@@ -64,11 +67,33 @@ class SplashController extends BaseController {
     }
   }
 
+  void _loadAppOpenAd() {
+    AppOpenAd.load(
+      adUnitId: AdHelper.appOpenAdID,
+      request: const AdRequest(),
+      adLoadCallback: AppOpenAdLoadCallback(
+        onAdLoaded: (ad) {
+          _appOpenAd = ad;
+          _appOpenAd!.show();
+        },
+        onAdFailedToLoad: (error) {
+          print("AppOpenAd failed to load: $error");
+        },
+      ),
+    );
+  }
+
   Future<void> _requestPermissions() async {
     await [
       Permission.camera,
       Permission.microphone,
       Permission.storage,
     ].request();
+  }
+
+  @override
+  void onClose() {
+    _appOpenAd?.dispose();
+    super.onClose();
   }
 }

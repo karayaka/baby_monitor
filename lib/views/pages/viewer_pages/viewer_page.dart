@@ -3,6 +3,7 @@ import 'package:baby_monitor/views/pages/viewer_pages/components/viewer_timer_co
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class ViewerPage extends GetView<ViewerController> {
   const ViewerPage({super.key});
@@ -29,8 +30,8 @@ class ViewerPage extends GetView<ViewerController> {
             }),
             // Sol üstte kapatma butonu
             Positioned(
-              top: 3,
-              left: 3,
+              top: 1,
+              left: 1,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -39,7 +40,10 @@ class ViewerPage extends GetView<ViewerController> {
                 child: Row(
                   children: [
                     IconButton(
-                      onPressed: () => Get.back(),
+                      onPressed: () async {
+                        //await controller.showInterstitialAd();
+                        Get.back();
+                      },
                       icon: const Icon(Icons.close, color: Colors.black),
                     ),
                     Obx(() {
@@ -47,11 +51,8 @@ class ViewerPage extends GetView<ViewerController> {
                         return Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: ViewerTimerComponent(
-                            triggerSecond: 5,
-                            tickTrigged: (second) {
-                              controller.showAdd.value =
-                                  !controller.showAdd.value;
-                            },
+                            triggerSecond: 10,
+                            tickTrigged: controller.tickTriggedRewardedAd,
                           ),
                         );
                       }
@@ -59,6 +60,37 @@ class ViewerPage extends GetView<ViewerController> {
                     }),
                   ],
                 ),
+              ),
+            ),
+            Positioned(
+              top: 1,
+              right: 1,
+              child: Obx(
+                () =>
+                    controller.isTopAdLoaded.value
+                        ? SizedBox(
+                          height:
+                              controller.topBannerAd?.size.height.toDouble(),
+                          width: controller.topBannerAd?.size.width.toDouble(),
+                          child: AdWidget(ad: controller.topBannerAd!),
+                        )
+                        : SizedBox(),
+              ),
+            ),
+            Positioned(
+              bottom: 1,
+              left: 1,
+              child: Obx(
+                () =>
+                    controller.isBottomLoaded.value
+                        ? SizedBox(
+                          height:
+                              controller.bottomBannerAd?.size.height.toDouble(),
+                          width:
+                              controller.bottomBannerAd?.size.width.toDouble(),
+                          child: AdWidget(ad: controller.bottomBannerAd!),
+                        )
+                        : SizedBox(),
               ),
             ),
           ],

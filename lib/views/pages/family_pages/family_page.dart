@@ -83,8 +83,11 @@ class FamilyPage extends GetView<FamilyController> {
               ],
             ),
             Expanded(
-              child: PrettyQrView.data(
-                data: controller.familyModel.value.id ?? "",
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PrettyQrView.data(
+                  data: controller.familyModel.value.id ?? "",
+                ),
               ),
             ),
           ],

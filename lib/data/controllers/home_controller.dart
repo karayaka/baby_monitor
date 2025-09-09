@@ -1,3 +1,4 @@
+import 'package:baby_monitor/core/app_tools/ad_helper.dart';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/device_repository.dart';
 import 'package:baby_monitor/data/repositorys/family_repoistory.dart';
@@ -18,22 +19,21 @@ class HomeController extends BaseController {
   var deviceListLoaing = false.obs;
   var addDeviceLoaing = false.obs;
   var familyLoading = false.obs;
-  bool _earnedReward = false;
+
   //add obs
-  AppOpenAd? _appOpenAd;
   var isAdLoaded = false.obs;
   BannerAd? bannerAd;
+  bool _earnedReward = false;
   RewardedAd? _rewardedAd;
 
   HomeController() {
+    _createBannerAd();
     _deviceRepository = Get.find();
     _familyRepoistory = Get.find();
   }
   @override
   onInit() async {
     super.onInit();
-    _loadAppOpenAd();
-    _createBannerAd();
     _loadRewardedAd();
     addDevice();
     FirebaseMessaging.onMessage.listen((message) {
@@ -43,8 +43,7 @@ class HomeController extends BaseController {
 
   _createBannerAd() {
     bannerAd = BannerAd(
-      adUnitId:
-          "ca-app-pub-3940256099942544/9214589741", //TODO ADS banner ad ID
+      adUnitId: AdHelper.bannerAdID,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -59,33 +58,9 @@ class HomeController extends BaseController {
     bannerAd?.load();
   }
 
-  void _loadAppOpenAd() {
-    AppOpenAd.load(
-      adUnitId:
-          'ca-app-pub-3940256099942544/9257395921', //TODO ADS  Uygulama açılış reklam ID gelecek
-      request: const AdRequest(),
-      adLoadCallback: AppOpenAdLoadCallback(
-        onAdLoaded: (ad) {
-          _appOpenAd = ad;
-          _showAdIfAvailable();
-        },
-        onAdFailedToLoad: (error) {
-          print("AppOpenAd failed to load: $error");
-        },
-      ),
-    );
-  }
-
-  void _showAdIfAvailable() {
-    if (_appOpenAd == null) return;
-    _appOpenAd!.show();
-    _appOpenAd = null;
-  }
-
   void _loadRewardedAd() {
     RewardedAd.load(
-      adUnitId:
-          "ca-app-pub-3940256099942544/5224354917", // //TODO ADS ödülüü reklam
+      adUnitId: AdHelper.streamerRewardedAdID,
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
@@ -96,36 +71,40 @@ class HomeController extends BaseController {
     );
   }
 
-  void showRewardedAd() {
-    if (_rewardedAd == null) {
-      //Get.toNamed(RouteConst.streamerScrean);
-      return;
-    }
-    _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdDismissedFullScreenContent: (RewardedAd ad) {
-        if (_earnedReward) {
-          Get.toNamed(RouteConst.streamerScrean);
-        } else {
-          errorMessage("Uayrı");
-        }
-        ad.dispose();
-        _loadRewardedAd(); // tekrar yükle
-      },
-      onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
+  void showRewardedAd() async {
+    try {
+      if (_rewardedAd == null) {
         //Get.toNamed(RouteConst.streamerScrean);
-        ad.dispose();
-        _loadRewardedAd();
-      },
-    );
+        return;
+      }
+      _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (RewardedAd ad) {
+          if (_earnedReward) {
+            Get.toNamed(RouteConst.streamerScrean);
+          } else {
+            errorMessage("mb074".tr);
+          }
+          ad.dispose();
+          _loadRewardedAd(); // tekrar yükle
+        },
+        onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
+          //Get.toNamed(RouteConst.streamerScrean);
+          ad.dispose();
+          _loadRewardedAd();
+        },
+      );
 
-    _rewardedAd!.show(
-      onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem) {
-        //ödül alındı sayfaya yürüt
-        _earnedReward = true;
-      },
-    );
+      await _rewardedAd!.show(
+        onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem) {
+          //ödül alındı sayfaya yürüt
+          _earnedReward = true;
+        },
+      );
 
-    _rewardedAd = null;
+      _rewardedAd = null;
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future<bool> addDevice() async {
