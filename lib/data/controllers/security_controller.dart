@@ -19,6 +19,7 @@ class SecurityController extends BaseController {
   var googleLoginLoading = false.obs;
   var resetPasswordLoading = false.obs;
   var isAcceptancePolicy = false.obs;
+  var passwordoObscureText = true.obs;
   late SecurityRepository _securityRepository;
   late GoogleService _service;
   late PrivacyPolicyDbManager _policyDbManager;
@@ -41,8 +42,8 @@ class SecurityController extends BaseController {
       );
       if (result != null) {
         setSession(result);
-        setRememberMe(loginModel.toRememberMeModel());
-        Get.offAndToNamed(RouteConst.home);
+        await setRememberMe(loginModel.toRememberMeModel());
+        Get.offAllNamed(RouteConst.home);
       }
     } catch (e) {
       exceptionHandle(e);
@@ -66,10 +67,10 @@ class SecurityController extends BaseController {
         await _securityRepository.register(registerModel),
       );
       if (result != null) {
-        setSession(result);
-        setRememberMe(registerModel.toRememberMeModel());
+        await setSession(result);
+        await setRememberMe(registerModel.toRememberMeModel());
         await _policyDbManager.setPrivacyPolicyData();
-        Get.offAndToNamed(RouteConst.home);
+        Get.offAllNamed(RouteConst.home);
       }
     } catch (e) {
       exceptionHandle(e);
@@ -93,9 +94,9 @@ class SecurityController extends BaseController {
       );
       if (result != null) {
         setSession(result);
-        setRememberMe(registerModel.toRememberMeModel());
+        await setRememberMe(registerModel.toRememberMeModel());
         await _policyDbManager.setPrivacyPolicyData();
-        Get.offAndToNamed(RouteConst.home);
+        Get.offAllNamed(RouteConst.home);
       }
       registerLoading.value = false;
     } catch (e) {
@@ -150,4 +151,7 @@ class SecurityController extends BaseController {
       throw Exception('Could not launch');
     }
   }
+
+  showHidePassword() =>
+      passwordoObscureText.value = !passwordoObscureText.value;
 }

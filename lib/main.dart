@@ -63,3 +63,4 @@ class MyApp extends StatelessWidget {
 //TODO banner adps ID. ca-app-pub-1229600046040111/4682663571
 
 //TODO IOS AD BAnner ca-app-pub-1229600046040111/4065400688
+//TODO testen sonra paketlerde güncelelmeye gidilecek

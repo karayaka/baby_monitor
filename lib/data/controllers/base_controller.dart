@@ -16,6 +16,7 @@ class BaseController extends GetxController {
   int guardStatus = 0;
   String message = "";
   DateTime date = DateTime.now();
+
   I? prepareServiceModel<I>(BaseResult model) {
     try {
       if (model.statusCode == 200) {
@@ -91,7 +92,7 @@ class BaseController extends GetxController {
     void Function()? onConfirme, {
     String title = "",
     String message = "",
-    String confirmeText = "",
+    String confirmeText = "Evet",
   }) {
     Get.defaultDialog(
       title: translateApiMessage(title),
@@ -197,14 +198,14 @@ class BaseController extends GetxController {
     return _jwtConvert(jwt);
   }
 
-  setSession(String jwt) {
+  Future setSession(String jwt) async {
     final box = GetStorage();
-    box.write(ProjectConst.SESSION_CONTS, jwt);
+    await box.write(ProjectConst.SESSION_CONTS, jwt);
   }
 
-  removeAllStore() {
+  Future<void> removeAllStore() async {
     final box = GetStorage();
-    box.erase();
+    await box.erase();
   }
 
   bool isTokenExpired() {
@@ -212,9 +213,9 @@ class BaseController extends GetxController {
     return (session?.expiredDate?.isBefore(DateTime.now()) ?? true);
   }
 
-  setRememberMe(RememberMeModel model) {
+  Future setRememberMe(RememberMeModel model) async {
     final box = GetStorage();
-    box.write(ProjectConst.REMEMBER_ME, model);
+    await box.write(ProjectConst.REMEMBER_ME, model);
   }
 
   RememberMeModel? getRememberMe() {
@@ -245,9 +246,9 @@ class BaseController extends GetxController {
     return null;
   }
 
-  setDeviceToken(String deviceToken) {
+  Future setDeviceToken(String deviceToken) async {
     final box = GetStorage();
-    box.write(ProjectConst.DEVICE_TOKEN_CONTS, deviceToken);
+    await box.write(ProjectConst.DEVICE_TOKEN_CONTS, deviceToken);
   }
 
   String? getDeviceToken() {
@@ -256,11 +257,16 @@ class BaseController extends GetxController {
     return token;
   }
 
+  Future<void> removeDeviceToke() async {
+    final box = GetStorage();
+    await box.remove(ProjectConst.DEVICE_TOKEN_CONTS);
+  }
+
   bool hasDeviceToken() => getDeviceToken() != null;
 
-  void setNoiseMeterDp(int db) {
+  Future<void> setNoiseMeterDp(int db) async {
     final box = GetStorage();
-    box.write(ProjectConst.NOISE_METER_DEB, db);
+    await box.write(ProjectConst.NOISE_METER_DEB, db);
   }
 
   int? getNoiseMeterDp() {

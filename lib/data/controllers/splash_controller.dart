@@ -33,7 +33,7 @@ class SplashController extends BaseController {
         if (rememberMe?.loginType == 1) {
           var user = await _service.googleLogin();
           if (user == null) {
-            Get.offAndToNamed(RouteConst.home);
+            Get.offAllNamed(RouteConst.security);
           }
           loginModel.email = user?.email;
           loginModel.password = "";
@@ -47,8 +47,8 @@ class SplashController extends BaseController {
           await _securityRepository.login(loginModel),
         );
         if (result != null) {
-          setSession(result);
-          Get.offAndToNamed(RouteConst.home);
+          await setSession(result);
+          Get.offAllNamed(RouteConst.home);
         }
       } catch (e) {
         Get.offAllNamed(RouteConst.security);
@@ -76,9 +76,7 @@ class SplashController extends BaseController {
           _appOpenAd = ad;
           _appOpenAd!.show();
         },
-        onAdFailedToLoad: (error) {
-          print("AppOpenAd failed to load: $error");
-        },
+        onAdFailedToLoad: (error) {},
       ),
     );
   }

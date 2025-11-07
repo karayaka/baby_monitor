@@ -130,7 +130,7 @@ class HomeController extends BaseController {
         );
         if (deviceId != null) {
           //yeni eklene devcice preferensis e ekleniyor
-          setDeviceToken(deviceId);
+          await setDeviceToken(deviceId);
           //bu cihaz cache ekleniypr
           await _deviceRepository.addThisDbDevice(addDeviceModel, deviceId);
         }
@@ -162,6 +162,11 @@ class HomeController extends BaseController {
       );
       //güncel vei ile ekran değiştiriliyor
       if (devices != null) {
+        if (!devices.any((t) => t.deviceToken == getDeviceToken())) {
+          await removeDeviceToke();
+          await addDevice();
+          return;
+        }
         deviceList.clear();
         deviceList.addAll(devices);
         //Hesaptaki bütün deviceler ekleniyor

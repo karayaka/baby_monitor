@@ -22,15 +22,25 @@ class LoginForm extends GetView<SecurityController> {
             ),
           ),
           SizedBox(height: 5),
-          TextFormField(
-            obscureText: true,
-            initialValue: controller.loginModel.password,
-            onChanged: (val) => controller.loginModel.password = val,
-            keyboardType: TextInputType.visiblePassword,
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.key),
-              hintText: "mb045".tr,
-              border: OutlineInputBorder(),
+          Obx(
+            () => TextFormField(
+              obscureText: controller.passwordoObscureText.value,
+              initialValue: controller.loginModel.password,
+              onChanged: (val) => controller.loginModel.password = val,
+              keyboardType: TextInputType.visiblePassword,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: controller.showHidePassword,
+                  icon: Icon(
+                    controller.passwordoObscureText.value
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                  ),
+                ),
+                prefixIcon: Icon(Icons.key),
+                hintText: "mb045".tr,
+                border: OutlineInputBorder(),
+              ),
             ),
           ),
           SizedBox(height: 5),

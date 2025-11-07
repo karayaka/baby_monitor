@@ -81,8 +81,8 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                onPressed: () {
-                                  controller.setDbLevel(0);
+                                onPressed: () async {
+                                  await controller.setDbLevel(0);
                                 },
                                 child: Text("mb055".tr),
                               ),
@@ -104,7 +104,7 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  controller.setDbLevel(1);
+                                  await controller.setDbLevel(1);
                                 },
                                 child: Text("mb056".tr),
                               ),
@@ -125,8 +125,8 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                onPressed: () {
-                                  controller.setDbLevel(2);
+                                onPressed: () async {
+                                  await controller.setDbLevel(2);
                                 },
                                 child: Text("mb057".tr),
                               ),
@@ -147,8 +147,8 @@ class NoiseMeterComponent extends GetView<NoiseMeterController> {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                onPressed: () {
-                                  controller.setDbLevel(3);
+                                onPressed: () async {
+                                  await controller.setDbLevel(3);
                                 },
                                 child: Text("mb058".tr),
                               ),

@@ -49,17 +49,27 @@ class RegisterForm extends GetView<SecurityController> {
             ),
           ),
           SizedBox(height: 5),
-          TextFormField(
-            obscureText: true,
-            keyboardType: TextInputType.visiblePassword,
-            validator: ProjectValidations.notEmty,
-            initialValue: controller.registerModel.password,
-            onChanged: (value) => controller.registerModel.password = value,
-            onFieldSubmitted: (val) {},
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.key),
-              hintText: "mb045".tr,
-              border: OutlineInputBorder(),
+          Obx(
+            () => TextFormField(
+              obscureText: controller.passwordoObscureText.value,
+              keyboardType: TextInputType.visiblePassword,
+              validator: ProjectValidations.notEmty,
+              initialValue: controller.registerModel.password,
+              onChanged: (value) => controller.registerModel.password = value,
+              onFieldSubmitted: (val) {},
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: controller.showHidePassword,
+                  icon: Icon(
+                    controller.passwordoObscureText.value
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                  ),
+                ),
+                prefixIcon: Icon(Icons.key),
+                hintText: "mb045".tr,
+                border: OutlineInputBorder(),
+              ),
             ),
           ),
           SizedBox(height: 5),

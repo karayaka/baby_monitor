@@ -70,6 +70,7 @@ class DevicePage extends GetView<DeviceController> {
                           controller.showConfirmeDialog(
                             title: "mb011".tr,
                             message: "mb012".tr,
+                            confirmeText: "gl010",
                             () {
                               controller.deleteDevice(device.id ?? "");
                             },
@@ -78,7 +79,7 @@ class DevicePage extends GetView<DeviceController> {
                         backgroundColor: Color(0xFFFE4A49),
                         foregroundColor: Colors.white,
                         icon: Icons.delete,
-                        label: 'Sil',
+                        label: 'gl010'.tr,
                       ),
                     ],
                   ),

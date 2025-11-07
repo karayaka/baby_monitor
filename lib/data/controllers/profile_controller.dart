@@ -93,7 +93,7 @@ class ProfileController extends BaseController {
       updateProfileLoading.value = true;
       prepareServiceModel<bool>(await _repository.deleteProfile());
       //Başarılı olması halinde çıkış yapılıp sıfırlanıyor
-      removeAllStore();
+      await removeAllStore();
       succesMessage("Profiliniz Başarı İle Kaldırıldı");
       updateProfileLoading.value = false;
       Get.offAllNamed(RouteConst.security);

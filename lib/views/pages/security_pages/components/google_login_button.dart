@@ -50,7 +50,7 @@ class GoogleLoginButton extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Text("Kabul Edilmiş Sayılır"),
+                  Text("Kabul Edilmiş Sayılır".tr),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

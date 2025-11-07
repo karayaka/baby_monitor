@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:baby_monitor/data/controllers/base_controller.dart';
 import 'package:baby_monitor/data/repositorys/stream_repoistory.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -46,10 +47,15 @@ class NoiseMeterController extends BaseController {
     }
     try {
       startListening.value = true;
-      final dir = await getTemporaryDirectory();
-      final path = '${dir.path}/sound.aac';
-      if (_recorder != null && !_recorder.isRecording) {
-        await _recorder.startRecorder(toFile: path, codec: Codec.aacADTS);
+      if (!_recorder.isRecording) {
+        final StreamController<Uint8List> streamController =
+            StreamController<Uint8List>();
+        await _recorder.startRecorder(
+          toStream: streamController,
+          codec: Codec.pcm16,
+          numChannels: 1,
+          sampleRate: 44100,
+        );
 
         _subscription = _recorder.onProgress!.listen((event) async {
           double? db = event.decibels;
@@ -59,6 +65,7 @@ class NoiseMeterController extends BaseController {
             await checkDbLevel(db);
           }
         });
+
         await _recorder.setSubscriptionDuration(
           Duration(milliseconds: 100), // 100 ms
         );
@@ -108,8 +115,8 @@ class NoiseMeterController extends BaseController {
     }
   }
 
-  void setDbLevel(int level) {
-    setNoiseMeterDp(level);
+  Future<void> setDbLevel(int level) async {
+    await setNoiseMeterDp(level);
     dbLevel.value = level;
   }
 
