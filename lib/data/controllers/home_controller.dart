@@ -5,8 +5,10 @@ import 'package:baby_monitor/data/repositorys/family_repoistory.dart';
 import 'package:baby_monitor/data/services/device_service.dart';
 import 'package:baby_monitor/models/device_models/add_device_model.dart';
 import 'package:baby_monitor/models/device_models/device_list_model.dart';
+import 'package:baby_monitor/models/device_models/refresh_FCM_Token_Model.dart';
 import 'package:baby_monitor/models/family_models/family_model.dart';
 import 'package:baby_monitor/routing/route_const.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -103,7 +105,7 @@ class HomeController extends BaseController {
 
       _rewardedAd = null;
     } catch (e) {
-      print(e.toString());
+      exceptionHandle(e);
     }
   }
 
@@ -154,7 +156,6 @@ class HomeController extends BaseController {
       if (devicChachListModel != null) {
         deviceList.addAll(devicChachListModel);
       }
-
       deviceListLoaing.value = true;
       //apiden güncel veri çekiliyor
       var devices = prepareServiceModel<List<DeviceListModel>>(
@@ -162,10 +163,18 @@ class HomeController extends BaseController {
       );
       //güncel vei ile ekran değiştiriliyor
       if (devices != null) {
-        if (!devices.any((t) => t.deviceToken == getDeviceToken())) {
+        if (!(devices.any((t) => t.id == getDeviceToken()))) {
           await removeDeviceToke();
           await addDevice();
           return;
+        }
+        String? token = await FirebaseMessaging.instance.getToken();
+        if (!(devices.any((t) => t.fcmToken == token))) {
+          prepareServiceModel<bool>(
+            await _deviceRepository.refreshFcmDevices(
+              RefreshFcmTokenModel(deviceId: getDeviceToken(), fcmToken: token),
+            ),
+          );
         }
         deviceList.clear();
         deviceList.addAll(devices);
@@ -174,6 +183,10 @@ class HomeController extends BaseController {
       }
       deviceListLoaing.value = false;
     } catch (e) {
+      await FirebaseDatabase.instance.ref("home_logs").push().set({
+        "exception": e.toString(),
+        "GetDevice": "Get device hataları",
+      });
       deviceListLoaing.value = false;
       exceptionHandle(e);
     }

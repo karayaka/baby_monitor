@@ -32,7 +32,6 @@ class DeviceController extends BaseController {
     });
   }
 
-  //TODO sram loglar kaldırılacak medetred kredş kartı girilecek ve karekod ve listener progrss ufaltılabilirmi diye bakılacak
   _createBottomBannerAd() {
     bottomBannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdID,
@@ -101,11 +100,6 @@ class DeviceController extends BaseController {
 
   Future deleteDevice(String deviceId) async {
     try {
-      if (deviceId == getDeviceToken()) {
-        Get.back();
-        errorMessage("Şuan Kullandığınız Çihazı Silemezsiniz");
-        return;
-      }
       deviceListLoaing.value = true;
       prepareServiceModel<int>(await _deviceRepository.deleteDevice(deviceId));
       await _deviceRepository.deleteDeviceFromDb(deviceId);
@@ -138,7 +132,8 @@ class DeviceController extends BaseController {
   }
 
   //sadece kendi çihazlarını silebilir
-  bool canDeleteDevice(String userId) => userId == getSession()?.id;
+  bool canDeleteDevice(String userId, String deviceId) =>
+      userId == getSession()?.id && deviceId == getDeviceToken();
   //live stream bilgilri varken izleme yapabilir
   bool showWatchButon(String deviceId) =>
       deviceList.any((d) => d.id == deviceId && d.streamStatus == 1);

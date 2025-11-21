@@ -6,6 +6,7 @@ import 'package:baby_monitor/data/repositorys/security_repository.dart';
 import 'package:baby_monitor/data/services/google_service.dart';
 import 'package:baby_monitor/models/security_models/login_model.dart';
 import 'package:baby_monitor/routing/route_const.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -24,16 +25,28 @@ class SplashController extends BaseController {
     await requestIgnoreBatteryOptimizations();
     await _requestPermissions();
     if (await hasLogined()) {
+      await FirebaseDatabase.instance.ref("splash_logs").push().set({
+        "hasLogined": "true",
+      });
       Get.offAllNamed(RouteConst.home);
     } else if (hasRememberMe()) {
       try {
+        await FirebaseDatabase.instance.ref("splash_logs").push().set({
+          "hasRememberMe": "true",
+        });
         var loginModel = LoginModel();
         controllerInt.value = "Yeniden Giriş Yapılıyor".tr;
         var rememberMe = getRememberMe();
+        await FirebaseDatabase.instance.ref("splash_logs").push().set({
+          "getRememberMe": rememberMe?.toJson(),
+        });
         if (rememberMe?.loginType == 1) {
           var user = await _service.googleLogin();
           if (user == null) {
             Get.offAllNamed(RouteConst.security);
+            await FirebaseDatabase.instance.ref("splash_logs").push().set({
+              "googleloginUserNull": "GoogleUserNull",
+            });
           }
           loginModel.email = user?.email;
           loginModel.password = "";

@@ -37,6 +37,7 @@ class BaseController extends GetxController {
   }
 
   exceptionHandle(Object? e) {
+    //todo fire base intancesi atıp hta mesajını firabase db ye kayıt et!!
     if (e is DioException) {
       if (e.response?.data == null || e.response == null) {
         errorMessage("gl002".tr);

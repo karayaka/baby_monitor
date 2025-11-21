@@ -59,7 +59,10 @@ class DevicePage extends GetView<DeviceController> {
             itemCount: controller.deviceList.length,
             itemBuilder: (context, index) {
               var device = controller.deviceList[index];
-              if (controller.canDeleteDevice(device.userID ?? "")) {
+              if (controller.canDeleteDevice(
+                device.userID ?? "",
+                device.id ?? "",
+              )) {
                 return Slidable(
                   key: ValueKey(index),
                   endActionPane: ActionPane(
@@ -68,10 +71,11 @@ class DevicePage extends GetView<DeviceController> {
                       SlidableAction(
                         onPressed: (context) {
                           controller.showConfirmeDialog(
-                            title: "mb011".tr,
-                            message: "mb012".tr,
+                            title: "mb011",
+                            message: "mb012",
                             confirmeText: "gl010",
                             () {
+                              //Get.back();
                               controller.deleteDevice(device.id ?? "");
                             },
                           );
