@@ -100,16 +100,23 @@ class DeviceController extends BaseController {
 
   Future deleteDevice(String deviceId) async {
     try {
+      if (deviceId == getDeviceToken()) {
+        Get.back();
+        errorMessage("mb076");
+        return;
+      }
       deviceListLoaing.value = true;
       prepareServiceModel<int>(await _deviceRepository.deleteDevice(deviceId));
       await _deviceRepository.deleteDeviceFromDb(deviceId);
       getDevices();
       deviceListLoaing.value = false;
+      Get.back();
     } catch (e) {
+      Get.back();
       deviceListLoaing.value = false;
+
       exceptionHandle(e);
     }
-    Get.back();
   }
 
   Future refreshDevice() async {
@@ -127,13 +134,9 @@ class DeviceController extends BaseController {
     }
   }
 
-  Future sendNotifire() async {
-    //Get.find<SendNotifireRepoistory>().sendNotifire();
-  }
-
   //sadece kendi çihazlarını silebilir
   bool canDeleteDevice(String userId, String deviceId) =>
-      userId == getSession()?.id && deviceId == getDeviceToken();
+      userId == getSession()?.id;
   //live stream bilgilri varken izleme yapabilir
   bool showWatchButon(String deviceId) =>
       deviceList.any((d) => d.id == deviceId && d.streamStatus == 1);

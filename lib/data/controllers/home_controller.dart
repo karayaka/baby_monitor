@@ -8,7 +8,6 @@ import 'package:baby_monitor/models/device_models/device_list_model.dart';
 import 'package:baby_monitor/models/device_models/refresh_FCM_Token_Model.dart';
 import 'package:baby_monitor/models/family_models/family_model.dart';
 import 'package:baby_monitor/routing/route_const.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -34,16 +33,17 @@ class HomeController extends BaseController {
     _familyRepoistory = Get.find();
   }
   @override
-  onInit() async {
+  onInit() {
     super.onInit();
     _loadRewardedAd();
     addDevice();
+    getFamily();
     FirebaseMessaging.onMessage.listen((message) {
       if (message.data['type'] == 'start_stream') getDevices();
     });
   }
 
-  _createBannerAd() {
+  void _createBannerAd() {
     bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdID,
       size: AdSize.banner,
@@ -127,6 +127,7 @@ class HomeController extends BaseController {
           familyID: null,
           familyName: null,
         );
+
         var deviceId = prepareServiceModel<String>(
           await _deviceRepository.addDevice(addDeviceModel),
         );
@@ -137,9 +138,8 @@ class HomeController extends BaseController {
           await _deviceRepository.addThisDbDevice(addDeviceModel, deviceId);
         }
         addDeviceLoaing.value = false;
+        getDevices();
       }
-      getDevices();
-      getFamily();
     } catch (e) {
       exceptionHandle(e);
       addDeviceLoaing.value = false;
@@ -183,10 +183,6 @@ class HomeController extends BaseController {
       }
       deviceListLoaing.value = false;
     } catch (e) {
-      await FirebaseDatabase.instance.ref("home_logs").push().set({
-        "exception": e.toString(),
-        "GetDevice": "Get device hataları",
-      });
       deviceListLoaing.value = false;
       exceptionHandle(e);
     }

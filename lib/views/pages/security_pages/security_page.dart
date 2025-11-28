@@ -63,8 +63,8 @@ class SecurityPage extends GetView<SecurityController> {
                   },
                   isLoading: controller.googleLoginLoading.value,
                   onTab: () {
+                    Get.back();
                     controller.googleLogin();
-                    //Get.back();
                   },
                 ),
               ),

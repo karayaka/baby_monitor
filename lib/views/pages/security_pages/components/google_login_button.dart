@@ -5,6 +5,7 @@ class GoogleLoginButton extends StatelessWidget {
   bool isLoading = false;
   Function()? onTab;
   Function()? privacyPage;
+
   GoogleLoginButton({
     this.onTab,
     this.isLoading = false,
@@ -35,7 +36,7 @@ class GoogleLoginButton extends StatelessWidget {
                     children: [
                       Icon(Icons.warning_amber),
                       Text(
-                        "Google İle Girişte",
+                        "Google Login",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -50,7 +51,7 @@ class GoogleLoginButton extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Text("Kabul Edilmiş Sayılır".tr),
+                  Text("mb077".tr),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

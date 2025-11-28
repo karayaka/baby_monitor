@@ -33,7 +33,7 @@ class SecurityController extends BaseController {
     _service = Get.find();
     _policyDbManager = PrivacyPolicyDbManager();
   }
-  login() async {
+  Future login() async {
     try {
       loginLoading.value = true;
       loginModel.loginType = 0;
@@ -53,7 +53,7 @@ class SecurityController extends BaseController {
   //29.0.13113456
 
   //TODO bu bölüm canlıya çıkarken https://console.cloud.google.com/apis/credentials?inv=1&invt=AbtVcw&project=babywacth adresindeki SHA1 değeri canlının ki ile değişecek
-  googleLogin() async {
+  Future googleLogin() async {
     try {
       googleLoginLoading.value = true;
       var user = await _service.googleLogin();
@@ -78,7 +78,7 @@ class SecurityController extends BaseController {
     }
   }
 
-  register() async {
+  Future register() async {
     try {
       if (!registerFormKey.currentState!.validate()) {
         return;

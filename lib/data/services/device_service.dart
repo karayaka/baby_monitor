@@ -13,28 +13,39 @@ class DeviceService {
     if (Platform.isAndroid) {
       var inf = await deviceInfoPlugin.androidInfo;
       return DeviceInfoModel(
-          brand: inf.brand, model: inf.model, id: await _getPersistentUUID());
+        brand: inf.brand,
+        model: inf.model,
+        id: await _getPersistentUUID(),
+      );
     } else {
       var inf = await deviceInfoPlugin.iosInfo;
       return DeviceInfoModel(
-          brand: inf.name, model: inf.model, id: inf.identifierForVendor);
+        brand: inf.name,
+        model: inf.model,
+        id: inf.identifierForVendor,
+      );
     }
   }
 
   Future<String> _getPersistentUUID() async {
     const storage = FlutterSecureStorage();
 
-    // Daha önce kaydedilmiş ID'yi kontrol et
-    String? storedId = await storage.read(key: 'device_id');
+    try {
+      String? deviceId = await storage.read(key: 'device_id');
 
-    if (storedId == null) {
-      // Yeni bir UUID oluştur
-      storedId = const Uuid().v4();
+      if (deviceId == null) {
+        deviceId = const Uuid().v4();
+        await storage.write(key: 'device_id', value: deviceId);
+      }
 
-      // UUID'yi güvenli bir şekilde sakla
-      await storage.write(key: 'device_id', value: storedId);
+      return deviceId;
+    } catch (e) {
+      // BAD_DECRYPT oldugunda secure-storage bozulmus demektir
+      await storage.deleteAll();
+
+      final newId = const Uuid().v4();
+      await storage.write(key: 'device_id', value: newId);
+      return newId;
     }
-
-    return storedId;
   }
 }

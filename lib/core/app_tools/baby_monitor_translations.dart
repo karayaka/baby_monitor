@@ -138,6 +138,7 @@ class BabyMonitorTranslations extends Translations {
       "mb074": "Please Watch the Ad",
       "mb075": "You've Earned 60 More Seconds of Watching Time",
       "mb076": "You cannot delete the device you are using",
+      "mb077": "Considered Accepted",
     },
     "tr_TR": {
       "gl001": "Kayıt Başarılı",
@@ -273,6 +274,7 @@ class BabyMonitorTranslations extends Translations {
       "mb074": "Lütfen Reklamı İzleyin",
       "mb075": "60 Saniye Daha İzleme Hakkı Kazandınız",
       "mb076": "Kullandığın cihazı silemezsin",
+      "mb077": "Kabul Edilmiş Sayılır",
     },
     "de_DE": {
       "gl001": "Registrierung erfolgreich",
@@ -413,6 +415,7 @@ class BabyMonitorTranslations extends Translations {
       "mb074": "Bitte sehen Sie sich die Anzeige an",
       "mb075": "Sie haben 60 Sekunden zusätzliche Wiedergabezeit verdient",
       "mb076": "Das verwendete Gerät kann nicht gelöscht werden.",
+      "mb077": "Als akzeptiert betrachten",
     },
   };
 }

@@ -5,7 +5,6 @@ import 'package:baby_monitor/models/base_models/base_http_model.dart';
 import 'package:baby_monitor/models/base_models/base_result.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class HttpService {
   static HttpService? _instance;
@@ -70,10 +69,6 @@ class HttpService {
     String token = "",
   }) async {
     try {
-      await FirebaseDatabase.instance.ref("api_logs").push().set({
-        "token": token,
-        "path": path,
-      });
       _dio?.options.headers.addAll({"Authorization": "Bearer $token"});
       final response = await _dio?.get(path, queryParameters: params);
       return _resultBody(response, model);
@@ -103,12 +98,6 @@ class HttpService {
     try {
       var result = BaseResult();
       result.statusCode = response?.statusCode ?? 400;
-      FirebaseDatabase.instance.ref("api_logs").push().set({
-        "response": response.toString(),
-        "statoscode": response?.statusCode,
-        "data": response?.data ?? "yok",
-        "innerData": response?.data["message"] ?? "yok",
-      });
       if (response?.statusCode == 200) {
         var data = response?.data;
         result.message = data["message"];
