@@ -138,8 +138,8 @@ class HomeController extends BaseController {
           await _deviceRepository.addThisDbDevice(addDeviceModel, deviceId);
         }
         addDeviceLoaing.value = false;
-        getDevices();
       }
+      getDevices();
     } catch (e) {
       exceptionHandle(e);
       addDeviceLoaing.value = false;

@@ -44,11 +44,7 @@ class SecurityRepository extends BaseRepository {
 
   Future<BaseResult> sendConfimEmail(ResetPasswordModel model) async {
     try {
-      return await _service.post(
-        "auth/Security/SendResetPaswordMail",
-        null,
-        model,
-      );
+      return await _service.post("auth/Security/SendConfirmeMail", null, model);
     } catch (e) {
       rethrow;
     }

@@ -67,7 +67,7 @@ class ProfileController extends BaseController {
       updateProfileLoading.value = true;
       prepareServiceModel<bool>(await _repository.updateProfile(profile!));
       updateProfileLoading.value = false;
-      succesMessage("Profiliniz Güncellendi");
+      succesMessage("mb81".tr);
     } catch (e) {
       updateProfileLoading.value = false;
       exceptionHandle(e);
@@ -94,7 +94,7 @@ class ProfileController extends BaseController {
       prepareServiceModel<bool>(await _repository.deleteProfile());
       //Başarılı olması halinde çıkış yapılıp sıfırlanıyor
       await removeAllStore();
-      succesMessage("Profiliniz Başarı İle Kaldırıldı");
+      succesMessage("mb78".tr);
       updateProfileLoading.value = false;
       Get.offAllNamed(RouteConst.security);
     } catch (e) {
@@ -117,8 +117,8 @@ class ProfileController extends BaseController {
         () {
           Get.back();
         },
-        title: "Email Doğrulama",
-        message: "Doğrulma Mailiniz Gönderilmiştir Lütfen Kotrol Ediniz",
+        title: "mb79".tr,
+        message: "mb80".tr,
       );
     } catch (e) {
       updateProfileLoading.value = false;

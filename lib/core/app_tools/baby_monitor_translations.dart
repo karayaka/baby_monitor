@@ -139,6 +139,11 @@ class BabyMonitorTranslations extends Translations {
       "mb075": "You've Earned 60 More Seconds of Watching Time",
       "mb076": "You cannot delete the device you are using",
       "mb077": "Considered Accepted",
+      "mb78": "Your profile has been successfully removed.",
+      "mb79": "Email Verification",
+      "mb80":
+          "Your verification email has been sent. Please check your spam folder.",
+      "mb81": "Your profile has been updated.",
     },
     "tr_TR": {
       "gl001": "Kayıt Başarılı",
@@ -275,6 +280,11 @@ class BabyMonitorTranslations extends Translations {
       "mb075": "60 Saniye Daha İzleme Hakkı Kazandınız",
       "mb076": "Kullandığın cihazı silemezsin",
       "mb077": "Kabul Edilmiş Sayılır",
+      "mb78": "Profiliniz Başarı İle Kaldırıldı",
+      "mb79": "Email Doğrulama",
+      "mb80":
+          "Doğrulama Mailiniz Gönderilmiştir Lütfen Gereksiz Mailler Kontrol Ediniz",
+      "mb81": "Profiliniz güncellendi",
     },
     "de_DE": {
       "gl001": "Registrierung erfolgreich",
@@ -416,6 +426,11 @@ class BabyMonitorTranslations extends Translations {
       "mb075": "Sie haben 60 Sekunden zusätzliche Wiedergabezeit verdient",
       "mb076": "Das verwendete Gerät kann nicht gelöscht werden.",
       "mb077": "Als akzeptiert betrachten",
+      "mb78": "Ihr Profil wurde erfolgreich entfernt.",
+      "mb79": "E-Mail-Verifizierung",
+      "mb80":
+          "Ihre Bestätigungs-E-Mail wurde versendet. Bitte überprüfen Sie Ihren Spam-Ordner.",
+      "mb81": "Ihr Profil wurde aktualisiert.",
     },
   };
 }
