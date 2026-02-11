@@ -92,7 +92,7 @@ class FcmCallkitService {
 
     // Bildirim pluginini başlat
     await _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse: (
         NotificationResponse notificationResponse,
       ) async {
@@ -175,7 +175,8 @@ class FcmCallkitService {
         isCustomNotification: true,
         isShowLogo: true, //Logi flse
         logoUrl: 'https://babymonitor.cagnaz.com/icons/and_icon.png',
-        ringtonePath: 'system_ringtone_default',
+        ringtonePath:
+            'system_ringtone_default', //todo bu bölüme app için bir uayrı sesi konabilir
         backgroundColor: '#0955fa',
         //backgroundUrl: 'https://i.pravatar.cc/500',
         actionColor: '#4CAF50',
@@ -198,7 +199,8 @@ class FcmCallkitService {
         supportsHolding: true,
         supportsGrouping: false,
         supportsUngrouping: false,
-        ringtonePath: 'system_ringtone_default',
+        ringtonePath:
+            'system_ringtone_default', //todo bu bölüme app için bir uayrı sesi konabilir
       ),
     );
     await FlutterCallkitIncoming.showCallkitIncoming(callKitParams);
@@ -211,10 +213,10 @@ class FcmCallkitService {
 
     if (notification != null && android != null) {
       await _flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        NotificationDetails(
+        id: notification.hashCode,
+        title: notification.title,
+        body: notification.body,
+        notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
             'channel_id',
             'Channel Name',
@@ -229,7 +231,6 @@ class FcmCallkitService {
   }
 
   static void _handleMessageOpenedApp(RemoteMessage message) {
-    print('Bildirim açıldı: ${message.messageId}');
     // Eğer bir çağrı bildirimi ise
     if (message.data['type'] == 'call') {
       // Çağrı ekranına yönlendirme yapabilirsiniz
@@ -243,7 +244,7 @@ class FcmCallkitService {
     final deviceId = extras?['deviceId'];
 
     if (deviceId == null) {
-      print("Cihaz ID'si bulunamadı: $body");
+      //print("Cihaz ID'si bulunamadı: $body");
       return;
     }
     Future.delayed(Duration(milliseconds: 500), () {

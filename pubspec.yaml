@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+13
+version: 1.0.0+14
 
 environment:
   sdk: ^3.7.2
@@ -54,7 +54,7 @@ dependencies:
   #HTTP REQUESTER
   dio: ^5.9.0
   #deviceInfo
-  device_info_plus: ^12.2.0
+  device_info_plus: ^12.3.0
   #uniq id generator
   uuid: ^4.5.2
   #image
@@ -62,30 +62,30 @@ dependencies:
   #slideble 
   flutter_slidable: ^4.0.3
   #qr generator
-  pretty_qr_code: ^3.5.0
+  pretty_qr_code: ^3.6.0
   #qr scanner
-  mobile_scanner: ^7.1.3
+  mobile_scanner: ^7.1.4
   #firebase
-  firebase_core: ^4.2.1
-  firebase_messaging: ^16.0.4
+  firebase_core: ^4.4.0
+  firebase_messaging: ^16.1.1
   google_sign_in: ^7.2.0
   #callkit incoming
   flutter_callkit_incoming: ^3.0.0
-  flutter_local_notifications: ^19.5.0
+  flutter_local_notifications: ^20.0.0
   permission_handler: ^12.0.1
   #signalR
   signalr_netcore: ^1.4.4
   #webrtc
-  flutter_webrtc: ^1.2.1
+  flutter_webrtc: ^1.3.0
   #gürültü ölçümü
-  flutter_sound: ^9.29.13
+  flutter_sound: ^9.30.0
   path_provider: ^2.1.5
   #Ekranı sürekli açık tutma
   wakelock_plus: ^1.4.0
   #url_luncher
   url_launcher: ^6.3.2
   #admob
-  google_mobile_ads: ^6.0.0
+  google_mobile_ads: ^7.0.0
 
   
 
